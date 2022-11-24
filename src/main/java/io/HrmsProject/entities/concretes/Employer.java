@@ -1,9 +1,14 @@
 package io.HrmsProject.entities.concretes;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.HrmsProject.core.entities.User;
 import lombok.AllArgsConstructor;
@@ -17,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","jobAdvertisements"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","jobAdvertisements"})
 @PrimaryKeyJoinColumn(name="id", referencedColumnName = "id")
 public class Employer extends User{
 	
@@ -32,6 +37,9 @@ public class Employer extends User{
 	
 	@Column(name="company_description")
 	private String companyDescription;
+	
+	@OneToMany(mappedBy = "employer")
+	private List<JobAdvertisement> jobAdvertisements;
 	
 	
 	

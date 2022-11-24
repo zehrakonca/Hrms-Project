@@ -10,7 +10,7 @@ import io.HrmsProject.business.abstracts.JobSeekerService;
 import io.HrmsProject.business.requests.jobSeekerRequests.CreateJobSeekerRequests;
 import io.HrmsProject.business.requests.jobSeekerRequests.UpdateJobSeekerRequest;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetAllJobSeekerResponses;
-import io.HrmsProject.core.dataAccess.UserDao;
+import io.HrmsProject.core.dataAccess.UserStatuDao;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -18,19 +18,21 @@ import io.HrmsProject.core.utilities.results.SuccessDataResult;
 import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.dataAccess.abstracts.JobSeekerDao;
 import io.HrmsProject.entities.concretes.JobSeeker;
+import io.HrmsProject.entities.concretes.UserStatu;
 
 @Service
 public class JobSeekerManager implements JobSeekerService{
 	
 	private JobSeekerDao jobSeekerDao;
-//	private UserDao userDao;
+	private UserStatuDao userStatuDao;
 	
 	boolean isExist = false;
 	
 	@Autowired
-	public JobSeekerManager(JobSeekerDao jobSeekerDao) {
+	public JobSeekerManager(JobSeekerDao jobSeekerDao,UserStatuDao userStatuDao) {
 		super();
 		this.jobSeekerDao = jobSeekerDao;
+		this.userStatuDao = userStatuDao;
 	}
 
 	@Override
@@ -59,6 +61,8 @@ public class JobSeekerManager implements JobSeekerService{
 		}
 		else {
 			jobSeeker.setActive(createJobSeekerRequests.isActive()==false);
+			UserStatu userStatu = this.userStatuDao.findByTypeId(2);
+			jobSeeker.setUserStatu(userStatu);
 			this.jobSeekerDao.save(jobSeeker);
 			return new SuccessResult("jobSeeker has been created. please wait confirmation mail.");
 		}

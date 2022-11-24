@@ -1,0 +1,11 @@
+package io.HrmsProject.business.abstracts;
+
+import io.HrmsProject.business.requests.jobAdvertisementRequests.CreateJobAdvertisementRequests;
+import io.HrmsProject.business.requests.jobAdvertisementRequests.UpdateJobAdvertisementRequests;
+import io.HrmsProject.business.responses.jobAdvertisementResponses.GetAllJobAdvertisementResponses;
+import io.HrmsProject.entities.concretes.JobAdvertisement;
+
+public interface JobAdvertisementService extends BaseEntityService<JobAdvertisement, CreateJobAdvertisementRequests, UpdateJobAdvertisementRequests, GetAllJobAdvertisementResponses>{
+	
+
+}

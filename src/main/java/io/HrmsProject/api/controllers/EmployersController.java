@@ -44,7 +44,6 @@ public class EmployersController {
 	
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody() CreateEmployerRequests createEmployerRequests) throws Exception {
-		createEmployerRequests.setUserStatu(1);
 		return ResponseEntity.ok(this.employerService.add(createEmployerRequests));
 	}
 	

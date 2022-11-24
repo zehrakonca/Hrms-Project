@@ -10,5 +10,5 @@ public class CreateJobSeekerRequests extends CreateUserRequests{
 
 	private String nationalIdentity;
 	private int date;
-	private String userType = "2";
+	private int userType;
 }

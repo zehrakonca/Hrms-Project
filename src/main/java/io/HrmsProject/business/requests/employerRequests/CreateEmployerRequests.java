@@ -16,6 +16,6 @@ public class CreateEmployerRequests extends CreateUserRequests{
 	private String webSiteName;
 	private String companyMail;
 	private String companyDescription;
-	private String userType = "1";
+	private int userType;
 
 }

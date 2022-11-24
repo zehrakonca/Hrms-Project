@@ -11,20 +11,17 @@ import io.HrmsProject.business.requests.userRequests.CreateUserRequests;
 import io.HrmsProject.business.requests.userRequests.UpdateUserRequests;
 import io.HrmsProject.business.responses.userResponses.GetAllUserResponses;
 import io.HrmsProject.core.dataAccess.UserDao;
-import io.HrmsProject.core.dataAccess.UserStatuDao;
 import io.HrmsProject.core.entities.User;
 
 @Service
 public class UserManager implements UserService{
 
 	private UserDao userDao;
-	private UserStatuDao userStatuDao;
 	
 	@Autowired
-	public UserManager(UserDao userDao, UserStatuDao userStatuDao) {
+	public UserManager(UserDao userDao) {
 		super();
 		this.userDao = userDao;
-		this.userStatuDao = userStatuDao;
 	}
 
 	@Override
@@ -37,7 +34,7 @@ public class UserManager implements UserService{
 		user.setEmail(createUserRequests.getMail());
 		user.setPassword(createUserRequests.getPassword());
 		user.setPasswordRep(createUserRequests.getPasswordRep()); 
-		user.setActive(createUserRequests.isActive()== false); 
+		user.setActive(createUserRequests.isActive()== false);
 			
 		this.userDao.save(user);
 		throw new Exception("user added.");
@@ -78,7 +75,7 @@ public class UserManager implements UserService{
 			responseItem.setMail(user.getEmail());
 			responseItem.setTelephone(user.getTelephone());
 			responseItem.setActive(user.isActive());
-//			responseItem.setUserType(user.getUserStatu().getTypeName());
+			responseItem.setUserType(user.getUserStatu().getTypeName());
 			userResponses.add(responseItem);
 		}
 		return userResponses;

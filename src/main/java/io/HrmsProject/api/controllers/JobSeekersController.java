@@ -49,7 +49,6 @@ public class JobSeekersController {
 	
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@RequestBody() CreateJobSeekerRequests createJobSeekerRequests) throws Exception{
-		createJobSeekerRequests.setUserStatu(2);
 		return ResponseEntity.ok(this.jobSeekerService.add(createJobSeekerRequests));
 	}
 	

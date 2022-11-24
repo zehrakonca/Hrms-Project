@@ -45,7 +45,7 @@ public class SectorsController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public void delete(int id) {
+	public void delete(int id) throws Exception {
 		this.sectorService.delete(id);
 	}
 	

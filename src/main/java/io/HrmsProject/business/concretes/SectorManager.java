@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import io.HrmsProject.business.abstracts.SectorService;
 import io.HrmsProject.business.requests.sectorRequests.CreateSectorRequests;
-import io.HrmsProject.business.requests.sectorRequests.DeleteSectorRequests;
 import io.HrmsProject.business.requests.sectorRequests.UpdateSectorRequests;
 import io.HrmsProject.business.responses.sectorResponses.GetAllSectorResponse;
 import io.HrmsProject.dataAccess.abstracts.SectorDao;
@@ -46,8 +45,8 @@ public class SectorManager implements SectorService{
 	}
 
 	@Override
-	public void delete(DeleteSectorRequests deleteSectorRequests) {
-		this.sectorDao.deleteById(deleteSectorRequests.getSectorId());
+	public void delete(int id) {
+		this.sectorDao.deleteById(id);
 	}
 
 	@Override

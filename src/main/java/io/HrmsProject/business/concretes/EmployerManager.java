@@ -10,7 +10,7 @@ import io.HrmsProject.business.abstracts.EmployerService;
 import io.HrmsProject.business.requests.employerRequests.CreateEmployerRequests;
 import io.HrmsProject.business.requests.employerRequests.UpdateEmployerRequests;
 import io.HrmsProject.business.responses.employerResponses.GetAllEmployerResponses;
-import io.HrmsProject.core.dataAccess.UserDao;
+import io.HrmsProject.core.dataAccess.UserStatuDao;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -19,18 +19,20 @@ import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.core.validations.concretes.MailValidation;
 import io.HrmsProject.dataAccess.abstracts.EmployerDao;
 import io.HrmsProject.entities.concretes.Employer;
+import io.HrmsProject.entities.concretes.UserStatu;
 
 @Service
 public class EmployerManager implements EmployerService {
 	
 	private EmployerDao employerDao;
-	
+	private UserStatuDao userStatuDao;
 	boolean isExist = false;
 
 	@Autowired
-	public EmployerManager(EmployerDao employerDao) {
+	public EmployerManager(EmployerDao employerDao, UserStatuDao userStatuDao) {
 		super();
 		this.employerDao = employerDao;
+		this.userStatuDao = userStatuDao;
 	}
 
 	@Override
@@ -66,6 +68,8 @@ public class EmployerManager implements EmployerService {
 		}
 		else {
 			employer.setActive(createEmployerRequests.isActive() == false);
+			UserStatu userStatu = this.userStatuDao.findByTypeId(createEmployerRequests.getUserType());
+			employer.setUserStatu(userStatu);;
 			this.employerDao.save(employer);
 			return new SuccessResult("employer has been created. please wait confirmation mail.");
 		}
