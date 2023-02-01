@@ -105,6 +105,7 @@ public class EmployerManager implements EmployerService {
 		
 		for(Employer employer : employers) {
 			GetAllEmployerResponses responseItem = new GetAllEmployerResponses();
+			responseItem.setId(employer.getId());
 			responseItem.setCompanyName(employer.getCompanyName());
 			responseItem.setFirstName(employer.getFirstName());
 			responseItem.setLastName(employer.getLastName());

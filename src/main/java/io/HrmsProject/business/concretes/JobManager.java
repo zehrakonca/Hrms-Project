@@ -11,7 +11,10 @@ import io.HrmsProject.business.requests.jobRequests.CreateJobRequests;
 import io.HrmsProject.business.requests.jobRequests.UpdateJobRequests;
 import io.HrmsProject.business.responses.jobResponses.GetAllJobResponses;
 import io.HrmsProject.core.utilities.results.DataResult;
+import io.HrmsProject.core.utilities.results.ErrorResult;
+import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.core.utilities.results.SuccessDataResult;
+import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.dataAccess.abstracts.JobDao;
 import io.HrmsProject.dataAccess.abstracts.SectorDao;
 import io.HrmsProject.entities.concretes.Job;
@@ -33,47 +36,48 @@ public class JobManager implements JobService{
 	}
 
 	@Override
-	public void add(CreateJobRequests createJobRequests) throws Exception {
+	public Result add(CreateJobRequests createJobRequests) {
 		
 		Job job = new Job();
 		job.setJobName(createJobRequests.getJob());
 		
 		if(job.getJobName()==null || createJobRequests.getJob().isEmpty()) {
-			throw new Exception("job information cannot be blank.");
+			return  new ErrorResult("job information cannot be blank.");
 		}
 		else if(isJobExist(createJobRequests.getJob())) {
-			throw new Exception("this job information already in list.");
+			return new ErrorResult("this job information already in list.");
 		}
 		else {
 			Sector sector = sectorDao.findById(createJobRequests.getSectorId());
 			job.setSector(sector);
 			this.jobDao.save(job);
 		}
-		
+		return new SuccessResult("job information has been added.");
 	}
 
 	@Override
-	public void update(UpdateJobRequests updateJobRequests, int id) throws Exception {
+	public Result update(UpdateJobRequests updateJobRequests, int id){
 		
 		Job job = jobDao.findById(id);
 		
 		if(isJobExist(updateJobRequests.getJob())) {
-			throw new Exception("job information already in list.");
+			return new ErrorResult("job information already in list.");
 		}
 		else {
 			job.setJobName(updateJobRequests.getJob());
 			this.jobDao.save(job);
 		}
-		
+		return new SuccessResult("job information has been updated.");
 	}
 
 	@Override
-	public void delete(int id) {
+	public Result delete(int id) {
 		this.jobDao.deleteById(id);
+		return new SuccessResult("job has been deleted.");
 	}
 
 	@Override
-	public List<GetAllJobResponses> getAll() {
+	public DataResult<List<GetAllJobResponses>> getAll() {
 		List<Job> jobs = jobDao.findAll();
 		List<GetAllJobResponses> jobResponses = new ArrayList<GetAllJobResponses>();
 		
@@ -84,15 +88,15 @@ public class JobManager implements JobService{
 			responseItem.setSectorName(job.getSector().getSector());
 			jobResponses.add(responseItem);
 		}
-		return jobResponses;
+		return new SuccessDataResult<List<GetAllJobResponses>>("job has been created.");
 	}
 
 	@Override
-	public Job getById(int id) {
-		return this.jobDao.findById(id);
+	public DataResult<Job> getById(int id) {
+		return new SuccessDataResult<Job>(this.jobDao.findById(id));
 	}
 	
-	private boolean isJobExist(String jobName) throws Exception{
+	private boolean isJobExist(String jobName){
 		List<Job> jobs = jobDao.findAll();
 		
 		for(Job job : jobs ) {

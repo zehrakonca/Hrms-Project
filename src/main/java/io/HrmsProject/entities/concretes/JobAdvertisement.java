@@ -11,9 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -33,41 +36,66 @@ public class JobAdvertisement {
 	@Column(name="advertisement_id")
 	private int advertisementId;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="advertisement_name")
 	private String advertisementName;
 	
+	@NotNull
+	@NotBlank
 	@ManyToOne
 	@JoinColumn(name="sector_id")
+	@JsonIgnore
 	private Sector sector;
 	
 	@ManyToOne
+	@NotNull
+	@NotBlank
 	@JoinColumn(name="job_id")
+	@JsonIgnore
 	private Job job;
 	
 	@ManyToOne()
+	@NotNull
+	@NotBlank
 	@JoinColumn(name="city_id")
+	@JsonIgnore
 	private City city;
 	
 	@ManyToOne()
+	@NotNull
+	@NotBlank
 	@JoinColumn(name="employer_id")
+	@JsonIgnore
 	private Employer employer;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="number_of_vacancies")
 	private int numberOfVacancies;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="job_description")
 	private String jobDescription;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="job_salary_min")
 	private int jobSalaryMin;
+	
 	
 	@Column(name="job_salary_max")
 	private int jobSalaryMax;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="release_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime releaseDate;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="application_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate applicationDate;

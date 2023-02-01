@@ -3,6 +3,7 @@ package io.HrmsProject.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,28 +33,28 @@ public class JobsController {
 	}
 	
 	@GetMapping("/getAll")
-	public List<GetAllJobResponses> getAll(){
+	public DataResult<List<GetAllJobResponses>> getAll(){
 		return jobService.getAll();
 	}
 	
 	@GetMapping("/getById")
-	public Job getById(int id) {
+	public DataResult<Job> getById(int id) {
 		return this.jobService.getById(id);
 	}
 	
 	@PostMapping("/add")
-	public void add(@RequestBody() CreateJobRequests createJobRequests) throws Exception {
-		this.jobService.add(createJobRequests);
+	public ResponseEntity<?> add(@RequestBody() CreateJobRequests createJobRequests) throws Exception {
+		return ResponseEntity.ok(this.jobService.add(createJobRequests));
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public void delete(@RequestBody() int id) {
-		this.jobService.delete(id);
+	public ResponseEntity<?> delete(@RequestBody() int id) {
+		return ResponseEntity.ok(this.jobService.delete(id));
 	}
 	
 	@PutMapping("/update/{id}")
-	public void update(@RequestBody() UpdateJobRequests updateJobRequests, int id) throws Exception {
-		this.jobService.update(updateJobRequests, id);
+	public ResponseEntity<?> update(@RequestBody() UpdateJobRequests updateJobRequests, int id) throws Exception {
+		return ResponseEntity.ok(this.jobService.update(updateJobRequests, id));
 	}
 	
 	@GetMapping("/getByJobNameAndSectorId")

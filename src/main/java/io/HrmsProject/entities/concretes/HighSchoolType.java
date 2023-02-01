@@ -1,38 +1,36 @@
 package io.HrmsProject.entities.concretes;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="jobs")
 @Data
 @Entity
+@Table(name="high_school_type")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","jobAdvertisements"})
-public class Job {
+public class HighSchoolType {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="job_id")
-	private int jobId;
+	@Column(name="high_school_type_id")
+	public int highSchoolTypeId;
 	
-	@Column(name="job_name")
-	private String jobName;
+	@Column(name="high_school_type")
+	private String highSchoolType;
 	
-	@ManyToOne()
-	@JoinColumn(name="sector_id")
-	private Sector sector;
+	@OneToMany(mappedBy="highSchoolType", cascade = CascadeType.ALL)
+	private List<HighSchool> highSchool;
 
 }

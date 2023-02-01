@@ -9,20 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllJobAdvertisementResponses {
+public class GetAllJobAdvertisementBy {
 	
-	private int advertisementId;
-	private String advertisementName;
-	private String sector;
-	private String job;
-	private String city;
 	private String employer;
-	private int numberOfVacancies;
+	private String advertisementName;
 	private String jobDescription;
-	private int jobSalaryMin;
-	private int jobSalaryMax;
+	private int numberOfVacancies;
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
-	private boolean isActive;
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import io.HrmsProject.business.abstracts.JobAdvertisementService;
@@ -72,12 +73,23 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	@Override
 	public Result update(UpdateJobAdvertisementRequests updateJobAdvertisement, int id) {
 		JobAdvertisement jobAdvertisement = jobAdvertisementDao.findById(id);
-		
 		jobAdvertisement.setJobDescription(updateJobAdvertisement.getJobDescription());
 		jobAdvertisement.setNumberOfVacancies(updateJobAdvertisement.getNumberOfVacancies());
 		jobAdvertisement.setJobSalaryMax(updateJobAdvertisement.getJobSalaryMax());
 		jobAdvertisement.setJobSalaryMin(updateJobAdvertisement.getJobSalaryMin());
 		jobAdvertisement.setApplicationDate(updateJobAdvertisement.getApplicationDate());
+		this.jobAdvertisementDao.save(jobAdvertisement);
+		return new SuccessResult("job advertisement has been updated.");
+	}
+	
+	@Override
+	public Result update(JobAdvertisement jobAdvertisement,int id) {
+		JobAdvertisement advertisement = jobAdvertisementDao.findById(id);
+		advertisement.setJobDescription(jobAdvertisement.getJobDescription());
+		advertisement.setNumberOfVacancies(jobAdvertisement.getNumberOfVacancies());
+		advertisement.setJobSalaryMax(jobAdvertisement.getJobSalaryMax());
+		advertisement.setJobSalaryMin(jobAdvertisement.getJobSalaryMin());
+		advertisement.setApplicationDate(jobAdvertisement.getApplicationDate());
 		this.jobAdvertisementDao.save(jobAdvertisement);
 		return new SuccessResult("job advertisement has been updated.");
 	}
@@ -95,6 +107,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		
 		for(JobAdvertisement jobAdvertisement : jobAdvertisements) {
 			GetAllJobAdvertisementResponses responseItem = new GetAllJobAdvertisementResponses();
+			responseItem.setAdvertisementId(jobAdvertisement.getAdvertisementId());
 			responseItem.setAdvertisementName(jobAdvertisement.getAdvertisementName());
 			responseItem.setSector(jobAdvertisement.getSector().getSector());
 			responseItem.setJob(jobAdvertisement.getJob().getJobName());
@@ -106,6 +119,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 			responseItem.setJobSalaryMax(jobAdvertisement.getJobSalaryMax());
 			responseItem.setReleaseDate(jobAdvertisement.getReleaseDate().toLocalDate());
 			responseItem.setApplicationDate(jobAdvertisement.getApplicationDate());
+			responseItem.setActive(jobAdvertisement.isActive());
 			jobAdvertisementResponses.add(responseItem);
 			}
 		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(jobAdvertisementResponses);
@@ -115,4 +129,40 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	public DataResult<JobAdvertisement> getById(int id) {
 		return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.findById(id));
 	}
+	
+	@Override
+	public Result makeActiveOrPassive(boolean isActive, int advertisementId) {
+		
+		String statuMessage = isActive ? "advertisement has been activated." 
+									   : "advertisement has been passived. ";
+		
+		JobAdvertisement jobAdvertisement = getById(advertisementId).getData();
+		jobAdvertisement.setActive(isActive);
+		update(jobAdvertisement, advertisementId);
+		return new SuccessResult(statuMessage);
+		}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getAllByIsActive(boolean isActive) {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByIsActive(isActive),"data listelendi.");
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getJobAdvertisementDetailSorted() {
+		Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
+		
+		return new SuccessDataResult<List<JobAdvertisement>>(jobAdvertisementDao.getByIsActive(true, sort));
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getByIsActiveAndEmployerId(int employerId) {
+Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
+		
+		return new SuccessDataResult<List<JobAdvertisement>>(jobAdvertisementDao.getByIsActiveAndEmployer_Id(true, employerId, sort));
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisement>> getByCompanyName(String companyName) {
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByEmployer_CompanyNameAndIsActiveTrue(companyName), "data is listed.");		
+}
 }
