@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,20 +20,22 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="high_school_type")
-@AllArgsConstructor
+@Table(name="high_school_types")
 @NoArgsConstructor
+@AllArgsConstructor
 public class HighSchoolType {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="high_school_type_id")
-	public int highSchoolTypeId;
+	@Column(name="type_id")
+	private int highSchoolTypeId;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="high_school_type")
 	private String highSchoolType;
 	
-	@OneToMany(mappedBy="highSchoolType", cascade = CascadeType.ALL)
-	private List<HighSchool> highSchool;
+	@OneToMany(mappedBy = "highSchoolType", cascade = CascadeType.ALL)
+	private List<HighSchool> highSchools;
 
 }

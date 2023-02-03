@@ -11,7 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,37 +21,43 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="high_school")
-@AllArgsConstructor
+@Table(name="high_schools")
 @NoArgsConstructor
+@AllArgsConstructor
 public class HighSchool {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	public int id;
+	@Column(name="highSchool_id")
+	private int highSchoolId;
 	
-	@Column(name="high_school_name")
+	@NotNull
+	@NotBlank
+	@Column(name="hightSchool_name")
 	private String highSchoolName;
 	
 	@ManyToOne()
-	@JoinColumn(name="high_school_type_id")
+	@JoinColumn(name="type_id")
 	private HighSchoolType highSchoolType;
 	
-	@NotBlank
-	@NotNull
+	@ManyToOne()
 	@JoinColumn(name="program_id")
-	private ProgramHighSchool program;
+	@JsonIgnore()
+	private ProgramInfo program;
 	
-	@NotBlank
 	@NotNull
-	@Column(name="start_date")
-	private Date startDate;
+	@NotBlank
+	@Column(name="started_date")
+	private Date startedDate;
 	
+	@NotNull
+	@NotBlank
 	@Column(name="graduation_date")
-	private Date graduationYear;
+	private Date graduationDate;
 	
 	@ManyToOne()
 	@JoinColumn(name="jobSeeker_id")
 	private JobSeeker jobSeeker;
+	
+
 }

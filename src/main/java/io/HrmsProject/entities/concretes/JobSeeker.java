@@ -8,8 +8,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import io.HrmsProject.core.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,8 +29,7 @@ public class JobSeeker extends User{
 	@Column(name="date")
 	private int date;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy="jobSeeker")
-	private List<Education> educations;
+	private List<HighSchool> highSchool;
 	
 }

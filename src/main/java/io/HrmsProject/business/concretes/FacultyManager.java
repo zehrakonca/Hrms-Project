@@ -16,8 +16,10 @@ import io.HrmsProject.entities.concretes.Faculty;
 
 @Service
 public class FacultyManager implements FacultyService{
-	
+
 	private FacultyDao facultyDao;
+	
+	private boolean isExist= false;
 	
 	@Autowired
 	public FacultyManager(FacultyDao facultyDao) {
@@ -25,23 +27,20 @@ public class FacultyManager implements FacultyService{
 		this.facultyDao = facultyDao;
 	}
 
-	boolean isExist = false;
-
 	@Override
 	public Result add(Faculty faculty) {
-		faculty.setFacultyName(faculty.getFacultyName());
 		
-		if(faculty.getFacultyName()==null|| faculty.getFacultyName().isEmpty()) {
-			return new ErrorResult("faculty name cannot be blank"); 
+		if((faculty.getFacultyName() == null)) {
+			return new ErrorResult("faculty name cannot be blank."); 
 		}
 		else if(isFacultyExist(faculty.getFacultyName())) {
 			return new ErrorResult("this faculty name already in list.");
 		}
 		else {
 			this.facultyDao.save(faculty);
-			return new SuccessResult("faculty informayion has been added.");
 		}
-		
+		return new SuccessResult("faculty information has been added.");
+ 
 	}
 
 	@Override
@@ -53,8 +52,8 @@ public class FacultyManager implements FacultyService{
 		else {
 			faculty.setFacultyName(faculty.getFacultyName());
 			this.facultyDao.save(faculty);
-			return new SuccessResult("faculty information has been updated.");
 		}
+		return new SuccessResult("faculty information has been updated.");
 	}
 
 	@Override
@@ -83,10 +82,4 @@ public class FacultyManager implements FacultyService{
 		}
 		return isExist;
 	}
-
-	@Override
-	public DataResult<List<Faculty>> getByFacultyName(String facultyName) {
-		return new SuccessDataResult<List<Faculty>>(this.facultyDao.getByFacultyName(facultyName),"data is listed");
-	}
-
 }
