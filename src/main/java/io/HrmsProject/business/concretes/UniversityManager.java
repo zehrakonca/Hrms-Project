@@ -29,10 +29,10 @@ public class UniversityManager implements UniversityService{
 
 	@Override
 	public Result add(University university) {
-		if (university.getUniversityName() == null) {
+		if (university.getUniversity() == null) {
 			return new ErrorResult("university name cannot be blank."); 
 		}
-		else if(isUniversityExist(university.getUniversityName())) {
+		else if(isUniversityExist(university.getUniversity())) {
 			return new ErrorResult("this faculty name already in list.");
 		}
 		else {
@@ -45,11 +45,11 @@ public class UniversityManager implements UniversityService{
 	public Result update(University university, int id) {
 		this.universityDao.findById(id);
 		
-		if(isUniversityExist(university.getUniversityName())) {
+		if(isUniversityExist(university.getUniversity())) {
 			return new ErrorResult("university information already in list.");
 		}
 		else {
-			university.setUniversityName(university.getUniversityName());
+			university.setUniversity(university.getUniversity());
 			this.universityDao.save(university);
 		}
 		return new SuccessResult("university information has been updated.");
@@ -75,7 +75,7 @@ public class UniversityManager implements UniversityService{
 		List<University> universities = universityDao.findAll();
 		
 		for (University university:universities) {
-			if(university.getUniversityName().equalsIgnoreCase(universityName)) {
+			if(university.getUniversity().equalsIgnoreCase(universityName)) {
 				isExist = true;
 			}
 		}

@@ -9,5 +9,5 @@ import io.HrmsProject.entities.concretes.Faculty;
 public interface FacultyDao extends JpaRepository<Faculty, Integer>{
 
 	Faculty findById(int id);
-	List<Faculty> getByFacultyName(String facultyName);
+	List<Faculty> getByFaculty(String facultyName);
 }

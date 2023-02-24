@@ -1,7 +1,7 @@
 package io.HrmsProject.business.concretes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,9 @@ import io.HrmsProject.business.abstracts.EmployerService;
 import io.HrmsProject.business.requests.employerRequests.CreateEmployerRequests;
 import io.HrmsProject.business.requests.employerRequests.UpdateEmployerRequests;
 import io.HrmsProject.business.responses.employerResponses.GetAllEmployerResponses;
+import io.HrmsProject.business.responses.employerResponses.GetByIdEmployerResponse;
 import io.HrmsProject.core.dataAccess.UserStatuDao;
+import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -26,28 +28,22 @@ public class EmployerManager implements EmployerService {
 	
 	private EmployerDao employerDao;
 	private UserStatuDao userStatuDao;
+	private ModelMapperService modelMapperService;
+	
 	boolean isExist = false;
 
 	@Autowired
-	public EmployerManager(EmployerDao employerDao, UserStatuDao userStatuDao) {
+	public EmployerManager(EmployerDao employerDao, UserStatuDao userStatuDao,ModelMapperService modelMapperService) {
 		super();
 		this.employerDao = employerDao;
 		this.userStatuDao = userStatuDao;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
 	public Result add(CreateEmployerRequests createEmployerRequests){
-		Employer employer = new Employer();
-		employer.setFirstName(createEmployerRequests.getFirstName());
-		employer.setLastName(createEmployerRequests.getLastName());
-		employer.setEmail(createEmployerRequests.getMail());
-		employer.setCompanyMail(createEmployerRequests.getCompanyMail());
-		employer.setTelephone(createEmployerRequests.getTelephone());
-		employer.setCompanyName(createEmployerRequests.getCompanyName());
-		employer.setWebSiteName(createEmployerRequests.getWebSiteName());
-		employer.setCompanyDescription(createEmployerRequests.getCompanyDescription());
-		employer.setPassword(createEmployerRequests.getPassword());
-		employer.setPasswordRep(createEmployerRequests.getPasswordRep());
+		Employer employer = this.modelMapperService.forRequest().map(createEmployerRequests, Employer.class);
+		
 		if(!dataControl(createEmployerRequests)) {
 			return new ErrorResult("your information is missing. please check information.");
 		}
@@ -76,24 +72,14 @@ public class EmployerManager implements EmployerService {
 	}
 
 	@Override
-	public Result update(UpdateEmployerRequests updateEmployerRequests, int id){
+	public Result update(UpdateEmployerRequests updateEmployerRequests){
 		
-		Employer employer = employerDao.findById(id);
+		Employer employer =this.modelMapperService.forRequest().map(updateEmployerRequests, Employer.class);
 		
 		if(employer.getCompanyName().equalsIgnoreCase(updateEmployerRequests.getCompanyName())) {
 			return new ErrorResult("this company name already exist");
 		}
 		else {
-			employer.setFirstName(updateEmployerRequests.getFirstName());
-			employer.setLastName(updateEmployerRequests.getLastName());
-			employer.setEmail(updateEmployerRequests.getMail());
-			employer.setCompanyMail(updateEmployerRequests.getCompanyMail());
-			employer.setTelephone(updateEmployerRequests.getTelephone());
-			employer.setWebSiteName(updateEmployerRequests.getWebSiteName());
-			employer.setCompanyDescription(updateEmployerRequests.getCompanyDescription());
-			employer.setPassword(updateEmployerRequests.getPassword());
-			employer.setPasswordRep(updateEmployerRequests.getPasswordRep());
-			employer.setCompanyName(updateEmployerRequests.getCompanyName());
 			this.employerDao.save(employer);
 		}
 		return new SuccessResult("your information has been updated.");
@@ -101,22 +87,7 @@ public class EmployerManager implements EmployerService {
 	@Override
 		public DataResult<List<GetAllEmployerResponses>> getAll() {
 		List<Employer> employers = employerDao.findAll();
-		List<GetAllEmployerResponses> employerResponses = new ArrayList<GetAllEmployerResponses>();
-		
-		for(Employer employer : employers) {
-			GetAllEmployerResponses responseItem = new GetAllEmployerResponses();
-			responseItem.setId(employer.getId());
-			responseItem.setCompanyName(employer.getCompanyName());
-			responseItem.setFirstName(employer.getFirstName());
-			responseItem.setLastName(employer.getLastName());
-			responseItem.setMail(employer.getEmail());
-			responseItem.setTelephone(employer.getTelephone());
-			responseItem.setCompanyDescription(employer.getCompanyDescription());
-			responseItem.setUserType(employer.getUserStatu().getTypeName());
-			responseItem.setWebSiteName(employer.getWebSiteName());
-			responseItem.setCompanyMail(employer.getCompanyMail());
-			employerResponses.add(responseItem);
-			}
+		List<GetAllEmployerResponses> employerResponses =employers.stream().map(employer->this.modelMapperService.forResponse().map(employer, GetAllEmployerResponses.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllEmployerResponses>>(employerResponses);
 		}
 		
@@ -168,6 +139,14 @@ public class EmployerManager implements EmployerService {
 			return true;
 		}
 	}
+
+	@Override
+	public DataResult<GetByIdEmployerResponse> getByEmployerId(int id) {
+		Employer employer = this.employerDao.findById(id);
+		
+		GetByIdEmployerResponse response = this.modelMapperService.forResponse().map(employer, GetByIdEmployerResponse.class);
+		return new SuccessDataResult<GetByIdEmployerResponse>(response);
+		}
 
 	
 	

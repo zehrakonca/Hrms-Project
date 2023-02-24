@@ -1,7 +1,7 @@
 package io.HrmsProject.business.concretes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import io.HrmsProject.business.abstracts.JobService;
 import io.HrmsProject.business.requests.jobRequests.CreateJobRequests;
 import io.HrmsProject.business.requests.jobRequests.UpdateJobRequests;
 import io.HrmsProject.business.responses.jobResponses.GetAllJobResponses;
+import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -24,24 +25,25 @@ import io.HrmsProject.entities.concretes.Sector;
 public class JobManager implements JobService{
 	
 	private JobDao jobDao;
-	private SectorDao sectorDao; 
+	private SectorDao sectorDao;
+	private ModelMapperService modelMapperService;
 	
 	boolean isExist = false;
 	
 	@Autowired
-	public JobManager(JobDao jobDao, SectorDao sectorDao) {
+	public JobManager(JobDao jobDao, SectorDao sectorDao,ModelMapperService modelMapperService) {
 		super();
 		this.jobDao = jobDao;
 		this.sectorDao = sectorDao;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
 	public Result add(CreateJobRequests createJobRequests) {
 		
-		Job job = new Job();
-		job.setJobName(createJobRequests.getJob());
+		Job job =this.modelMapperService.forRequest().map(createJobRequests, Job.class);
 		
-		if(job.getJobName()==null || createJobRequests.getJob().isEmpty()) {
+		if(!(job.getJobName()==null || createJobRequests.getJob().isEmpty())) {
 			return  new ErrorResult("job information cannot be blank.");
 		}
 		else if(isJobExist(createJobRequests.getJob())) {
@@ -56,9 +58,9 @@ public class JobManager implements JobService{
 	}
 
 	@Override
-	public Result update(UpdateJobRequests updateJobRequests, int id){
+	public Result update(UpdateJobRequests updateJobRequests){
 		
-		Job job = jobDao.findById(id);
+		Job job = this.modelMapperService.forRequest().map(updateJobRequests, Job.class);
 		
 		if(isJobExist(updateJobRequests.getJob())) {
 			return new ErrorResult("job information already in list.");
@@ -79,16 +81,9 @@ public class JobManager implements JobService{
 	@Override
 	public DataResult<List<GetAllJobResponses>> getAll() {
 		List<Job> jobs = jobDao.findAll();
-		List<GetAllJobResponses> jobResponses = new ArrayList<GetAllJobResponses>();
+		List<GetAllJobResponses> jobResponse = jobs.stream().map(job->this.modelMapperService.forResponse().map(job, GetAllJobResponses.class)).collect(Collectors.toList());
 		
-		for(Job job : jobs) {
-			GetAllJobResponses responseItem = new GetAllJobResponses();
-			responseItem.setId(job.getJobId());
-			responseItem.setJob(job.getJobName());
-			responseItem.setSectorName(job.getSector().getSector());
-			jobResponses.add(responseItem);
-		}
-		return new SuccessDataResult<List<GetAllJobResponses>>("job has been created.");
+		return new SuccessDataResult<List<GetAllJobResponses>>(jobResponse,"job has been listed.");
 	}
 
 	@Override

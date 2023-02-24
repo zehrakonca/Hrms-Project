@@ -16,9 +16,6 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +25,6 @@ import lombok.NoArgsConstructor;
 @Table(name="job_advertisements")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class JobAdvertisement {
 	
 	@Id
@@ -45,28 +41,24 @@ public class JobAdvertisement {
 	@NotBlank
 	@ManyToOne
 	@JoinColumn(name="sector_id")
-	@JsonIgnore
 	private Sector sector;
 	
 	@ManyToOne
 	@NotNull
 	@NotBlank
 	@JoinColumn(name="job_id")
-	@JsonIgnore
 	private Job job;
 	
 	@ManyToOne()
 	@NotNull
 	@NotBlank
 	@JoinColumn(name="city_id")
-	@JsonIgnore
 	private City city;
 	
 	@ManyToOne()
 	@NotNull
 	@NotBlank
 	@JoinColumn(name="employer_id")
-	@JsonIgnore
 	private Employer employer;
 	
 	@NotNull

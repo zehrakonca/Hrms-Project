@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllJobAdvertisementBy {
+public class GetByIdJobAdvertisementResponse {
 	
+	private int id;
 	private String employer;
 	private String advertisementName;
 	private String jobDescription;

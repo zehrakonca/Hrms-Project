@@ -1,7 +1,5 @@
 package io.HrmsProject.entities.concretes;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name="high_schools")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","programInfos"})
 public class HighSchool {
 	
 	@Id
@@ -48,12 +48,12 @@ public class HighSchool {
 	@NotNull
 	@NotBlank
 	@Column(name="started_date")
-	private Date startedDate;
+	private int startedDate;
 	
 	@NotNull
 	@NotBlank
 	@Column(name="graduation_date")
-	private Date graduationDate;
+	private int graduationDate;
 	
 	@ManyToOne()
 	@JoinColumn(name="jobSeeker_id")

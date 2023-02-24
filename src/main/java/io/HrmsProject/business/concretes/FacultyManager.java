@@ -30,10 +30,10 @@ public class FacultyManager implements FacultyService{
 	@Override
 	public Result add(Faculty faculty) {
 		
-		if((faculty.getFacultyName() == null)) {
+		if((faculty.getFaculty() == null)) {
 			return new ErrorResult("faculty name cannot be blank."); 
 		}
-		else if(isFacultyExist(faculty.getFacultyName())) {
+		else if(isFacultyExist(faculty.getFaculty())) {
 			return new ErrorResult("this faculty name already in list.");
 		}
 		else {
@@ -46,11 +46,11 @@ public class FacultyManager implements FacultyService{
 	@Override
 	public Result update(Faculty faculty, int id) {
 		this.facultyDao.findById(id);
-		if(isFacultyExist(faculty.getFacultyName())) {
+		if(isFacultyExist(faculty.getFaculty())) {
 			return new ErrorResult("job information already in list.");
 		}
 		else {
-			faculty.setFacultyName(faculty.getFacultyName());
+			faculty.setFaculty(faculty.getFaculty());
 			this.facultyDao.save(faculty);
 		}
 		return new SuccessResult("faculty information has been updated.");
@@ -76,7 +76,7 @@ public class FacultyManager implements FacultyService{
 		List<Faculty> faculties = facultyDao.findAll();
 		
 		for (Faculty faculty:faculties) {
-			if(faculty.getFacultyName().equalsIgnoreCase(facultyName)) {
+			if(faculty.getFaculty().equalsIgnoreCase(facultyName)) {
 				isExist = true;
 			}
 		}

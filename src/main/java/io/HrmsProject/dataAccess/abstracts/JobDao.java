@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import io.HrmsProject.entities.concretes.Job;
 
+@Repository
 public interface JobDao extends JpaRepository<Job, Integer>{
+	
 	Job findById(int id);
 	
 	@Query("From Job where job_Name=:jobName and sector_Id=:sectorId")

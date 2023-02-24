@@ -1,7 +1,7 @@
 package io.HrmsProject.business.concretes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import io.HrmsProject.business.abstracts.SectorService;
 import io.HrmsProject.business.requests.sectorRequests.CreateSectorRequests;
 import io.HrmsProject.business.requests.sectorRequests.UpdateSectorRequests;
 import io.HrmsProject.business.responses.sectorResponses.GetAllSectorResponse;
+import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.dataAccess.abstracts.SectorDao;
 import io.HrmsProject.entities.concretes.Sector;
 
@@ -17,20 +18,20 @@ import io.HrmsProject.entities.concretes.Sector;
 public class SectorManager implements SectorService{
 	
 	private SectorDao sectorDao;
-
+	private ModelMapperService modelMapperService;
+	
 	boolean isExist = false;
 	
 	@Autowired
-	public SectorManager(SectorDao sectorDao) {
+	public SectorManager(SectorDao sectorDao, ModelMapperService modelMapperService) {
 		super();
 		this.sectorDao = sectorDao;
+		this.modelMapperService = modelMapperService;
 	}
-	
 
 	@Override
 	public void add(CreateSectorRequests createSectorRequests) throws Exception {
-		Sector sector = new Sector();
-		sector.setSector(createSectorRequests.getSector());
+		Sector sector = this.modelMapperService.forRequest().map(createSectorRequests, Sector.class);
 		
 		if(sector.getSector()==null || createSectorRequests.getSector().isEmpty()) {
 			throw new Exception("sector information cannot be blank.");
@@ -40,6 +41,7 @@ public class SectorManager implements SectorService{
 		}
 		else {
 			this.sectorDao.save(sector);
+			throw new Exception("sector has been saved.");
 		}
 		
 	}
@@ -50,8 +52,8 @@ public class SectorManager implements SectorService{
 	}
 
 	@Override
-	public void update(UpdateSectorRequests updateSectorRequests, int id) throws Exception {
-		Sector sector = sectorDao.findById(id);
+	public void update(UpdateSectorRequests updateSectorRequests) throws Exception {
+		Sector sector = this.modelMapperService.forRequest().map(updateSectorRequests, Sector.class);
 		
 		if(isSectorExist(updateSectorRequests.getSector())) {
 			throw new Exception("this sector information already in list.");
@@ -66,15 +68,10 @@ public class SectorManager implements SectorService{
 	@Override
 	public List<GetAllSectorResponse> getAll() {
 		List<Sector> sectors = sectorDao.findAll();
-		List<GetAllSectorResponse> sectorResponses = new ArrayList<GetAllSectorResponse>();
 		
-		for(Sector sector : sectors) {
-			GetAllSectorResponse responseItem = new GetAllSectorResponse();
-			responseItem.setId(sector.getSectorId());
-			responseItem.setSector(sector.getSector());
-			sectorResponses.add(responseItem);
-		}
-		return sectorResponses;
+		List<GetAllSectorResponse> sectorResponse = sectors.stream().map(sector->this.modelMapperService.forResponse().map(sector, GetAllSectorResponse.class)).collect(Collectors.toList());
+		
+		return sectorResponse;
 	}
 
 	@Override

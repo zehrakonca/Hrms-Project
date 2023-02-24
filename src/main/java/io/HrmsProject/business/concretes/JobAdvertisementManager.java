@@ -1,9 +1,8 @@
 package io.HrmsProject.business.concretes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +10,8 @@ import io.HrmsProject.business.abstracts.JobAdvertisementService;
 import io.HrmsProject.business.requests.jobAdvertisementRequests.CreateJobAdvertisementRequests;
 import io.HrmsProject.business.requests.jobAdvertisementRequests.UpdateJobAdvertisementRequests;
 import io.HrmsProject.business.responses.jobAdvertisementResponses.GetAllJobAdvertisementResponses;
+import io.HrmsProject.business.responses.jobAdvertisementResponses.GetByIdJobAdvertisementResponse;
+import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.core.utilities.results.SuccessDataResult;
@@ -25,8 +26,10 @@ import io.HrmsProject.entities.concretes.Employer;
 import io.HrmsProject.entities.concretes.Job;
 import io.HrmsProject.entities.concretes.JobAdvertisement;
 import io.HrmsProject.entities.concretes.Sector;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class JobAdvertisementManager implements JobAdvertisementService{
 	
 	private JobAdvertisementDao jobAdvertisementDao;
@@ -34,50 +37,31 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	private JobDao jobDao;
 	private CityDao cityDao;
 	private EmployerDao employerDao;
+	private ModelMapperService modelMapperService;
 	
 	
-	@Autowired
-	public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao,SectorDao sectorDao,JobDao jobDao,CityDao cityDao,EmployerDao employerDao) {
-		super();
-		this.jobAdvertisementDao = jobAdvertisementDao;
-		this.sectorDao = sectorDao;
-		this.jobDao = jobDao;
-		this.cityDao = cityDao;
-		this.employerDao = employerDao;
-	}
+	
 
 	@Override
 	public Result add(CreateJobAdvertisementRequests createJobAdvertisement) throws Exception {
-		JobAdvertisement jobAdvertisement = new JobAdvertisement();
+		JobAdvertisement jobAdvertisement =this.modelMapperService.forRequest().map(createJobAdvertisement, JobAdvertisement.class);
 		Sector sector = this.sectorDao.findById(createJobAdvertisement.getSector());
-		Job job = this.jobDao.findById(createJobAdvertisement.getJob());
 		City city = this.cityDao.findById(createJobAdvertisement.getCity());
 		Employer employer = this.employerDao.findById(createJobAdvertisement.getEmployer());
+		Job job = this.jobDao.findById(createJobAdvertisement.getJob());
 		
-		jobAdvertisement.setAdvertisementName(createJobAdvertisement.getAdvertisementName());
-		jobAdvertisement.setNumberOfVacancies(createJobAdvertisement.getNumberOfVacancies());
-		jobAdvertisement.setJobDescription(createJobAdvertisement.getJobDescription());
-		jobAdvertisement.setJobSalaryMin(createJobAdvertisement.getJobSalaryMin());
-		jobAdvertisement.setJobSalaryMax(createJobAdvertisement.getJobSalaryMax());
-		jobAdvertisement.setReleaseDate(createJobAdvertisement.getReleaseDate().atStartOfDay());
-		jobAdvertisement.setApplicationDate(createJobAdvertisement.getApplicationDate());
 		jobAdvertisement.setSector(sector);
-		jobAdvertisement.setJob(job);
 		jobAdvertisement.setCity(city);
 		jobAdvertisement.setEmployer(employer);
+		jobAdvertisement.setJob(job);
 		jobAdvertisement.setActive(createJobAdvertisement.isActive()==false);;
 		this.jobAdvertisementDao.save(jobAdvertisement);
 		return new SuccessResult("job advertisement has been created. please wait for it to be published.");
 		}
 
 	@Override
-	public Result update(UpdateJobAdvertisementRequests updateJobAdvertisement, int id) {
-		JobAdvertisement jobAdvertisement = jobAdvertisementDao.findById(id);
-		jobAdvertisement.setJobDescription(updateJobAdvertisement.getJobDescription());
-		jobAdvertisement.setNumberOfVacancies(updateJobAdvertisement.getNumberOfVacancies());
-		jobAdvertisement.setJobSalaryMax(updateJobAdvertisement.getJobSalaryMax());
-		jobAdvertisement.setJobSalaryMin(updateJobAdvertisement.getJobSalaryMin());
-		jobAdvertisement.setApplicationDate(updateJobAdvertisement.getApplicationDate());
+	public Result update(UpdateJobAdvertisementRequests updateJobAdvertisement) {
+		JobAdvertisement jobAdvertisement = this.modelMapperService.forRequest().map(updateJobAdvertisement, JobAdvertisement.class);
 		this.jobAdvertisementDao.save(jobAdvertisement);
 		return new SuccessResult("job advertisement has been updated.");
 	}
@@ -103,25 +87,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	@Override
 	public DataResult<List<GetAllJobAdvertisementResponses>> getAll() {
 		List<JobAdvertisement> jobAdvertisements = jobAdvertisementDao.findAll();
-		List<GetAllJobAdvertisementResponses> jobAdvertisementResponses = new ArrayList<GetAllJobAdvertisementResponses>();
-		
-		for(JobAdvertisement jobAdvertisement : jobAdvertisements) {
-			GetAllJobAdvertisementResponses responseItem = new GetAllJobAdvertisementResponses();
-			responseItem.setAdvertisementId(jobAdvertisement.getAdvertisementId());
-			responseItem.setAdvertisementName(jobAdvertisement.getAdvertisementName());
-			responseItem.setSector(jobAdvertisement.getSector().getSector());
-			responseItem.setJob(jobAdvertisement.getJob().getJobName());
-			responseItem.setCity(jobAdvertisement.getCity().getCityName());
-			responseItem.setEmployer(jobAdvertisement.getEmployer().getCompanyName());
-			responseItem.setNumberOfVacancies(jobAdvertisement.getNumberOfVacancies());
-			responseItem.setJobDescription(jobAdvertisement.getJobDescription());
-			responseItem.setJobSalaryMin(jobAdvertisement.getJobSalaryMin());
-			responseItem.setJobSalaryMax(jobAdvertisement.getJobSalaryMax());
-			responseItem.setReleaseDate(jobAdvertisement.getReleaseDate().toLocalDate());
-			responseItem.setApplicationDate(jobAdvertisement.getApplicationDate());
-			responseItem.setActive(jobAdvertisement.isActive());
-			jobAdvertisementResponses.add(responseItem);
-			}
+		List<GetAllJobAdvertisementResponses> jobAdvertisementResponses = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(jobAdvertisementResponses);
 	}
 
@@ -165,4 +131,13 @@ Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
 	public DataResult<List<JobAdvertisement>> getByCompanyName(String companyName) {
 		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByEmployer_CompanyNameAndIsActiveTrue(companyName), "data is listed.");		
 }
+
+	@Override
+	public GetByIdJobAdvertisementResponse getByJobAdvertisementId(int id) {
+		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id);
+		
+		GetByIdJobAdvertisementResponse response = this.modelMapperService.forResponse().map(jobAdvertisement, GetByIdJobAdvertisementResponse.class);
+		return response;
+		
+	}
 }

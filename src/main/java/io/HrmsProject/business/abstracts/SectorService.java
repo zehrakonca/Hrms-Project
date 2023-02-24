@@ -11,7 +11,7 @@ public interface SectorService {
 	
 	void add(CreateSectorRequests createSectorRequests) throws Exception;
 	void delete(int id) throws Exception;
-	void update(UpdateSectorRequests updateSectorRequests, int id) throws Exception;
+	void update(UpdateSectorRequests updateSectorRequests) throws Exception;
 	
 	public List<GetAllSectorResponse> getAll();
 	

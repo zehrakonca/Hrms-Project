@@ -33,7 +33,7 @@ public class EducationTypeManager implements EducationTypeService{
 	@Override
 	public Result update(EducationType educationType, int id) {
 		this.educationTypeDao.findById(id);
-		educationType.setEducationTypeName(educationType.getEducationTypeName());
+		educationType.setEducationType(educationType.getEducationType());
 		this.educationTypeDao.save(educationType);
 		return new SuccessResult("education type has been updated.");
 	}

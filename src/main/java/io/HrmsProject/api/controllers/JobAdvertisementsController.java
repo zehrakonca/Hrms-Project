@@ -3,20 +3,24 @@ package io.HrmsProject.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.HrmsProject.business.abstracts.JobAdvertisementService;
 import io.HrmsProject.business.requests.jobAdvertisementRequests.CreateJobAdvertisementRequests;
 import io.HrmsProject.business.requests.jobAdvertisementRequests.UpdateJobAdvertisementRequests;
 import io.HrmsProject.business.responses.jobAdvertisementResponses.GetAllJobAdvertisementResponses;
+import io.HrmsProject.business.responses.jobAdvertisementResponses.GetByIdJobAdvertisementResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.entities.concretes.JobAdvertisement;
@@ -38,12 +42,17 @@ public class JobAdvertisementsController {
 		return jobAdvertisementService.getAll();
 	}
 	
-	@GetMapping("/getAllByIsActive")
+	@GetMapping("/getById")
+	public GetByIdJobAdvertisementResponse getById(@PathVariable int id){
+		return jobAdvertisementService.getByJobAdvertisementId(id);
+	}
+	
+	@GetMapping("/getByIsActive")
 	public DataResult<List<JobAdvertisement>> getAllByIsActive(@RequestParam boolean isActive){
 		return this.jobAdvertisementService.getAllByIsActive(isActive);
 	}
 	
-	@GetMapping("/getDetailsSorted")
+	@GetMapping("/getByJobAdvertisementDetailSorted")
 	public DataResult<List<JobAdvertisement>> getJobAdvertisementDetailSorted()
 	{
 		return this.jobAdvertisementService.getJobAdvertisementDetailSorted();
@@ -55,7 +64,7 @@ public class JobAdvertisementsController {
 		return this.jobAdvertisementService.getByIsActiveAndEmployerId( employerId);
 	}
 	
-	@GetMapping("/getDetailsByCompanyName")
+	@GetMapping("/getByCompanyName")
 	public  ResponseEntity<?> getByCompanyName(@RequestParam String companyName)
 	{
 		return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName));
@@ -63,16 +72,17 @@ public class JobAdvertisementsController {
 	
 	
 	@PostMapping("/add")
+	@ResponseStatus(code=HttpStatus.CREATED)
 	public ResponseEntity<?> add(@RequestBody() CreateJobAdvertisementRequests createJobAdvertisementRequests) throws Exception{
 		return ResponseEntity.ok(this.jobAdvertisementService.add(createJobAdvertisementRequests));
 	}
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody() UpdateJobAdvertisementRequests updateJobAdvertisement,int id){
-		return ResponseEntity.ok(this.jobAdvertisementService.update(updateJobAdvertisement, id));
+	public ResponseEntity<?> update(@RequestBody() UpdateJobAdvertisementRequests updateJobAdvertisement){
+		return ResponseEntity.ok(this.jobAdvertisementService.update(updateJobAdvertisement));
 	}
 	
 	@DeleteMapping("/delete")
-	public Result delete(int id) {
+	public Result delete(@PathVariable int id) {
 		return this.jobAdvertisementService.delete(id);
 	}
 	
@@ -80,4 +90,6 @@ public class JobAdvertisementsController {
 	public ResponseEntity<?> makeActiveOrPassive(@RequestParam boolean isActive, @RequestParam int id){
 		return ResponseEntity.ok(this.jobAdvertisementService.makeActiveOrPassive(isActive, id));
 	}
+	
+	
 }

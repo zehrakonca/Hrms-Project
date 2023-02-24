@@ -1,7 +1,7 @@
 package io.HrmsProject.business.concretes;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,9 @@ import io.HrmsProject.business.abstracts.JobSeekerService;
 import io.HrmsProject.business.requests.jobSeekerRequests.CreateJobSeekerRequests;
 import io.HrmsProject.business.requests.jobSeekerRequests.UpdateJobSeekerRequest;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetAllJobSeekerResponses;
+import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdJobSeekerResponse;
 import io.HrmsProject.core.dataAccess.UserStatuDao;
+import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -25,27 +27,30 @@ public class JobSeekerManager implements JobSeekerService{
 	
 	private JobSeekerDao jobSeekerDao;
 	private UserStatuDao userStatuDao;
+	private ModelMapperService modelMapperService;
 	
 	boolean isExist = false;
 	
 	@Autowired
-	public JobSeekerManager(JobSeekerDao jobSeekerDao,UserStatuDao userStatuDao) {
+	public JobSeekerManager(JobSeekerDao jobSeekerDao,UserStatuDao userStatuDao,ModelMapperService modelMapperService) {
 		super();
 		this.jobSeekerDao = jobSeekerDao;
 		this.userStatuDao = userStatuDao;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
 	public Result add(CreateJobSeekerRequests createJobSeekerRequests) {
-		JobSeeker jobSeeker = new JobSeeker();
-		jobSeeker.setFirstName(createJobSeekerRequests.getFirstName());
-		jobSeeker.setLastName(createJobSeekerRequests.getLastName());
-		jobSeeker.setEmail(createJobSeekerRequests.getMail());
-		jobSeeker.setNationalIdentity(createJobSeekerRequests.getNationalIdentity());
-		jobSeeker.setTelephone(createJobSeekerRequests.getTelephone());
-		jobSeeker.setDate(createJobSeekerRequests.getDate());
-		jobSeeker.setPassword(createJobSeekerRequests.getPassword());
-		jobSeeker.setPasswordRep(createJobSeekerRequests.getPasswordRep());
+		JobSeeker jobSeeker = this.modelMapperService.forRequest().map(createJobSeekerRequests, JobSeeker.class);
+		
+//		jobSeeker.setFirstName(createJobSeekerRequests.getFirstName());
+//		jobSeeker.setLastName(createJobSeekerRequests.getLastName());
+//		jobSeeker.setEmail(createJobSeekerRequests.getMail());
+//		jobSeeker.setNationalIdentity(createJobSeekerRequests.getNationalIdentity());
+//		jobSeeker.setTelephone(createJobSeekerRequests.getTelephone());
+//		jobSeeker.setDate(createJobSeekerRequests.getDate());
+//		jobSeeker.setPassword(createJobSeekerRequests.getPassword());
+//		jobSeeker.setPasswordRep(createJobSeekerRequests.getPasswordRep());
 		
 		if(!dataControl(createJobSeekerRequests)) {
 			return new ErrorResult("your information is missing. please check your information.");
@@ -70,8 +75,8 @@ public class JobSeekerManager implements JobSeekerService{
 	}
 
 	@Override
-	public Result update(UpdateJobSeekerRequest updateJobSeekerRequest, int id) {
-		JobSeeker jobSeeker = jobSeekerDao.findById(id);
+	public Result update(UpdateJobSeekerRequest updateJobSeekerRequest) {
+		JobSeeker jobSeeker = this.modelMapperService.forRequest().map(updateJobSeekerRequest, JobSeeker.class);
 		
 		if(!isMailExist(updateJobSeekerRequest.getMail())){
 			return new ErrorResult("your mail already registered. please check your information.");
@@ -95,18 +100,8 @@ public class JobSeekerManager implements JobSeekerService{
 	@Override
 	public DataResult<List<GetAllJobSeekerResponses>> getAll() {
 		List<JobSeeker> jobSeekers = jobSeekerDao.findAll();
-		List<GetAllJobSeekerResponses> jobSeekerResponses = new ArrayList<GetAllJobSeekerResponses>();
+		List<GetAllJobSeekerResponses> jobSeekerResponses = jobSeekers.stream().map(jobSeeker->this.modelMapperService.forResponse().map(jobSeeker, GetAllJobSeekerResponses.class)).collect(Collectors.toList());
 		
-		for(JobSeeker jobSeeker : jobSeekers) {
-			GetAllJobSeekerResponses responseItem = new GetAllJobSeekerResponses();
-			responseItem.setFirstName(jobSeeker.getFirstName());
-			responseItem.setLastName(jobSeeker.getLastName());
-			responseItem.setMail(jobSeeker.getEmail());
-			responseItem.setTelephone(jobSeeker.getTelephone());
-			responseItem.setDate(jobSeeker.getDate());
-			responseItem.setUserType(jobSeeker.getUserStatu().getTypeName());;
-			jobSeekerResponses.add(responseItem);
-			}
 		return new SuccessDataResult<List<GetAllJobSeekerResponses>>(jobSeekerResponses);
 	}
 
@@ -157,5 +152,13 @@ public class JobSeekerManager implements JobSeekerService{
 		}
 		return isExist;
 	}
+
+	@Override
+	public DataResult<GetByIdJobSeekerResponse> getByIdJobSeeker(int id) {
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(id);
+		
+		GetByIdJobSeekerResponse response = this.modelMapperService.forResponse().map(jobSeeker, GetByIdJobSeekerResponse.class);
+		return new SuccessDataResult<GetByIdJobSeekerResponse>(response);
+	 }
 
 }

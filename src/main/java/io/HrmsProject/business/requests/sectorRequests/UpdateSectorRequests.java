@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateSectorRequests {
 	
+	private int id;
 	private String sector;
 }
