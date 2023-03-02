@@ -20,6 +20,7 @@ import io.HrmsProject.business.abstracts.JobService;
 import io.HrmsProject.business.requests.jobRequests.CreateJobRequests;
 import io.HrmsProject.business.requests.jobRequests.UpdateJobRequests;
 import io.HrmsProject.business.responses.jobResponses.GetAllJobResponses;
+import io.HrmsProject.business.responses.jobResponses.GetByIdJobResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.Job;
 
@@ -41,7 +42,7 @@ public class JobsController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<Job> getById(int id) {
+	public GetByIdJobResponse getById(int id) {
 		return this.jobService.getById(id);
 	}
 	

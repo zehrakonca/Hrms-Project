@@ -13,5 +13,5 @@ public interface EducationService extends BaseEntityService<Education, CreateEdu
 
 	DataResult<List<Education>> getAllBySortedGraduationDate(int educationId);
 	
-	DataResult<GetByIdEducationResponse> getByEducationId(int id);
+	GetByIdEducationResponse getById(int id);
 }

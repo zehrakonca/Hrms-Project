@@ -1,13 +1,18 @@
 package io.HrmsProject.business.concretes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.HrmsProject.business.abstracts.UniversityService;
+import io.HrmsProject.business.requests.universityRequests.CreateUniversityRequest;
+import io.HrmsProject.business.requests.universityRequests.UpdateUniversityRequest;
+import io.HrmsProject.business.responses.universityResponse.GetAllUniversityResponse;
+import io.HrmsProject.business.responses.universityResponse.GetByIdUniversityResponse;
+import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
-import io.HrmsProject.core.utilities.results.ErrorResult;
 import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.core.utilities.results.SuccessDataResult;
 import io.HrmsProject.core.utilities.results.SuccessResult;
@@ -17,58 +22,16 @@ import io.HrmsProject.entities.concretes.University;
 @Service
 public class UniversityManager implements UniversityService{
 	
-	public UniversityDao universityDao;
+	private UniversityDao universityDao;
+	private ModelMapperService modelMapperService;
 	
 	private boolean isExist= false;
 
 	@Autowired
-	public UniversityManager(UniversityDao universityDao) {
+	public UniversityManager(UniversityDao universityDao,ModelMapperService modelMapperService) {
 		super();
 		this.universityDao = universityDao;
-	}
-
-	@Override
-	public Result add(University university) {
-		if (university.getUniversity() == null) {
-			return new ErrorResult("university name cannot be blank."); 
-		}
-		else if(isUniversityExist(university.getUniversity())) {
-			return new ErrorResult("this faculty name already in list.");
-		}
-		else {
-			this.universityDao.save(university);
-		}
-		return new SuccessResult("university has been added.");
-	}
-
-	@Override
-	public Result update(University university, int id) {
-		this.universityDao.findById(id);
-		
-		if(isUniversityExist(university.getUniversity())) {
-			return new ErrorResult("university information already in list.");
-		}
-		else {
-			university.setUniversity(university.getUniversity());
-			this.universityDao.save(university);
-		}
-		return new SuccessResult("university information has been updated.");
-	}
-
-	@Override
-	public Result delete(int id) {
-		this.universityDao.deleteById(id);
-		return new SuccessResult("faculty information has been deleted.");
-	}
-
-	@Override
-	public DataResult<List<University>> getAll() {
-		return new SuccessDataResult<List<University>>(this.universityDao.findAll(), "faculty information has been listed.");
-	}
-
-	@Override
-	public DataResult<University> getById(int id) {
-		return new SuccessDataResult<University>(this.universityDao.findById(id));
+		this.modelMapperService = modelMapperService;
 	}
 	
 	private boolean isUniversityExist(String universityName){
@@ -80,6 +43,43 @@ public class UniversityManager implements UniversityService{
 			}
 		}
 		return isExist;
+	}
+
+	@Override
+	public Result add(CreateUniversityRequest createEntity) throws Exception {
+		University university = this.modelMapperService.forRequest().map(createEntity, University.class);
+		this.universityDao.save(university);
+		return new SuccessResult("university info has been saved.");
+	}
+
+	@Override
+	public Result update(UpdateUniversityRequest updateEntity) {
+		University university = this.modelMapperService.forRequest().map(updateEntity, University.class);
+		this.universityDao.save(university);
+		return new SuccessResult("university info has been updated.");
+	}
+
+	@Override
+	public Result delete(int id) {
+		this.universityDao.deleteById(id);
+		return new SuccessResult("university info has been deleted.");
+	}
+
+	@Override
+	public DataResult<List<GetAllUniversityResponse>> getAll() {
+		List<University> universities = universityDao.findAll();
+		
+		List<GetAllUniversityResponse> universitiesResponse = universities.stream().map(university->this.modelMapperService.forResponse().map(university, GetAllUniversityResponse.class)).collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<GetAllUniversityResponse>>(universitiesResponse);
+	}
+
+	@Override
+	public GetByIdUniversityResponse getById(int id) {
+		University university = this.universityDao.findById(id);
+		
+		GetByIdUniversityResponse response = this.modelMapperService.forResponse().map(university, GetByIdUniversityResponse.class);
+		return response;
 	}
 
 }

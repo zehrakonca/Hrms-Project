@@ -34,7 +34,7 @@ public class University {
 	
 	@NotNull
 	@NotBlank
-	@Column(name="university_name")
+	@Column(name="university_name") 
 	private String university;
 	
 	@OneToMany(mappedBy="university", cascade = CascadeType.ALL)

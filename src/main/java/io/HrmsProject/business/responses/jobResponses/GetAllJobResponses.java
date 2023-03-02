@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAllJobResponses {
-	private int id;
+	
 	private String sectorName;
 	private String job;
 }

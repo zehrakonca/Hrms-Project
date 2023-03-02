@@ -22,7 +22,6 @@ import io.HrmsProject.business.responses.employerResponses.GetAllEmployerRespons
 import io.HrmsProject.business.responses.employerResponses.GetByIdEmployerResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
-import io.HrmsProject.entities.concretes.Employer;
 
 @RestController
 @RequestMapping("/api/employers")
@@ -42,13 +41,8 @@ public class EmployersController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<Employer> getById(@PathVariable int id){
+	public GetByIdEmployerResponse getById(@PathVariable int id){
 		return this.employerService.getById(id);
-	}
-	
-	@GetMapping("{id}")
-	public DataResult<GetByIdEmployerResponse> getByEmployerId(@PathVariable int id){
-		return this.employerService.getByEmployerId(id);
 	}
 	
 	@PostMapping

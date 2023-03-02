@@ -20,10 +20,10 @@ import io.HrmsProject.business.abstracts.JobExperienceService;
 import io.HrmsProject.business.requests.jobExperienceRequests.CreateJobExperienceRequests;
 import io.HrmsProject.business.requests.jobExperienceRequests.UpdateJobExperienceRequests;
 import io.HrmsProject.business.responses.jobExperienceResponses.GetAllJobExperienceResponses;
+import io.HrmsProject.business.responses.jobExperienceResponses.GetByIdJobExperienceResponse;
 import io.HrmsProject.business.responses.jobExperienceResponses.GetByJobSeekerIdResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
-import io.HrmsProject.entities.concretes.JobExperience;
 
 @RestController
 @RequestMapping("/api/jobExperiences")
@@ -44,7 +44,7 @@ public class JobExperiencesController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody() UpdateJobExperienceRequests updateJobExperienceRequests){
+	public ResponseEntity<?> update(@RequestBody() UpdateJobExperienceRequests updateJobExperienceRequests)throws Exception{
 		return ResponseEntity.ok(this.jobExperienceService.update(updateJobExperienceRequests));
 	}
 	
@@ -54,8 +54,8 @@ public class JobExperiencesController {
 	}
 	
 	@GetMapping("/getAllBySortedEndDate")
-	public DataResult<List<JobExperience>> getAllBySortedEndDate(@RequestParam int jobSeekerId) {
-		return jobExperienceService.getByJobSeekerId(jobSeekerId);
+	public DataResult<GetByJobSeekerIdResponse> getAllBySortedEndDate(@RequestParam int jobSeekerId) {
+		return jobExperienceService.getAllBySortedEndDate(jobSeekerId);
 	}
 	
 	@GetMapping("/getAllJobExperienceDetail")
@@ -63,8 +63,8 @@ public class JobExperiencesController {
 		return jobExperienceService.getAll();
 	}
 	
-	@GetMapping
-	public DataResult<JobExperience> getById(@PathVariable int id){
+	@GetMapping("/getById/{id}")
+	public GetByIdJobExperienceResponse getById(@PathVariable int id){
 		return jobExperienceService.getById(id);
 	}
 

@@ -11,6 +11,7 @@ import io.HrmsProject.business.requests.jobSeekerRequests.CreateJobSeekerRequest
 import io.HrmsProject.business.requests.jobSeekerRequests.UpdateJobSeekerRequest;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetAllJobSeekerResponses;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdJobSeekerResponse;
+import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdentityNumberJobSeekerResponse;
 import io.HrmsProject.core.dataAccess.UserStatuDao;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
@@ -42,15 +43,6 @@ public class JobSeekerManager implements JobSeekerService{
 	@Override
 	public Result add(CreateJobSeekerRequests createJobSeekerRequests) {
 		JobSeeker jobSeeker = this.modelMapperService.forRequest().map(createJobSeekerRequests, JobSeeker.class);
-		
-//		jobSeeker.setFirstName(createJobSeekerRequests.getFirstName());
-//		jobSeeker.setLastName(createJobSeekerRequests.getLastName());
-//		jobSeeker.setEmail(createJobSeekerRequests.getMail());
-//		jobSeeker.setNationalIdentity(createJobSeekerRequests.getNationalIdentity());
-//		jobSeeker.setTelephone(createJobSeekerRequests.getTelephone());
-//		jobSeeker.setDate(createJobSeekerRequests.getDate());
-//		jobSeeker.setPassword(createJobSeekerRequests.getPassword());
-//		jobSeeker.setPasswordRep(createJobSeekerRequests.getPasswordRep());
 		
 		if(!dataControl(createJobSeekerRequests)) {
 			return new ErrorResult("your information is missing. please check your information.");
@@ -106,13 +98,20 @@ public class JobSeekerManager implements JobSeekerService{
 	}
 
 	@Override
-	public DataResult<JobSeeker> getById(int id) {
-		return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.findById(id));
+	public GetByIdJobSeekerResponse getById(int id) {
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(id);
+		
+		GetByIdJobSeekerResponse response = this.modelMapperService.forResponse().map(jobSeeker, GetByIdJobSeekerResponse.class);
+		return response;
 	}
 	
 	@Override
-	public DataResult<JobSeeker> getByIdentityNumber(String nationalIdentity) {
-		return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.findByNationalIdentity(nationalIdentity));
+	public DataResult<GetByIdentityNumberJobSeekerResponse> getByIdentityNumber(String nationalIdentity) {
+		JobSeeker jobSeeker = this.jobSeekerDao.findByNationalIdentity(nationalIdentity);
+		
+		GetByIdentityNumberJobSeekerResponse response = this.modelMapperService.forResponse().map(jobSeeker, GetByIdentityNumberJobSeekerResponse.class);
+		return new SuccessDataResult<GetByIdentityNumberJobSeekerResponse>(response);
+		
 	}
 	
 	
@@ -152,13 +151,5 @@ public class JobSeekerManager implements JobSeekerService{
 		}
 		return isExist;
 	}
-
-	@Override
-	public DataResult<GetByIdJobSeekerResponse> getByIdJobSeeker(int id) {
-		JobSeeker jobSeeker = this.jobSeekerDao.findById(id);
-		
-		GetByIdJobSeekerResponse response = this.modelMapperService.forResponse().map(jobSeeker, GetByIdJobSeekerResponse.class);
-		return new SuccessDataResult<GetByIdJobSeekerResponse>(response);
-	 }
 
 }

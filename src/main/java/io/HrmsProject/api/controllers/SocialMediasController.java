@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.HrmsProject.business.abstracts.SocialMediaService;
+import io.HrmsProject.business.requests.socialMediaRequests.CreateSocialMediaRequest;
+import io.HrmsProject.business.requests.socialMediaRequests.UpdateSocialMediaRequest;
+import io.HrmsProject.business.responses.socialMediaResponses.GetAllSocialMediaResponse;
+import io.HrmsProject.business.responses.socialMediaResponses.GetByIdJobSeekerSocialMediaResponse;
+import io.HrmsProject.business.responses.socialMediaResponses.GetByIdSocialMediaResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
-import io.HrmsProject.entities.concretes.SocialMedia;
 
 @RestController
 @RequestMapping("api/socialMedias")
@@ -30,22 +35,27 @@ public class SocialMediasController {
 	}
 	
 	@GetMapping("/getAll")
-	public DataResult<List<SocialMedia>> getAll(){
+	public DataResult<List<GetAllSocialMediaResponse>> getAll(){
 		return socialMediaService.getAll();
 	}
 	
-	@GetMapping("/getById")
-	public DataResult<SocialMedia> getById(int id){
+	@GetMapping("/getById/{id}")
+	public GetByIdSocialMediaResponse getById(@PathVariable int id){
 		return socialMediaService.getById(id);
 	}
 	
+	@GetMapping("/getByJobSeekerId")
+	public GetByIdJobSeekerSocialMediaResponse getByJobSeekerId(int jobSeeker){
+		return socialMediaService.getByJobSeekerId(jobSeeker);
+	}
+	
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody() SocialMedia socialMedia) throws Exception{
+	public ResponseEntity<?> add(@RequestBody() CreateSocialMediaRequest socialMedia) throws Exception{
 		return ResponseEntity.ok(this.socialMediaService.add(socialMedia));
 	}
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody() SocialMedia socialMedia,int id){
-		return ResponseEntity.ok(this.socialMediaService.update(socialMedia, id));
+	public ResponseEntity<?> update(@RequestBody() UpdateSocialMediaRequest socialMedia)throws Exception{
+		return ResponseEntity.ok(this.socialMediaService.update(socialMedia));
 	}
 	
 	@DeleteMapping("/delete")

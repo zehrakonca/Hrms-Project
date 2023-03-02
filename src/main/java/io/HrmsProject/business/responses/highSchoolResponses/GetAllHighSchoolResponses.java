@@ -15,7 +15,4 @@ public class GetAllHighSchoolResponses {
 	private int startedDate;
 	private int graduationDate;
 	private String jobSeeker;
-	
-	
-
 }

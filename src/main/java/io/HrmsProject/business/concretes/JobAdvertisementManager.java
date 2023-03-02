@@ -39,9 +39,6 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	private EmployerDao employerDao;
 	private ModelMapperService modelMapperService;
 	
-	
-	
-
 	@Override
 	public Result add(CreateJobAdvertisementRequests createJobAdvertisement) throws Exception {
 		JobAdvertisement jobAdvertisement =this.modelMapperService.forRequest().map(createJobAdvertisement, JobAdvertisement.class);
@@ -92,7 +89,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	}
 
 	@Override
-	public DataResult<JobAdvertisement> getById(int id) {
+	public DataResult<JobAdvertisement> getByIdForActivePassive(int id) {
 		return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.findById(id));
 	}
 	
@@ -102,7 +99,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		String statuMessage = isActive ? "advertisement has been activated." 
 									   : "advertisement has been passived. ";
 		
-		JobAdvertisement jobAdvertisement = getById(advertisementId).getData();
+		JobAdvertisement jobAdvertisement = getByIdForActivePassive(advertisementId).getData();
 		jobAdvertisement.setActive(isActive);
 		update(jobAdvertisement, advertisementId);
 		return new SuccessResult(statuMessage);
@@ -133,7 +130,7 @@ Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
 }
 
 	@Override
-	public GetByIdJobAdvertisementResponse getByJobAdvertisementId(int id) {
+	public GetByIdJobAdvertisementResponse getById(int id) {
 		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id);
 		
 		GetByIdJobAdvertisementResponse response = this.modelMapperService.forResponse().map(jobAdvertisement, GetByIdJobAdvertisementResponse.class);

@@ -22,14 +22,11 @@ public class Ability {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="social_media_id")
-	private int socialMediaId;
+	@Column(name="id")
+	private int abilityId;
 	
-	@Column(name="linkedin_account")
-	private String linkedinAccount;
-	
-	@Column(name="twitter_account")
-	private String twitterAccount;
+	@Column(name="ability_name")
+	private String abilityName;
 	
 	@ManyToOne
 	@JoinColumn(name="jobSeeker_id")

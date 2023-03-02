@@ -10,6 +10,7 @@ import io.HrmsProject.business.abstracts.JobService;
 import io.HrmsProject.business.requests.jobRequests.CreateJobRequests;
 import io.HrmsProject.business.requests.jobRequests.UpdateJobRequests;
 import io.HrmsProject.business.responses.jobResponses.GetAllJobResponses;
+import io.HrmsProject.business.responses.jobResponses.GetByIdJobResponse;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
@@ -87,8 +88,11 @@ public class JobManager implements JobService{
 	}
 
 	@Override
-	public DataResult<Job> getById(int id) {
-		return new SuccessDataResult<Job>(this.jobDao.findById(id));
+	public GetByIdJobResponse getById(int id) {
+		Job job = this.jobDao.findById(id);
+		
+		GetByIdJobResponse response = this.modelMapperService.forResponse().map(job, GetByIdJobResponse.class);
+		return response;
 	}
 	
 	private boolean isJobExist(String jobName){

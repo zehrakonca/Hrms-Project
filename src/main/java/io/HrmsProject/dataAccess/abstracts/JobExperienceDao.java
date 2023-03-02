@@ -11,6 +11,7 @@ import io.HrmsProject.entities.concretes.JobExperience;
 @Repository
 public interface JobExperienceDao extends JpaRepository<JobExperience, Integer>{
 	
+	JobExperience findById(int id);
 	List<JobExperience> getByJobSeeker_Id(int jobSeekerId, Sort sort);
 	List<JobExperience> getByJobSeeker_Id(int jobSeeker);
 }

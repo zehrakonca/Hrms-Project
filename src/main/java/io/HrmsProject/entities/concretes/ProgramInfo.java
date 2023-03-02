@@ -2,7 +2,6 @@ package io.HrmsProject.entities.concretes;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -24,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Table(name="program_infos")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","educations" })
 public class ProgramInfo {
 
 	@Id
@@ -37,8 +34,11 @@ public class ProgramInfo {
 	@Column(name="program_name")
 	private String program;
 	
-	@OneToMany(mappedBy="program", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="program")
 	private List<HighSchool> highschools;
+	
+	@OneToMany(mappedBy="program")
+	private List<Education> educations;
 	
 	
 }

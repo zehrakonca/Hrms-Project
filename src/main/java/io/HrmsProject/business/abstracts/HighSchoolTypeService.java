@@ -1,17 +1,12 @@
 package io.HrmsProject.business.abstracts;
 
-import java.util.List;
-
-import io.HrmsProject.core.utilities.results.DataResult;
-import io.HrmsProject.core.utilities.results.Result;
+import io.HrmsProject.business.requests.highSchoolTypeRequests.CreateHighSchoolTypeRequest;
+import io.HrmsProject.business.requests.highSchoolTypeRequests.UpdateHighSchoolTypeRequest;
+import io.HrmsProject.business.responses.highSchoolTypeResponses.GetAllHighSchoolTypeResponse;
+import io.HrmsProject.business.responses.highSchoolTypeResponses.GetByIdHighSchoolTypeResponse;
 import io.HrmsProject.entities.concretes.HighSchoolType;
 
-public interface HighSchoolTypeService {
+public interface HighSchoolTypeService extends BaseEntityService<HighSchoolType, CreateHighSchoolTypeRequest, UpdateHighSchoolTypeRequest, GetAllHighSchoolTypeResponse >{
 	
-	Result add(HighSchoolType highSchoolType);
-	Result delete(int id);
-	
-	DataResult<List<HighSchoolType>> getAll();
-	DataResult<HighSchoolType> getById(int id);
-
+	GetByIdHighSchoolTypeResponse getById(int id);
 }

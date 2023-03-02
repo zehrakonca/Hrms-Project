@@ -9,6 +9,7 @@ import io.HrmsProject.business.abstracts.HighSchoolService;
 import io.HrmsProject.business.requests.highSchoolRequests.CreateHighSchoolInfoRequests;
 import io.HrmsProject.business.requests.highSchoolRequests.UpdateHighSchoolInfoRequests;
 import io.HrmsProject.business.responses.highSchoolResponses.GetAllHighSchoolResponses;
+import io.HrmsProject.business.responses.highSchoolResponses.GetByIdHighSchoolResponse;
 import io.HrmsProject.business.responses.highSchoolResponses.GetByJobSeekerIdResponse;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
@@ -42,10 +43,6 @@ public class HighSchoolManager implements HighSchoolService{
 		ProgramInfo programInfo = this.programInfoDao.findById(createEntity.getProgram());
 		JobSeeker jobSeeker = this.jobSeeker.findById(createEntity.getJobSeeker());
 		
-//		highSchool.setHighSchoolName(createEntity.getHighSchoolName());
-//		highSchool.setStartedDate(createEntity.getStartedDate());
-//		highSchool.setGraduationDate(createEntity.getGraduationDate());
-		
 		highSchool.setHighSchoolType(highSchoolType);
 		highSchool.setProgram(programInfo);
 		highSchool.setJobSeeker(jobSeeker);
@@ -62,10 +59,6 @@ public class HighSchoolManager implements HighSchoolService{
 		HighSchoolType highSchoolType = this.highSchoolTypeDao.findById(updateEntity.getHighSchoolType());
 		ProgramInfo programInfo = this.programInfoDao.findById(updateEntity.getProgram());
 		JobSeeker jobSeeker = this.jobSeeker.findById(updateEntity.getJobSeeker());
-		
-//		highSchool.setHighSchoolName(updateEntity.getHighSchoolName());
-//		highSchool.setStartedDate(updateEntity.getStartedDate());
-//		highSchool.setGraduationDate(updateEntity.getGraduationDate());
 		
 		this.highSchoolDao.save(highSchool);
 		return new SuccessResult("your high school information has been updated.");
@@ -87,16 +80,19 @@ public class HighSchoolManager implements HighSchoolService{
  	}
 
 	@Override
-	public DataResult<HighSchool> getById(int id) {
-		return new SuccessDataResult<HighSchool>(this.highSchoolDao.findById(id));
+	public GetByIdHighSchoolResponse getById(int id) {
+		HighSchool highSchool = this.highSchoolDao.findById(id);
+		
+		GetByIdHighSchoolResponse response = this.modelMapperService.forResponse().map(highSchool, GetByIdHighSchoolResponse.class);
+		return response;
 	}
 
 	@Override
-	public DataResult<GetByJobSeekerIdResponse> getByJobSeekerId(int jobSeekerId) {
+	public GetByJobSeekerIdResponse getByJobSeekerId(int jobSeekerId) {
 		HighSchool highSchool = this.highSchoolDao.findByJobSeeker_Id(jobSeekerId);
 		
 		GetByJobSeekerIdResponse response = this.modelMapperService.forResponse().map(highSchool, GetByJobSeekerIdResponse.class);
-		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
+		return response;
 	}
 
 }

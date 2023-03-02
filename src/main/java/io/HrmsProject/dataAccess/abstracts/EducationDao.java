@@ -11,7 +11,7 @@ import io.HrmsProject.entities.concretes.Education;
 @Repository
 public interface EducationDao extends JpaRepository<Education, Integer> {
 	
-	Education findById(int id);
+	Education findById(int educationId);
 	
 	Education findByJobSeeker_Id(int jobSeekerId);
 	

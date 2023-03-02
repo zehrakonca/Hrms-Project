@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateEducationRequests {
 	
+	private int educationId;
 	private int educationType;
 	private int university;
 	private int faculty;

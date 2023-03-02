@@ -44,7 +44,7 @@ public class JobAdvertisementsController {
 	
 	@GetMapping("/getById")
 	public GetByIdJobAdvertisementResponse getById(@PathVariable int id){
-		return jobAdvertisementService.getByJobAdvertisementId(id);
+		return jobAdvertisementService.getById(id);
 	}
 	
 	@GetMapping("/getByIsActive")
@@ -77,7 +77,7 @@ public class JobAdvertisementsController {
 		return ResponseEntity.ok(this.jobAdvertisementService.add(createJobAdvertisementRequests));
 	}
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody() UpdateJobAdvertisementRequests updateJobAdvertisement){
+	public ResponseEntity<?> update(@RequestBody() UpdateJobAdvertisementRequests updateJobAdvertisement)throws Exception{
 		return ResponseEntity.ok(this.jobAdvertisementService.update(updateJobAdvertisement));
 	}
 	

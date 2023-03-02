@@ -43,14 +43,9 @@ public class EducationsController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<Education> getById(@PathVariable int id){
+	public GetByIdEducationResponse getById(@PathVariable int id){
 		return educationService.getById(id);
 	}
-	
-	@GetMapping("/{id}")
-	public DataResult<GetByIdEducationResponse> getByIdDetail(@PathVariable int id){
-		return educationService.getByEducationId(id);
-		}
 	
 	@PostMapping
 	@ResponseStatus(code=HttpStatus.CREATED)
@@ -58,7 +53,7 @@ public class EducationsController {
 		return ResponseEntity.ok(this.educationService.add(createEducationRequests));
 	}
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody() UpdateEducationRequests updateEducationRequests){
+	public ResponseEntity<?> update(@RequestBody() UpdateEducationRequests updateEducationRequests)throws Exception{
 		return ResponseEntity.ok(this.educationService.update(updateEducationRequests));
 	}
 	

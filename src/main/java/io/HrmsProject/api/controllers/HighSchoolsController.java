@@ -19,10 +19,10 @@ import io.HrmsProject.business.abstracts.HighSchoolService;
 import io.HrmsProject.business.requests.highSchoolRequests.CreateHighSchoolInfoRequests;
 import io.HrmsProject.business.requests.highSchoolRequests.UpdateHighSchoolInfoRequests;
 import io.HrmsProject.business.responses.highSchoolResponses.GetAllHighSchoolResponses;
+import io.HrmsProject.business.responses.highSchoolResponses.GetByIdHighSchoolResponse;
 import io.HrmsProject.business.responses.highSchoolResponses.GetByJobSeekerIdResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
-import io.HrmsProject.entities.concretes.HighSchool;
 
 @RestController
 @RequestMapping("/api/highSchools")
@@ -47,7 +47,7 @@ public class HighSchoolsController {
 		return ResponseEntity.ok(this.highSchoolService.add(createHighSchoolInfoRequests));
 	}
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody() UpdateHighSchoolInfoRequests updateHighSchoolInfoRequests,int id){
+	public ResponseEntity<?> update(@RequestBody() UpdateHighSchoolInfoRequests updateHighSchoolInfoRequests)throws Exception{
 		return ResponseEntity.ok(this.highSchoolService.update(updateHighSchoolInfoRequests));
 	}
 	
@@ -57,12 +57,12 @@ public class HighSchoolsController {
 	}
 	
 	@GetMapping("/{id}")
-	public DataResult<HighSchool> getById(@PathVariable int id){
+	public GetByIdHighSchoolResponse getById(@PathVariable int id){
 		return this.highSchoolService.getById(id);
 	}
 	
 	@GetMapping
-	public DataResult<GetByJobSeekerIdResponse> getByJobSeekerId(@PathVariable int jobSeekerId){
+	public GetByJobSeekerIdResponse getByJobSeekerId(@PathVariable int jobSeekerId){
 		return this.highSchoolService.getByJobSeekerId(jobSeekerId);
 	}
 	

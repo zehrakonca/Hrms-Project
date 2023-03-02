@@ -18,7 +18,8 @@ import io.HrmsProject.business.abstracts.SectorService;
 import io.HrmsProject.business.requests.sectorRequests.CreateSectorRequests;
 import io.HrmsProject.business.requests.sectorRequests.UpdateSectorRequests;
 import io.HrmsProject.business.responses.sectorResponses.GetAllSectorResponse;
-import io.HrmsProject.entities.concretes.Sector;
+import io.HrmsProject.business.responses.sectorResponses.GetByIdSectorResponse;
+import io.HrmsProject.core.utilities.results.DataResult;
 
 @RestController
 @RequestMapping("/api/sectors")
@@ -33,12 +34,12 @@ public class SectorsController {
 	}
 	
 	@GetMapping
-	public List<GetAllSectorResponse> getAll(){
+	public DataResult<List<GetAllSectorResponse>> getAll(){
 		return sectorService.getAll();
 	}
 	
 	@GetMapping("/{id}")
-	public Sector getById(@PathVariable int id) {
+	public GetByIdSectorResponse getById(@PathVariable int id) {
 		return this.sectorService.getById(id);
 	}
 	

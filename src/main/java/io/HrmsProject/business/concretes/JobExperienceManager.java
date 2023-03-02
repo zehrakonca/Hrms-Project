@@ -51,8 +51,6 @@ public class JobExperienceManager implements JobExperienceService{
 		
 		this.jobExperienceDao.save(jobExperience);
 		return new SuccessResult("your job experience information has been saved.");
-		
-		
 	}
 
 	@Override
@@ -86,17 +84,11 @@ public class JobExperienceManager implements JobExperienceService{
 	}
 
 	@Override
-	public DataResult<JobExperience> getById(int id) {
-		JobExperience jobExperience = this.jobExperienceDao.findById(id).orElseThrow();
+	public GetByIdJobExperienceResponse getById(int id) {
+		JobExperience jobExperience = this.jobExperienceDao.findById(id);
 		
 		GetByIdJobExperienceResponse response = this.modelMapperService.forResponse().map(jobExperience, GetByIdJobExperienceResponse.class);
-		return new SuccessDataResult<GetByIdJobExperienceResponse>(response);
-	}
-
-	@Override
-	public DataResult<List<JobExperience>> getByJobSeekerId(int jobSeekerId) {
-		Sort sort = Sort.by(Sort.Direction.DESC,"endDate");
-		return new SuccessDataResult<List<JobExperience>>(this.jobExperienceDao.getByJobSeeker_Id(jobSeekerId,sort));
+		return response;
 	}
 
 	@Override
@@ -107,4 +99,15 @@ public class JobExperienceManager implements JobExperienceService{
 		
 		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
 	}
+	
+	@Override
+	public DataResult<GetByJobSeekerIdResponse> getAllBySortedEndDate(int jobSeekerId) {
+		Sort sort = Sort.by(Sort.Direction.DESC,"endDate");
+		
+		List<JobExperience> jobExperience = this.jobExperienceDao.getByJobSeeker_Id(jobSeekerId, sort);
+		
+		GetByJobSeekerIdResponse response = this.modelMapperService.forResponse().map(jobExperience, GetByJobSeekerIdResponse.class);
+		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
+	}
+
 }

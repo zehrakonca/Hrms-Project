@@ -39,7 +39,7 @@ public class EducationManager implements EducationService{
 	private FacultyDao facultyDao; 
 	private EducationTypeDao educationTypeDao;
 	private ProgramInfoDao programInfoDao;
-	private JobSeekerDao jobSeeker;
+	private JobSeekerDao jobSeekerDao;
 	private ModelMapperService modelMapperService;
 
 	@Override
@@ -48,7 +48,7 @@ public class EducationManager implements EducationService{
 		
 		EducationType educationType = this.educationTypeDao.findById(createEntity.getEducationType());
 		ProgramInfo programInfo = this.programInfoDao.findById(createEntity.getProgram());
-		JobSeeker jobSeeker = this.jobSeeker.findById(createEntity.getJobSeeker());
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(createEntity.getJobSeeker());
 		University university = this.universityDao.findById(createEntity.getEducationType());
 		Faculty faculty = this.facultyDao.findById(createEntity.getFaculty());
 		
@@ -69,7 +69,7 @@ public class EducationManager implements EducationService{
 		Education education =this.modelMapperService.forRequest().map(updateEntity, Education.class);
 		EducationType educationType = this.educationTypeDao.findById(updateEntity.getEducationType());
 		ProgramInfo programInfo = this.programInfoDao.findById(updateEntity.getProgram());
-		JobSeeker jobSeeker = this.jobSeeker.findById(updateEntity.getJobSeeker());
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(updateEntity.getJobSeeker());
 		University university = this.universityDao.findById(updateEntity.getEducationType());
 		Faculty faculty = this.facultyDao.findById(updateEntity.getFaculty());
 		
@@ -98,8 +98,11 @@ public class EducationManager implements EducationService{
 	}
 
 	@Override
-	public DataResult<Education> getById(int id) {
-		return new SuccessDataResult<Education>(this.educationDao.findById(id));
+	public GetByIdEducationResponse getById(int id) {
+		Education education = this.educationDao.findById(id);
+		GetByIdEducationResponse response = this.modelMapperService.forResponse().map(education, GetByIdEducationResponse.class);
+		
+		return response;
 	}
 
 	@Override
@@ -107,15 +110,6 @@ public class EducationManager implements EducationService{
 		Sort sort = Sort.by(Sort.Direction.DESC,"graduationDate");
 		
 		return new SuccessDataResult<List<Education>>(educationDao.getByJobSeeker_Id(jobSeekerId,sort));
-	}
-
-	@Override
-	public DataResult<GetByIdEducationResponse> getByEducationId(int id) {
-		Education education = this.educationDao.findById(id);
-		
-		GetByIdEducationResponse response = this.modelMapperService.forResponse().map(education, GetByIdEducationResponse.class);
-		return new SuccessDataResult<GetByIdEducationResponse>(response);
-				
 	}
 
 }

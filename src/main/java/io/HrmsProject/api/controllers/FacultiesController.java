@@ -3,6 +3,7 @@ package io.HrmsProject.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.HrmsProject.business.abstracts.FacultyService;
+import io.HrmsProject.business.requests.facultyRequests.CreateFacultyRequests;
+import io.HrmsProject.business.requests.facultyRequests.UpdateFacultyRequests;
+import io.HrmsProject.business.responses.facultyResponses.GetAllFacultyResponse;
+import io.HrmsProject.business.responses.facultyResponses.GetByIdFacultyResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
-import io.HrmsProject.entities.concretes.Faculty;
 
 @RestController
 @RequestMapping("/api/faculties")
@@ -28,17 +33,18 @@ public class FacultiesController {
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@RequestBody() Faculty faculty){
+	@ResponseStatus(code=HttpStatus.CREATED)
+	public ResponseEntity<?> add(@RequestBody() CreateFacultyRequests faculty) throws Exception{
 		return ResponseEntity.ok(this.facultyService.add(faculty));
 	}
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> update(@RequestBody() Faculty faculty, int id){
-		return ResponseEntity.ok(this.facultyService.update(faculty, id));
+	public ResponseEntity<?> update(@RequestBody() UpdateFacultyRequests faculty)throws Exception{
+		return ResponseEntity.ok(this.facultyService.update(faculty));
 	}
 	
 	@GetMapping("/getAll")
-	public DataResult<List<Faculty>> getAll(){
+	public DataResult<List<GetAllFacultyResponse>> getAll(){
 		return this.facultyService.getAll();
 	}
 	
@@ -48,7 +54,7 @@ public class FacultiesController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<Faculty> getById(int id){
+	public GetByIdFacultyResponse getById(int id){
 		return this.facultyService.getById(id);
 	}
 }

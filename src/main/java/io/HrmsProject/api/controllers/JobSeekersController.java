@@ -20,9 +20,9 @@ import io.HrmsProject.business.requests.jobSeekerRequests.CreateJobSeekerRequest
 import io.HrmsProject.business.requests.jobSeekerRequests.UpdateJobSeekerRequest;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetAllJobSeekerResponses;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdJobSeekerResponse;
+import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdentityNumberJobSeekerResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
-import io.HrmsProject.entities.concretes.JobSeeker;
 
 @RestController
 @RequestMapping("/api/jobSeekers")
@@ -42,17 +42,12 @@ public class JobSeekersController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<JobSeeker> getById(@PathVariable int id){
+	public GetByIdJobSeekerResponse getById(@PathVariable int id){
 		return this.jobSeekerService.getById(id);
 	}
 	
-	@GetMapping("/getByJobSeekerIdDetail")
-	public DataResult<GetByIdJobSeekerResponse> getByJobSeekerIdDetail(@PathVariable int id){
-		return this.jobSeekerService.getByIdJobSeeker(id);
-	}
-	
 	@GetMapping("/getByNationalityId")
-	public DataResult<JobSeeker> getByNationalityId(String nationalIdentity){
+	public DataResult<GetByIdentityNumberJobSeekerResponse> getByNationalityId(String nationalIdentity){
 		return this.jobSeekerService.getByIdentityNumber(nationalIdentity);
 	}
 	
@@ -63,7 +58,7 @@ public class JobSeekersController {
 	}
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> update(@RequestBody() UpdateJobSeekerRequest updateJobSeekerRequest, int id){
+	public ResponseEntity<?> update(@RequestBody() UpdateJobSeekerRequest updateJobSeekerRequest)throws Exception{
 		return ResponseEntity.ok(this.jobSeekerService.update(updateJobSeekerRequest));
 	}
 	

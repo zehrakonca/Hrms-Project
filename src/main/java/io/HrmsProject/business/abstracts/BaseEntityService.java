@@ -8,11 +8,9 @@ import io.HrmsProject.core.utilities.results.Result;
 public interface BaseEntityService<T,TAdd, TUpdate, TGet> {
 	
 	Result add(TAdd createEntity) throws Exception;
-	Result update (TUpdate updateEntity);
+	Result update (TUpdate updateEntity) throws Exception;
 	Result delete (int id);
 	
 	public DataResult<List<TGet>> getAll();
-	
-	DataResult<T> getById(int id);
 
 }

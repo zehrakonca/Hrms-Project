@@ -2,7 +2,6 @@ package io.HrmsProject.entities.concretes;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +29,13 @@ public class Sector {
 	@Column(name="sector_name")
 	public String sector;
 	
-	@OneToMany(mappedBy = "sector", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "sector")
 	private List<Job> jobs;
+	
+	@OneToMany(mappedBy = "sector")
+	private List<JobAdvertisement> jobAdvertisements;
+	
+	@OneToMany(mappedBy = "sector")
+	private List<JobExperience> jobExperiences;
 
 }
