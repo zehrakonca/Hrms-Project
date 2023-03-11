@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 public class GetByIdHighSchoolResponse {
 	
 	private String highSchoolName;
-	private String highSchoolType;
-	private String program;
+	private String highSchoolTypeName;
+	private String programName;
 	private int startedDate;
 	private int graduationDate;
-	private String jobSeeker;
+	private int jobSeekerId;
 
 }

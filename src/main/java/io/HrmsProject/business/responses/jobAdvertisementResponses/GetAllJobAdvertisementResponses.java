@@ -13,10 +13,10 @@ public class GetAllJobAdvertisementResponses {
 	
 	private int advertisementId;
 	private String advertisementName;
-	private String sector;
-	private String job;
-	private String city;
-	private String employer;
+	private String sectorName;
+	private String jobName;
+	private String cityName;
+	private String companyName;
 	private int numberOfVacancies;
 	private String jobDescription;
 	private int jobSalaryMin;

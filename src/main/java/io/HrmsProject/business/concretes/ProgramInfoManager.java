@@ -27,9 +27,10 @@ public class ProgramInfoManager implements ProgramInfoService {
 	private boolean isExist = false;
 	
 	@Autowired
-	public ProgramInfoManager(ProgramInfoDao programInfoDao) {
+	public ProgramInfoManager(ProgramInfoDao programInfoDao,ModelMapperService modelMapperService) {
 		super();
 		this.programInfoDao = programInfoDao;
+		this.modelMapperService =modelMapperService;
 	}
 
 	private boolean isProgramExist(String programName) {

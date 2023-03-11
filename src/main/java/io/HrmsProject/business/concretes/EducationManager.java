@@ -11,6 +11,7 @@ import io.HrmsProject.business.requests.educationRequests.CreateEducationRequest
 import io.HrmsProject.business.requests.educationRequests.UpdateEducationRequests;
 import io.HrmsProject.business.responses.educationResponses.GetAllEducationResponses;
 import io.HrmsProject.business.responses.educationResponses.GetByIdEducationResponse;
+import io.HrmsProject.business.responses.educationResponses.GetByJobSeekerEducationResponses;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -98,18 +99,19 @@ public class EducationManager implements EducationService{
 	}
 
 	@Override
-	public GetByIdEducationResponse getById(int id) {
+	public DataResult<GetByIdEducationResponse> getById(int id) {
 		Education education = this.educationDao.findById(id);
 		GetByIdEducationResponse response = this.modelMapperService.forResponse().map(education, GetByIdEducationResponse.class);
 		
-		return response;
+		return new SuccessDataResult<GetByIdEducationResponse>(response);
 	}
 
 	@Override
-	public DataResult<List<Education>> getAllBySortedGraduationDate(int jobSeekerId) {
+	public DataResult<List<GetByJobSeekerEducationResponses>> getByJobSeekerIdSorted(int jobSeeker) {
 		Sort sort = Sort.by(Sort.Direction.DESC,"graduationDate");
-		
-		return new SuccessDataResult<List<Education>>(educationDao.getByJobSeeker_Id(jobSeekerId,sort));
+		List<Education> educations = this.educationDao.getByJobSeeker_Id(jobSeeker, sort);
+		List<GetByJobSeekerEducationResponses> educationResponses = educations.stream().map(education->this.modelMapperService.forResponse().map(education, GetByJobSeekerEducationResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetByJobSeekerEducationResponses>>(educationResponses);
 	}
 
 }

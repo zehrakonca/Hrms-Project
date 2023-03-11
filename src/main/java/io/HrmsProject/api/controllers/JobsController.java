@@ -3,6 +3,7 @@ package io.HrmsProject.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +22,9 @@ import io.HrmsProject.business.requests.jobRequests.CreateJobRequests;
 import io.HrmsProject.business.requests.jobRequests.UpdateJobRequests;
 import io.HrmsProject.business.responses.jobResponses.GetAllJobResponses;
 import io.HrmsProject.business.responses.jobResponses.GetByIdJobResponse;
+import io.HrmsProject.business.responses.jobResponses.GetByIdSectorJobResponse;
+import io.HrmsProject.business.responses.jobResponses.GetByJobNameAndSectorResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
-import io.HrmsProject.entities.concretes.Job;
 
 @RestController
 @RequestMapping("/api/jobs")
@@ -63,12 +65,12 @@ public class JobsController {
 	}
 	
 	@GetMapping("/getByJobNameAndSectorId")
-	public DataResult<List<Job>> getByJobNameAndSectorId(@RequestParam("jobName") String jobName, @RequestParam("sectorId") int sectorId){
-		return this.jobService.getByNameAndSector(jobName, sectorId);
+	public GetByJobNameAndSectorResponse getByJobNameAndSectorId(@Param("jobName") String jobName){
+		return this.jobService.getByNameAndSector(jobName);
 	}
 	
 	@GetMapping("/getBySector")
-	public DataResult<List<Job>> getBySectorId(@RequestParam("sectorId") int sectorId) {
+	public GetByIdSectorJobResponse getBySectorId(@RequestParam int sectorId) {
 		return this.jobService.getBySectorId(sectorId);
 	}
 

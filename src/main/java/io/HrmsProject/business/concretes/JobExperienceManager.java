@@ -84,30 +84,29 @@ public class JobExperienceManager implements JobExperienceService{
 	}
 
 	@Override
-	public GetByIdJobExperienceResponse getById(int id) {
+	public DataResult<GetByIdJobExperienceResponse> getById(int id) {
 		JobExperience jobExperience = this.jobExperienceDao.findById(id);
 		
 		GetByIdJobExperienceResponse response = this.modelMapperService.forResponse().map(jobExperience, GetByIdJobExperienceResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdJobExperienceResponse>(response);
 	}
 
 	@Override
-	public DataResult<GetByJobSeekerIdResponse> getByJobSeekerIdResponse(int jobSeekerId) {
-		List<JobExperience> jobExperience = this.jobExperienceDao.getByJobSeeker_Id(jobSeekerId);
+	public DataResult<List<GetByJobSeekerIdResponse>> getByJobSeekerIdResponse(int jobSeekerId) {
+		List<JobExperience> jobExperiences = this.jobExperienceDao.getByJobSeeker_Id(jobSeekerId);
 		
-		GetByJobSeekerIdResponse response = this.modelMapperService.forResponse().map(jobExperience, GetByJobSeekerIdResponse.class);
-		
-		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
+		List<GetByJobSeekerIdResponse> result = jobExperiences.stream().map(jobExperience -> this.modelMapperService.forResponse().map(jobExperience, GetByJobSeekerIdResponse.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetByJobSeekerIdResponse>>(result);
 	}
 	
 	@Override
-	public DataResult<GetByJobSeekerIdResponse> getAllBySortedEndDate(int jobSeekerId) {
+	public DataResult<List<GetByJobSeekerIdResponse>> getAllBySortedEndDate(int jobSeekerId) {
 		Sort sort = Sort.by(Sort.Direction.DESC,"endDate");
 		
-		List<JobExperience> jobExperience = this.jobExperienceDao.getByJobSeeker_Id(jobSeekerId, sort);
+		List<JobExperience> jobExperiences = this.jobExperienceDao.getByJobSeeker_Id(jobSeekerId, sort);
 		
-		GetByJobSeekerIdResponse response = this.modelMapperService.forResponse().map(jobExperience, GetByJobSeekerIdResponse.class);
-		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
+		List<GetByJobSeekerIdResponse> result = jobExperiences.stream().map(jobExperience -> this.modelMapperService.forResponse().map(jobExperience, GetByJobSeekerIdResponse.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetByJobSeekerIdResponse>>(result);
 	}
 
 }

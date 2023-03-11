@@ -40,7 +40,7 @@ public class LanguagesController {
 		return languageService.getAll();
 	}
 	
-	@GetMapping("/getById")
+	@GetMapping("/getById/{id}")
 	public GetByIdLanguageResponse getById(@PathVariable int id){
 		return languageService.getById(id);
 	}
@@ -55,7 +55,7 @@ public class LanguagesController {
 		return ResponseEntity.ok(this.languageService.update(language));
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{id}")
 	public Result delete(@PathVariable int id) {
 		return this.languageService.delete(id);
 	}

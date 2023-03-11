@@ -12,5 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GetByIdJobSeekerResponse extends GetAllUserResponses{
 	
-	public int date;
+	private int id;
+	private int date;
+	
 }

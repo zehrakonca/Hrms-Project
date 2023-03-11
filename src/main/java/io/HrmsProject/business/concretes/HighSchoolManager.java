@@ -80,19 +80,19 @@ public class HighSchoolManager implements HighSchoolService{
  	}
 
 	@Override
-	public GetByIdHighSchoolResponse getById(int id) {
+	public DataResult<GetByIdHighSchoolResponse> getById(int id) {
 		HighSchool highSchool = this.highSchoolDao.findById(id);
 		
 		GetByIdHighSchoolResponse response = this.modelMapperService.forResponse().map(highSchool, GetByIdHighSchoolResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdHighSchoolResponse>(response);
 	}
 
 	@Override
-	public GetByJobSeekerIdResponse getByJobSeekerId(int jobSeekerId) {
+	public DataResult<GetByJobSeekerIdResponse> getByJobSeekerId(int jobSeekerId) {
 		HighSchool highSchool = this.highSchoolDao.findByJobSeeker_Id(jobSeekerId);
 		
 		GetByJobSeekerIdResponse response = this.modelMapperService.forResponse().map(highSchool, GetByJobSeekerIdResponse.class);
-		return response;
+		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
 	}
 
 }

@@ -54,7 +54,7 @@ public class JobExperiencesController {
 	}
 	
 	@GetMapping("/getAllBySortedEndDate")
-	public DataResult<GetByJobSeekerIdResponse> getAllBySortedEndDate(@RequestParam int jobSeekerId) {
+	public DataResult<List<GetByJobSeekerIdResponse>> getAllBySortedEndDate(@RequestParam() int jobSeekerId) {
 		return jobExperienceService.getAllBySortedEndDate(jobSeekerId);
 	}
 	
@@ -63,13 +63,13 @@ public class JobExperiencesController {
 		return jobExperienceService.getAll();
 	}
 	
-	@GetMapping("/getById/{id}")
-	public GetByIdJobExperienceResponse getById(@PathVariable int id){
+	@GetMapping("/getByExperienceId/{id}")
+	public DataResult<GetByIdJobExperienceResponse> getById(@RequestParam() int id){
 		return jobExperienceService.getById(id);
 	}
 
-	@GetMapping("/{id}")
-	public DataResult<GetByJobSeekerIdResponse> getByJobSeekerId(@PathVariable int jobSeekerId){
+	@GetMapping("/getByJobSeekerId/{id}")
+	public DataResult<List<GetByJobSeekerIdResponse>> getByJobSeekerId(@RequestParam() int jobSeekerId){
 		return jobExperienceService.getByJobSeekerIdResponse(jobSeekerId);
 	}
 }

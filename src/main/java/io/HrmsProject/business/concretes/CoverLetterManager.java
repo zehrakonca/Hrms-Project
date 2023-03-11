@@ -10,6 +10,7 @@ import io.HrmsProject.business.requests.coverLetterRequests.CreateCoverLetterReq
 import io.HrmsProject.business.requests.coverLetterRequests.UpdateCoverLetterRequests;
 import io.HrmsProject.business.responses.coverLetterResponses.GetAllCoverLetterResponses;
 import io.HrmsProject.business.responses.coverLetterResponses.GetByIdCoverLetterResponses;
+import io.HrmsProject.business.responses.coverLetterResponses.GetByIdJobSeekerCoverLetterResponse;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -58,12 +59,21 @@ public class CoverLetterManager implements CoverLetterService{
 	}
 
 	@Override
-	public GetByIdCoverLetterResponses getById(int id) {
+	public DataResult<GetByIdCoverLetterResponses> getById(int id) {
 		CoverLetter coverLetter = this.coverLetterDao.findById(id);
 		
 		GetByIdCoverLetterResponses response = this.modelMapperService.forResponse().map(coverLetter, GetByIdCoverLetterResponses.class);
 		
-		return response;
+		return new SuccessDataResult<GetByIdCoverLetterResponses>(response);
+	}
+
+	@Override
+	public DataResult<List<GetByIdJobSeekerCoverLetterResponse>> getByJobSeeker(int jobSeeker) {
+		List<CoverLetter> coverLetters = this.coverLetterDao.findByJobSeeker_Id(jobSeeker);
+		
+		List<GetByIdJobSeekerCoverLetterResponse> coverLetterResponse = coverLetters.stream().map(coverLetter->this.modelMapperService.forResponse().map(coverLetter, GetByIdJobSeekerCoverLetterResponse.class)).collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<GetByIdJobSeekerCoverLetterResponse>>(coverLetterResponse);
 	}
 
 }

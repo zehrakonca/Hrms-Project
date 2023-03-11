@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import io.HrmsProject.business.requests.coverLetterRequests.CreateCoverLetterReq
 import io.HrmsProject.business.requests.coverLetterRequests.UpdateCoverLetterRequests;
 import io.HrmsProject.business.responses.coverLetterResponses.GetAllCoverLetterResponses;
 import io.HrmsProject.business.responses.coverLetterResponses.GetByIdCoverLetterResponses;
+import io.HrmsProject.business.responses.coverLetterResponses.GetByIdJobSeekerCoverLetterResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 
@@ -41,8 +43,13 @@ public class CoverLettersController {
 	}
 	
 	@GetMapping("/getById")
-	public GetByIdCoverLetterResponses getById(@PathVariable int id){
+	public DataResult<GetByIdCoverLetterResponses> getById(@RequestParam() int id){
 		return coverLetterService.getById(id);
+	}
+	
+	@GetMapping("/getByJobSeekerId")
+	public DataResult<List<GetByIdJobSeekerCoverLetterResponse>> getByJobSeeker(@RequestParam() int jobSeekerId){
+		return coverLetterService.getByJobSeeker(jobSeekerId);
 	}
 	
 	@PostMapping("/add")

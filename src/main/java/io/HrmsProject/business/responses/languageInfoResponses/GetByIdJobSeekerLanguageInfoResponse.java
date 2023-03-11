@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetByIdJobSeekerLanguageInfoResponse {
-	
-	private int jobSeeker;
+
+	private int languageInfoId;
 	private String language;
 }

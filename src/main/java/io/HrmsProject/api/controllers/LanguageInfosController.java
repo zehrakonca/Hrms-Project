@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import io.HrmsProject.business.abstracts.LanguageInfoService;
 import io.HrmsProject.business.requests.languageInfoRequests.CreateLanguageInfoRequest;
 import io.HrmsProject.business.requests.languageInfoRequests.UpdateLanguageInfoRequest;
 import io.HrmsProject.business.responses.languageInfoResponses.GetAllLanguageInfoResponse;
+import io.HrmsProject.business.responses.languageInfoResponses.GetByIdJobSeekerLanguageInfoResponse;
 import io.HrmsProject.business.responses.languageInfoResponses.GetByIdLanguageInfoResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -39,9 +41,14 @@ public class LanguageInfosController {
 		return languageInfoService.getAll();
 	}
 	
-	@GetMapping("/getById")
-	public GetByIdLanguageInfoResponse getById(int id){
+	@GetMapping("/getById/{id}")
+	public GetByIdLanguageInfoResponse getById(@PathVariable int id){
 		return languageInfoService.getById(id);
+	}
+	
+	@GetMapping("/getByJobSeekerId/{id}")
+	public DataResult<List<GetByIdJobSeekerLanguageInfoResponse>> getByJobSeeker(@PathVariable int id){
+		return languageInfoService.getByJobSeekerId(id);
 	}
 	
 	@PostMapping("/add")
@@ -54,7 +61,7 @@ public class LanguageInfosController {
 		return ResponseEntity.ok(this.languageInfoService.update(language));
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{id}")
 	public Result delete(int id) {
 		return this.languageInfoService.delete(id);
 	}

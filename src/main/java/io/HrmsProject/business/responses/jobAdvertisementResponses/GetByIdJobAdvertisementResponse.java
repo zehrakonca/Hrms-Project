@@ -11,12 +11,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByIdJobAdvertisementResponse {
 	
-	private int id;
-	private String employer;
+	private int advertisementId;
 	private String advertisementName;
-	private String jobDescription;
+	private String sectorName;
+	private String jobName;
+	private String cityName;
+	private String companyName;
 	private int numberOfVacancies;
+	private String jobDescription;
+	private int jobSalaryMin;
+	private int jobSalaryMax;
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
+	private boolean isActive;
 
 }

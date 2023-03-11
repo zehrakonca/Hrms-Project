@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllEducationResponses {
 	
-	private String educationType;
-	private String university;
-	private String faculty;
-	private String program;
-	private LocalDate startedDay;
+	private int jobSeekerId;
+	private String educationTypeName;
+	private String universityName;
+	private String programName;
+	private String facultyName;
+	private LocalDate startedDate;
 	private LocalDate graduationDate;
-	private String jobSeeker;
 
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class GetByIdLanguageInfoResponse {
 	
 	private String language;
-	private int jobSeeker;
+	private int jobSeekerId;
 
 }

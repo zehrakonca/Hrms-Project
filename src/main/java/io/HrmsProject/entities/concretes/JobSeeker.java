@@ -35,4 +35,7 @@ public class JobSeeker extends User{
 	@OneToMany(mappedBy="jobSeeker")
 	private List<HighSchool> highSchool;
 	
+	@OneToMany(mappedBy="jobSeeker")
+	private List<LanguageInfo> languageInfos;
+	
 }

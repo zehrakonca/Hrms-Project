@@ -10,6 +10,7 @@ import io.HrmsProject.business.requests.abilityRequests.CreateAbilityRequests;
 import io.HrmsProject.business.requests.abilityRequests.UpdateAbilityRequests;
 import io.HrmsProject.business.responses.abilityResponses.GetAllAbilityResponses;
 import io.HrmsProject.business.responses.abilityResponses.GetByIdAbilityResponse;
+import io.HrmsProject.business.responses.abilityResponses.GetByIdJobSeekerAbilityResponse;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -32,7 +33,7 @@ public class AbilityManager implements AbilityService {
 	@Override
 	public Result add(CreateAbilityRequests createEntity) throws Exception {
 		Ability ability = this.modelMapperService.forRequest().map(createEntity, Ability.class);
-		JobSeeker jobSeeker = this.jobSeekerDao.findById(createEntity.getJobSeeker());
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(createEntity.getJobSeekerId());
 		
 		ability.setJobSeeker(jobSeeker);
 		this.abilityDao.save(ability);
@@ -61,12 +62,21 @@ public class AbilityManager implements AbilityService {
 	}
 
 	@Override
-	public GetByIdAbilityResponse getById(int id) {
+	public DataResult<GetByIdAbilityResponse> getById(int id) {
 		
 		Ability ability = this.abilityDao.findById(id);
 		
 		GetByIdAbilityResponse response = this.modelMapperService.forResponse().map(ability, GetByIdAbilityResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdAbilityResponse>(response);
+		
+	}
+
+	@Override
+	public DataResult<List<GetByIdJobSeekerAbilityResponse>> getByJobSeekerId(int jobSeekerId) {
+		List<Ability> abilities = this.abilityDao.findByJobSeeker_Id(jobSeekerId);
+		
+		List<GetByIdJobSeekerAbilityResponse> abilityResponses = abilities.stream().map(ability->this.modelMapperService.forResponse().map(ability, GetByIdJobSeekerAbilityResponse.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetByIdJobSeekerAbilityResponse>>(abilityResponses);
 		
 	}
 

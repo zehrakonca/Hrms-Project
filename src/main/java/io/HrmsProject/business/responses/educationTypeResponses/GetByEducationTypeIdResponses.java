@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class GetByEducationTypeIdResponses {
 	
 	private int educationTypeId;
-	private String educationType;
+	private String educationTypeName;
 
 }

@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllHighSchoolResponses {
 	
+	private int highSchoolId;
 	private String highSchoolName;
-	private String highSchoolType;
-	private String program;
+	private String highSchoolTypeName;
+	private String programName;
 	private int startedDate;
 	private int graduationDate;
-	private String jobSeeker;
+	private int jobSeekerId;
 }

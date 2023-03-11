@@ -9,9 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,10 +24,8 @@ public class ProgramInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="program_id")
-	private int program_id;
-	
-	@NotNull
-	@NotBlank
+	private int programId;
+
 	@Column(name="program_name")
 	private String program;
 	

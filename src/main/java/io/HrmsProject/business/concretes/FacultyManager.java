@@ -66,11 +66,11 @@ public class FacultyManager implements FacultyService{
 	}
 
 	@Override
-	public GetByIdFacultyResponse getById(int id) {
+	public DataResult<GetByIdFacultyResponse> getById(int id) {
 		Faculty faculty = this.facultyDao.findById(id);
 		
 		GetByIdFacultyResponse response = this.modelMapperService.forResponse().map(faculty, GetByIdFacultyResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdFacultyResponse>(response);
 	}
 
 	

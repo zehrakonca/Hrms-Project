@@ -55,7 +55,7 @@ public class ProgramInfosController {
 		return ResponseEntity.ok(this.programInfoService.delete(id));
 	}
 	
-	@GetMapping("/getById")
+	@GetMapping("/getById/{id}")
 	public GetByIdProgramResponse getById(@PathVariable int id){
 		return this.programInfoService.getById(id);
 	}

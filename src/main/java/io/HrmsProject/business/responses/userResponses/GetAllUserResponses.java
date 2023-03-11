@@ -12,7 +12,7 @@ public class GetAllUserResponses {
 	private String firstName;
 	private String lastName;
 	private String telephone;
-	private String mail;
+	private String email;
 	private boolean isActive;
 	private String userType;
 }

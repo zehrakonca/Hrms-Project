@@ -27,6 +27,9 @@ public class CoverLetter {
 	
 	@Column(name="cover_letter")
 	private String coverLetter;
+	
+	@Column(name="cover_letter_title_name")
+	private String coverLetterTitle;
 
 	@ManyToOne()
 	@JoinColumn(name="jobSeeker_id")

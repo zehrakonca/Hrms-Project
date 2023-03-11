@@ -11,5 +11,6 @@ public class UpdateCoverLetterRequests {
 
 	private int coverLetterId;
 	private String coverLetter;
-	private int jobSeeker;
+	private String coverLetterTitleName;
+	private int jobSeekerId;
 }

@@ -50,19 +50,19 @@ public class EducationTypeManager implements EducationTypeService{
 	
 	@Override
 	public DataResult<List<GetAllEducationTypeResponses>> getAll() {
-		List<EducationType> educationType = educationTypeDao.findAll();
+		List<EducationType> educationTypes = educationTypeDao.findAll();
 		
-		List<GetAllEducationTypeResponses> educationTypeResponse = educationType.stream().map(brand->this.modelMapperService.forResponse().map(educationType, GetAllEducationTypeResponses.class)).collect(Collectors.toList());
+		List<GetAllEducationTypeResponses> educationTypesResponse = educationTypes.stream().map(educationType->this.modelMapperService.forResponse().map(educationType, GetAllEducationTypeResponses.class)).collect(Collectors.toList());
 		
-		return new SuccessDataResult<List<GetAllEducationTypeResponses>>(educationTypeResponse);
+		return new SuccessDataResult<List<GetAllEducationTypeResponses>>(educationTypesResponse);
 	}
 	
 	@Override
-	public GetByEducationTypeIdResponses getById(int id) {
+	public DataResult<GetByEducationTypeIdResponses> getById(int id) {
 		EducationType educationType = this.educationTypeDao.findById(id);
 		
 		GetByEducationTypeIdResponses response = this.modelMapperService.forResponse().map(educationType, GetByEducationTypeIdResponses.class);
-		return response;
+		return new SuccessDataResult<GetByEducationTypeIdResponses>(response);
 	}
 	
 	

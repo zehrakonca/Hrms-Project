@@ -11,11 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByIdEducationResponse {
 	
-	private int jobSeeker;
-	private String educationType;
-	private String university;
-	private String program;
-	private String faculty;
+	private String educationTypeName;
+	private String universityName;
+	private String programName;
+	private String facultyName;
 	private LocalDate startedDate;
 	private LocalDate graduationDate;
 

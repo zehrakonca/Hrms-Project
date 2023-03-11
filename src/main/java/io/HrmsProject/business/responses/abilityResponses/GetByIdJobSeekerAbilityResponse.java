@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllAbilityResponses {
-
-	private int id;
+public class GetByIdJobSeekerAbilityResponse {
+	
 	private String abilityName;
-	private int jobSeekerId;
+
 }

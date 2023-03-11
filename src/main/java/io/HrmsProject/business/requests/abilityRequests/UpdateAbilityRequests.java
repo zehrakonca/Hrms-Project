@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class UpdateAbilityRequests {
 	
 	private int id;
-	private String ability;
-	private int jobSeeker;
+	private String abilityName;
+	private int jobSeekerId;
 
 }

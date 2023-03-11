@@ -100,11 +100,11 @@ public class EmployerManager implements EmployerService {
 	
 
 	@Override
-	public GetByIdEmployerResponse getById(int id) {
+	public DataResult<GetByIdEmployerResponse> getById(int id) {
 		Employer employer = this.employerDao.findById(id);
 		
 		GetByIdEmployerResponse response = this.modelMapperService.forResponse().map(employer, GetByIdEmployerResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdEmployerResponse>(response);
 	}
 	
 	private boolean isEmployerExist(String companyName) {
@@ -141,6 +141,13 @@ public class EmployerManager implements EmployerService {
 		else {
 			return true;
 		}
+	}
+
+	@Override
+	public DataResult<List<GetAllEmployerResponses>> getAllByIsActive(boolean isActive) {
+		List<Employer> employers = employerDao.getByIsActive(isActive);
+		List<GetAllEmployerResponses> employerResponses =employers.stream().map(employer->this.modelMapperService.forResponse().map(employer, GetAllEmployerResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllEmployerResponses>>(employerResponses);
 	}
 	
 }

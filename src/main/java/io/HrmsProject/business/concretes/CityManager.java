@@ -53,11 +53,11 @@ public class CityManager implements CityService{
 		return new SuccessDataResult<List<GetAllCityResponse>>(cityResponse);
 	}
 	@Override
-	public GetByIdCityResponse getById(int id) {
+	public DataResult<GetByIdCityResponse> getById(int id) {
 		City city = this.cityDao.findById(id);
 		
 		GetByIdCityResponse response = this.modelMapperService.forResponse().map(city, GetByIdCityResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdCityResponse>(response);
 	}
 
 }

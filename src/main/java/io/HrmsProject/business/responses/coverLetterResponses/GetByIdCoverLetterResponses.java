@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByIdCoverLetterResponses {
 	
+	private String coverLetterTitleName;
 	private String coverLetter;
-
+	private int jobSeekerId;
 }

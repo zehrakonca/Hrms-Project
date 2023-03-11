@@ -23,7 +23,6 @@ import io.HrmsProject.business.responses.jobAdvertisementResponses.GetAllJobAdve
 import io.HrmsProject.business.responses.jobAdvertisementResponses.GetByIdJobAdvertisementResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
-import io.HrmsProject.entities.concretes.JobAdvertisement;
 
 @RestController
 @RequestMapping("/api/jobAdvertisements")
@@ -42,32 +41,32 @@ public class JobAdvertisementsController {
 		return jobAdvertisementService.getAll();
 	}
 	
-	@GetMapping("/getById")
-	public GetByIdJobAdvertisementResponse getById(@PathVariable int id){
+	@GetMapping("/getById/{id}")
+	public  DataResult<GetByIdJobAdvertisementResponse> getById(@RequestParam() int id){
 		return jobAdvertisementService.getById(id);
 	}
 	
 	@GetMapping("/getByIsActive")
-	public DataResult<List<JobAdvertisement>> getAllByIsActive(@RequestParam boolean isActive){
+	public DataResult<List<GetAllJobAdvertisementResponses>> getAllByIsActive(@RequestParam boolean isActive){
 		return this.jobAdvertisementService.getAllByIsActive(isActive);
 	}
 	
 	@GetMapping("/getByJobAdvertisementDetailSorted")
-	public DataResult<List<JobAdvertisement>> getJobAdvertisementDetailSorted()
+	public DataResult<List<GetAllJobAdvertisementResponses>> getJobAdvertisementDetailSorted()
 	{
 		return this.jobAdvertisementService.getJobAdvertisementDetailSorted();
 	}
 	
 	@GetMapping("/getDetailsSortedByEmployerId")
-	public DataResult<List<JobAdvertisement>> getDetailsSortedByEmployerId(@RequestParam int employerId)
+	public DataResult<List<GetAllJobAdvertisementResponses>> getDetailsSortedByEmployerId(@RequestParam int employerId)
 	{
-		return this.jobAdvertisementService.getByIsActiveAndEmployerId( employerId);
+		return this.jobAdvertisementService.getByIsActiveAndEmployerId(true,employerId);
 	}
 	
 	@GetMapping("/getByCompanyName")
-	public  ResponseEntity<?> getByCompanyName(@RequestParam String companyName)
+	public  ResponseEntity<?> getByCompanyName(@RequestParam String companyName, boolean isActive)
 	{
-		return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName));
+		return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName,true));
 	}
 	
 	

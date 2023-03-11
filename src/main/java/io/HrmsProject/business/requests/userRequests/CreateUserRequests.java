@@ -12,7 +12,7 @@ public class CreateUserRequests {
 	private String firstName;
 	private String lastName;
 	private String telephone;
-	private String mail;
+	private String email;
 	private String password;
 	private String passwordRep;
 	private boolean isActive;

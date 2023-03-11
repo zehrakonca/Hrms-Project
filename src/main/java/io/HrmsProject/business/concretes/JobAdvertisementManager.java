@@ -47,6 +47,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		Employer employer = this.employerDao.findById(createJobAdvertisement.getEmployer());
 		Job job = this.jobDao.findById(createJobAdvertisement.getJob());
 		
+		jobAdvertisement.setReleaseDate(createJobAdvertisement.getReleaseDate().atStartOfDay());	
 		jobAdvertisement.setSector(sector);
 		jobAdvertisement.setCity(city);
 		jobAdvertisement.setEmployer(employer);
@@ -106,35 +107,42 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getAllByIsActive(boolean isActive) {
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByIsActive(isActive),"data listelendi.");
+	public DataResult<List<GetAllJobAdvertisementResponses>> getAllByIsActive(boolean isActive) {
+		List<JobAdvertisement> jobAdvertisements = jobAdvertisementDao.getByIsActive(isActive);
+		List<GetAllJobAdvertisementResponses> jobAdvertisementResponses = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(jobAdvertisementResponses);
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getJobAdvertisementDetailSorted() {
+	public DataResult<List<GetAllJobAdvertisementResponses>> getJobAdvertisementDetailSorted() {
 		Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
-		
-		return new SuccessDataResult<List<JobAdvertisement>>(jobAdvertisementDao.getByIsActive(true, sort));
+		List<JobAdvertisement> jobAdvertisements = jobAdvertisementDao.findAll(sort);
+		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByIsActiveAndEmployerId(int employerId) {
-Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
-		
-		return new SuccessDataResult<List<JobAdvertisement>>(jobAdvertisementDao.getByIsActiveAndEmployer_Id(true, employerId, sort));
+	public DataResult<List<GetAllJobAdvertisementResponses>> getByIsActiveAndEmployerId(boolean isActive,int employerId) {
+		Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
+		List<JobAdvertisement> jobAdvertisements = jobAdvertisementDao.getByIsActiveAndEmployer_Id(true, employerId, sort);
+		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByCompanyName(String companyName) {
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByEmployer_CompanyNameAndIsActiveTrue(companyName), "data is listed.");		
+	public DataResult<List<GetAllJobAdvertisementResponses>> getByCompanyName(String companyName,boolean isActive) {
+		Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
+		List<JobAdvertisement> jobAdvertisements = jobAdvertisementDao.findByEmployer_CompanyNameAndIsActive(companyName,sort,isActive);
+		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
 }
 
 	@Override
-	public GetByIdJobAdvertisementResponse getById(int id) {
+	public DataResult<GetByIdJobAdvertisementResponse> getById(int id) {
 		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id);
 		
 		GetByIdJobAdvertisementResponse response = this.modelMapperService.forResponse().map(jobAdvertisement, GetByIdJobAdvertisementResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdJobAdvertisementResponse>(response);
 		
 	}
 }

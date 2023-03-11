@@ -21,9 +21,9 @@ import io.HrmsProject.business.requests.educationRequests.CreateEducationRequest
 import io.HrmsProject.business.requests.educationRequests.UpdateEducationRequests;
 import io.HrmsProject.business.responses.educationResponses.GetAllEducationResponses;
 import io.HrmsProject.business.responses.educationResponses.GetByIdEducationResponse;
+import io.HrmsProject.business.responses.educationResponses.GetByJobSeekerEducationResponses;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
-import io.HrmsProject.entities.concretes.Education;
 
 @RestController
 @RequestMapping("/api/educations")
@@ -43,7 +43,7 @@ public class EducationsController {
 	}
 	
 	@GetMapping("/getById")
-	public GetByIdEducationResponse getById(@PathVariable int id){
+	public DataResult<GetByIdEducationResponse> getById(@RequestParam() int id){
 		return educationService.getById(id);
 	}
 	
@@ -63,8 +63,8 @@ public class EducationsController {
 	}
 	
 	@GetMapping("/getAllBySortedGraduationDate")
-	public DataResult<List<Education>> getAllBySortedGraduationDate(@RequestParam int jobSeekerId) {
-		return educationService.getAllBySortedGraduationDate(jobSeekerId);
+	public DataResult<List<GetByJobSeekerEducationResponses>> getAllBySortedGraduationDate(@RequestParam int jobSeekerId) {
+		return educationService.getByJobSeekerIdSorted(jobSeekerId);
 	}
 
 	

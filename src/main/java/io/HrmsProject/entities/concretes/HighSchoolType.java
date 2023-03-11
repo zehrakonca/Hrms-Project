@@ -2,7 +2,6 @@ package io.HrmsProject.entities.concretes;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,10 +31,10 @@ public class HighSchoolType {
 	
 	@NotNull
 	@NotBlank
-	@Column(name="high_school_type")
+	@Column(name="high_school_type_name")
 	private String highSchoolType;
 	
-	@OneToMany(mappedBy = "highSchoolType", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "highSchoolType")
 	private List<HighSchool> highSchools;
 
 }

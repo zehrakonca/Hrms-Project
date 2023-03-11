@@ -41,6 +41,8 @@ public class SocialMediaManager implements SocialMediaService {
 	@Override
 	public Result update(UpdateSocialMediaRequest updateEntity) {
 		SocialMedia socialMedia = this.modelMapperService.forRequest().map(updateEntity, SocialMedia.class);
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(updateEntity.getJobSeekerId());
+		socialMedia.setJobSeeker(jobSeeker);
 		this.socialMediaDao.save(socialMedia);
 		return new SuccessResult("social media information has been updated.");
 	}

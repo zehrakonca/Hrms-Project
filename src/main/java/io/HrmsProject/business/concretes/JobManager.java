@@ -11,6 +11,8 @@ import io.HrmsProject.business.requests.jobRequests.CreateJobRequests;
 import io.HrmsProject.business.requests.jobRequests.UpdateJobRequests;
 import io.HrmsProject.business.responses.jobResponses.GetAllJobResponses;
 import io.HrmsProject.business.responses.jobResponses.GetByIdJobResponse;
+import io.HrmsProject.business.responses.jobResponses.GetByIdSectorJobResponse;
+import io.HrmsProject.business.responses.jobResponses.GetByJobNameAndSectorResponse;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
@@ -107,13 +109,19 @@ public class JobManager implements JobService{
 	}
 
 	@Override
-	public DataResult<List<Job>> getByNameAndSector(String jobName, int sectorId) {
-		return new SuccessDataResult<List<Job>>(this.jobDao.getByNameAndSector(jobName, sectorId));
+	public GetByJobNameAndSectorResponse getByNameAndSector(String jobName) {
+	Job job = this.jobDao.findByJobName(jobName);
+		
+	GetByJobNameAndSectorResponse response = this.modelMapperService.forResponse().map(job, GetByJobNameAndSectorResponse.class);
+		return response;
 	}
 
 	@Override
-	public DataResult<List<Job>>getBySectorId(int sectorId) {
-		return new SuccessDataResult<List<Job>>(this.jobDao.getBySector(sectorId));
+	public GetByIdSectorJobResponse getBySectorId(int sectorId) {
+		Job job = this.jobDao.getBySector(sectorId);
+		
+		GetByIdSectorJobResponse response = this.modelMapperService.forResponse().map(job, GetByIdSectorJobResponse.class);
+		return response;
 	}
 
 }

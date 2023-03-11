@@ -1,5 +1,7 @@
 package io.HrmsProject.business.abstracts;
 
+import java.util.List;
+
 import io.HrmsProject.business.requests.jobExperienceRequests.CreateJobExperienceRequests;
 import io.HrmsProject.business.requests.jobExperienceRequests.UpdateJobExperienceRequests;
 import io.HrmsProject.business.responses.jobExperienceResponses.GetAllJobExperienceResponses;
@@ -10,9 +12,9 @@ import io.HrmsProject.entities.concretes.JobExperience;
 
 public interface JobExperienceService extends BaseEntityService<JobExperience, CreateJobExperienceRequests, UpdateJobExperienceRequests, GetAllJobExperienceResponses>{
 	
-	DataResult<GetByJobSeekerIdResponse> getByJobSeekerIdResponse(int jobSeekerId);
+	DataResult<List<GetByJobSeekerIdResponse>> getByJobSeekerIdResponse(int jobSeekerId);
 	
-	DataResult<GetByJobSeekerIdResponse> getAllBySortedEndDate(int jobSeekerId);
+	DataResult<List<GetByJobSeekerIdResponse>> getAllBySortedEndDate(int jobSeekerId);
 	
-	GetByIdJobExperienceResponse getById(int id);
+	DataResult<GetByIdJobExperienceResponse> getById(int id);
 }

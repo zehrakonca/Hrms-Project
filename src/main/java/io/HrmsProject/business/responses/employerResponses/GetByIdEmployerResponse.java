@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class GetByIdEmployerResponse extends GetAllUserResponses{
 	
-	private int id;
 	private String companyName;
 	private String webSiteName;
 	private String companyMail;

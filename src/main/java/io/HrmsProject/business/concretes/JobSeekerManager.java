@@ -3,7 +3,6 @@ package io.HrmsProject.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.HrmsProject.business.abstracts.JobSeekerService;
@@ -12,6 +11,7 @@ import io.HrmsProject.business.requests.jobSeekerRequests.UpdateJobSeekerRequest
 import io.HrmsProject.business.responses.jobSeekerResponses.GetAllJobSeekerResponses;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdJobSeekerResponse;
 import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdentityNumberJobSeekerResponse;
+import io.HrmsProject.core.dataAccess.UserDao;
 import io.HrmsProject.core.dataAccess.UserStatuDao;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
@@ -22,44 +22,35 @@ import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.dataAccess.abstracts.JobSeekerDao;
 import io.HrmsProject.entities.concretes.JobSeeker;
 import io.HrmsProject.entities.concretes.UserStatu;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class JobSeekerManager implements JobSeekerService{
 	
 	private JobSeekerDao jobSeekerDao;
 	private UserStatuDao userStatuDao;
 	private ModelMapperService modelMapperService;
+	private UserDao userDao;
 	
-	boolean isExist = false;
-	
-	@Autowired
-	public JobSeekerManager(JobSeekerDao jobSeekerDao,UserStatuDao userStatuDao,ModelMapperService modelMapperService) {
-		super();
-		this.jobSeekerDao = jobSeekerDao;
-		this.userStatuDao = userStatuDao;
-		this.modelMapperService = modelMapperService;
-	}
-
 	@Override
 	public Result add(CreateJobSeekerRequests createJobSeekerRequests) {
 		JobSeeker jobSeeker = this.modelMapperService.forRequest().map(createJobSeekerRequests, JobSeeker.class);
 		
-		if(!dataControl(createJobSeekerRequests)) {
+		if(!(dataControl(createJobSeekerRequests))) {
 			return new ErrorResult("your information is missing. please check your information.");
-		}
-		else if(isMailExist(createJobSeekerRequests.getMail())){
-			return new ErrorResult("your mail already registered. please check your information.");
 		}
 		else if(isNationalIdentityExist(createJobSeekerRequests.getNationalIdentity())){
 			return new ErrorResult("your national identity already registered. please check your information.");
 		}
-		else if (!createJobSeekerRequests.getPassword().equals(createJobSeekerRequests.getPasswordRep())) {
+		else if (!(createJobSeekerRequests.getPassword().equals(createJobSeekerRequests.getPasswordRep()))) {
 			return new ErrorResult("these password your entered do not match. please check passwords.");
 		}
 		else {
 			jobSeeker.setActive(createJobSeekerRequests.isActive()==false);
 			UserStatu userStatu = this.userStatuDao.findByTypeId(2);
 			jobSeeker.setUserStatu(userStatu);
+			jobSeeker.setEmail(createJobSeekerRequests.getEmail());
 			this.jobSeekerDao.save(jobSeeker);
 			return new SuccessResult("jobSeeker has been created. please wait confirmation mail.");
 		}
@@ -69,16 +60,10 @@ public class JobSeekerManager implements JobSeekerService{
 	@Override
 	public Result update(UpdateJobSeekerRequest updateJobSeekerRequest) {
 		JobSeeker jobSeeker = this.modelMapperService.forRequest().map(updateJobSeekerRequest, JobSeeker.class);
-		
-		if(!isMailExist(updateJobSeekerRequest.getMail())){
-			return new ErrorResult("your mail already registered. please check your information.");
-		}
-		else {
 			jobSeeker.setEmail(updateJobSeekerRequest.getMail());
 			jobSeeker.setPassword(updateJobSeekerRequest.getPassword());
 			jobSeeker.setPasswordRep(updateJobSeekerRequest.getPasswordRep());
 			this.jobSeekerDao.save(jobSeeker);
-		}
 		return new SuccessResult("your information has been updated");
 		
 	}
@@ -116,7 +101,7 @@ public class JobSeekerManager implements JobSeekerService{
 	
 	
 	private boolean dataControl(CreateJobSeekerRequests createJobSeekerRequests) {
-		if(createJobSeekerRequests.getMail() == null || createJobSeekerRequests.getMail().isBlank()||
+		if(createJobSeekerRequests.getEmail() == null || createJobSeekerRequests.getEmail().isBlank()||
 		   createJobSeekerRequests.getFirstName() == null || createJobSeekerRequests.getFirstName().isBlank()||
 		   createJobSeekerRequests.getLastName()== null || createJobSeekerRequests.getLastName().isBlank()||
 		   createJobSeekerRequests.getNationalIdentity()== null || createJobSeekerRequests.getNationalIdentity().isBlank()|| 
@@ -130,26 +115,16 @@ public class JobSeekerManager implements JobSeekerService{
 		}
 	}
 	
-	private boolean isMailExist(String mail) {
-		List<JobSeeker> jobSeekers = jobSeekerDao.findAll();
-		
-		for(JobSeeker jobSeeker : jobSeekers) {
-			if(jobSeeker.getEmail().equalsIgnoreCase(mail)) {
-				isExist = true;
-			}
-		}
-		return isExist;
-	}
 	
 	private boolean isNationalIdentityExist(String nationalIdentity) {
 		List<JobSeeker> jobSeekers = jobSeekerDao.findAll();
 		
 		for(JobSeeker jobSeeker : jobSeekers) {
 			if(jobSeeker.getNationalIdentity().equals(nationalIdentity)) {
-				isExist = true;
+				return  true;
 			}
 		}
-		return isExist;
+		return false;
 	}
 
 }

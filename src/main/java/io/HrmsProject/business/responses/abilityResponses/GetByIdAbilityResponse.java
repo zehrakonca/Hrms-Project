@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByIdAbilityResponse {
 	
-	private String ability;
-	private int jobSeeker;
+	private String abilityName;
+	private int jobSeekerId;
 
 }

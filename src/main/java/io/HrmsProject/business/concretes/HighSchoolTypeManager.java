@@ -53,11 +53,11 @@ public class HighSchoolTypeManager implements HighSchoolTypeService{
 		
 	}
 	@Override
-	public GetByIdHighSchoolTypeResponse getById(int id) {
+	public DataResult<GetByIdHighSchoolTypeResponse> getById(int id) {
 		HighSchoolType highSchoolType = this.highSchoolTypeDao.findById(id);
 		
 		GetByIdHighSchoolTypeResponse response = this.modelMapperService.forResponse().map(highSchoolType, GetByIdHighSchoolTypeResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdHighSchoolTypeResponse>(response);
 	}
 	
 	

@@ -16,15 +16,17 @@ public interface JobAdvertisementService extends BaseEntityService<JobAdvertisem
 
 	Result update(JobAdvertisement jobAdvertisement, int id);
 	
-	DataResult<List<JobAdvertisement>> getAllByIsActive(boolean isActive);
+	DataResult<List<GetAllJobAdvertisementResponses>> getAllByIsActive(boolean isActive);
 	
-	DataResult<List<JobAdvertisement>> getJobAdvertisementDetailSorted();
+	DataResult<List<GetAllJobAdvertisementResponses>> getJobAdvertisementDetailSorted();
 	
-	DataResult<List<JobAdvertisement>> getByIsActiveAndEmployerId(int employerId);
+	DataResult<List<GetAllJobAdvertisementResponses>> getByIsActiveAndEmployerId(boolean isActive,int employerId);
 	
-	DataResult<List<JobAdvertisement>> getByCompanyName(String companyName);
+	DataResult<List<GetAllJobAdvertisementResponses>> getByCompanyName(String companyName,boolean isActive);
 	
 	DataResult<JobAdvertisement> getByIdForActivePassive(int id);
 	
-	GetByIdJobAdvertisementResponse getById(int id);
+	DataResult<GetByIdJobAdvertisementResponse> getById(int id);
+	
+	
 }

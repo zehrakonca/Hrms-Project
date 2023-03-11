@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import io.HrmsProject.business.requests.abilityRequests.CreateAbilityRequests;
 import io.HrmsProject.business.requests.abilityRequests.UpdateAbilityRequests;
 import io.HrmsProject.business.responses.abilityResponses.GetAllAbilityResponses;
 import io.HrmsProject.business.responses.abilityResponses.GetByIdAbilityResponse;
+import io.HrmsProject.business.responses.abilityResponses.GetByIdJobSeekerAbilityResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 
@@ -41,8 +43,13 @@ public class AbilitiesController {
 	}
 	
 	@GetMapping("/getById")
-	public GetByIdAbilityResponse getById(@PathVariable int id){
+	public DataResult<GetByIdAbilityResponse> getById(@RequestParam() int id){
 		return abilityService.getById(id);
+	}
+	
+	@GetMapping("/getByJobSeekerId")
+	public DataResult<List<GetByIdJobSeekerAbilityResponse>> getByJobSeekerId(@RequestParam() int jobSeekerId){
+		return abilityService.getByJobSeekerId(jobSeekerId);
 	}
 	
 	@PostMapping("/add")

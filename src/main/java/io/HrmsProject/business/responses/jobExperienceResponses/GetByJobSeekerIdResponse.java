@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByJobSeekerIdResponse {
 	
-	private int jobExperienceId;
+	private int experienceId;
 	private String companyName;
 	private String position;
 	private String jobDescription;
-	private String city;
+	private String cityName;
 	private LocalDate startedDate;
 	private LocalDate endDate;
-	private String sector;
-	private int jobSeeker;
+	private String sectorName;
+	private int jobSeekerId;
 
 }
