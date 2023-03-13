@@ -89,18 +89,19 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(jobAdvertisementResponses);
 	}
 
-	@Override
-	public DataResult<JobAdvertisement> getByIdForActivePassive(int id) {
-		return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.findById(id));
-	}
-	
+//	@Override
+//	public DataResult<JobAdvertisement> getByIdForActivePassive(int id) {
+//		return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.findById(id));
+//	}
+//	
 	@Override
 	public Result makeActiveOrPassive(boolean isActive, int advertisementId) {
 		
 		String statuMessage = isActive ? "advertisement has been activated." 
 									   : "advertisement has been passived. ";
 		
-		JobAdvertisement jobAdvertisement = getByIdForActivePassive(advertisementId).getData();
+		
+		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(advertisementId);
 		jobAdvertisement.setActive(isActive);
 		update(jobAdvertisement, advertisementId);
 		return new SuccessResult(statuMessage);
@@ -145,4 +146,14 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		return new SuccessDataResult<GetByIdJobAdvertisementResponse>(response);
 		
 	}
+
+	@Override
+	public DataResult<List<GetAllJobAdvertisementResponses>> getAllByJobAdvertisementName(String advertisementName) {
+		Sort sort = Sort.by(Sort.Direction.DESC, "applicationDate");
+		List<JobAdvertisement> jobAdvertisements = jobAdvertisementDao.findByAdvertisementNameContainsIgnoreCase(advertisementName, sort);
+		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
+	}
+	
+	
 }

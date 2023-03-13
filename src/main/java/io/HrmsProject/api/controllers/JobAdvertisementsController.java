@@ -69,6 +69,11 @@ public class JobAdvertisementsController {
 		return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName,true));
 	}
 	
+	@GetMapping("/getByAdvertisementName")
+	public  ResponseEntity<?> getByCompanyName(@RequestParam String advertisementName)
+	{
+		return ResponseEntity.ok(this.jobAdvertisementService.getAllByJobAdvertisementName(advertisementName));
+	}
 	
 	@PostMapping("/add")
 	@ResponseStatus(code=HttpStatus.CREATED)

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class GetByJobNameAndSectorResponse {
 	
 	private String jobName;
-	private String sector;
+	private String sectorName;
 
 }

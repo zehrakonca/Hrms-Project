@@ -3,7 +3,6 @@ package io.HrmsProject.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +43,7 @@ public class JobsController {
 	}
 	
 	@GetMapping("/getById")
-	public GetByIdJobResponse getById(int id) {
+	public DataResult<GetByIdJobResponse> getById(int id) {
 		return this.jobService.getById(id);
 	}
 	
@@ -65,13 +64,13 @@ public class JobsController {
 	}
 	
 	@GetMapping("/getByJobNameAndSectorId")
-	public GetByJobNameAndSectorResponse getByJobNameAndSectorId(@Param("jobName") String jobName){
+	public DataResult<List<GetByJobNameAndSectorResponse>> getByJobNameAndSectorId(@RequestParam() String jobName){
 		return this.jobService.getByNameAndSector(jobName);
 	}
 	
-	@GetMapping("/getBySector")
-	public GetByIdSectorJobResponse getBySectorId(@RequestParam int sectorId) {
+	@GetMapping("/getBySector/Id")
+	public DataResult<List<GetByIdSectorJobResponse>> getBySectorId(@RequestParam() int sectorId) {
 		return this.jobService.getBySectorId(sectorId);
 	}
-
 }
+

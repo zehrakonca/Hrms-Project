@@ -12,7 +12,7 @@ import io.HrmsProject.entities.concretes.JobAdvertisement;
 public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Integer> {
 	
 	JobAdvertisement findById(int id);
-	JobAdvertisement findByAdvertisementName(String advertisementName);
+	List<JobAdvertisement> findByAdvertisementNameContainsIgnoreCase(String advertisementName,Sort sort);
 
 	List<JobAdvertisement> getByIsActive(boolean isActive);
 	List<JobAdvertisement> getByIsActive(boolean isActive, Sort sort);

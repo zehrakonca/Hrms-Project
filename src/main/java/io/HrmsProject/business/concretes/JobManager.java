@@ -3,7 +3,6 @@ package io.HrmsProject.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.HrmsProject.business.abstracts.JobService;
@@ -23,41 +22,33 @@ import io.HrmsProject.dataAccess.abstracts.JobDao;
 import io.HrmsProject.dataAccess.abstracts.SectorDao;
 import io.HrmsProject.entities.concretes.Job;
 import io.HrmsProject.entities.concretes.Sector;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class JobManager implements JobService{
 	
 	private JobDao jobDao;
 	private SectorDao sectorDao;
 	private ModelMapperService modelMapperService;
-	
-	boolean isExist = false;
-	
-	@Autowired
-	public JobManager(JobDao jobDao, SectorDao sectorDao,ModelMapperService modelMapperService) {
-		super();
-		this.jobDao = jobDao;
-		this.sectorDao = sectorDao;
-		this.modelMapperService = modelMapperService;
-	}
 
 	@Override
 	public Result add(CreateJobRequests createJobRequests) {
 		
 		Job job =this.modelMapperService.forRequest().map(createJobRequests, Job.class);
+		Sector sector = sectorDao.findById(createJobRequests.getSectorId());
 		
-		if(!(job.getJobName()==null || createJobRequests.getJob().isEmpty())) {
+		if((createJobRequests.getJobName().isEmpty())) {
 			return  new ErrorResult("job information cannot be blank.");
 		}
-		else if(isJobExist(createJobRequests.getJob())) {
+		else if(isJobExist(createJobRequests.getJobName())) {
 			return new ErrorResult("this job information already in list.");
 		}
 		else {
-			Sector sector = sectorDao.findById(createJobRequests.getSectorId());
 			job.setSector(sector);
 			this.jobDao.save(job);
+			return new SuccessResult("job information has been added.");
 		}
-		return new SuccessResult("job information has been added.");
 	}
 
 	@Override
@@ -90,38 +81,41 @@ public class JobManager implements JobService{
 	}
 
 	@Override
-	public GetByIdJobResponse getById(int id) {
+	public DataResult<GetByIdJobResponse> getById(int id) {
 		Job job = this.jobDao.findById(id);
 		
 		GetByIdJobResponse response = this.modelMapperService.forResponse().map(job, GetByIdJobResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdJobResponse>(response);
 	}
 	
 	private boolean isJobExist(String jobName){
 		List<Job> jobs = jobDao.findAll();
 		
-		for(Job job : jobs ) {
+		for(Job job : jobs) {
 			if(job.getJobName().equalsIgnoreCase(jobName)) {
-				isExist = true;
+				return true;
 			}
 		}
-		return isExist;
+		return false;
 	}
 
 	@Override
-	public GetByJobNameAndSectorResponse getByNameAndSector(String jobName) {
-	Job job = this.jobDao.findByJobName(jobName);
+	public DataResult<List<GetByJobNameAndSectorResponse>> getByNameAndSector(String jobName) {
+		List<Job> jobs = this.jobDao.findByJobNameContainsIgnoreCase(jobName);
 		
-	GetByJobNameAndSectorResponse response = this.modelMapperService.forResponse().map(job, GetByJobNameAndSectorResponse.class);
-		return response;
+List<GetByJobNameAndSectorResponse> jobsResponse = jobs.stream().map(job->this.modelMapperService.forResponse().map(job, GetByJobNameAndSectorResponse.class)).collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<GetByJobNameAndSectorResponse>>(jobsResponse);
 	}
 
 	@Override
-	public GetByIdSectorJobResponse getBySectorId(int sectorId) {
-		Job job = this.jobDao.getBySector(sectorId);
+	public DataResult<List<GetByIdSectorJobResponse>> getBySectorId(int sectorId) {
+		List<Job> jobs = this.jobDao.findBySector_SectorId(sectorId);
 		
-		GetByIdSectorJobResponse response = this.modelMapperService.forResponse().map(job, GetByIdSectorJobResponse.class);
-		return response;
+		List<GetByIdSectorJobResponse> jobsResponse = jobs.stream().map(job->this.modelMapperService.forResponse().map(job, GetByIdSectorJobResponse.class)).collect(Collectors.toList());
+				
+				return new SuccessDataResult<List<GetByIdSectorJobResponse>>(jobsResponse); 
 	}
+
 
 }

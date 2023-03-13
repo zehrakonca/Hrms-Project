@@ -75,11 +75,11 @@ public class UniversityManager implements UniversityService{
 	}
 
 	@Override
-	public GetByIdUniversityResponse getById(int id) {
+	public DataResult<GetByIdUniversityResponse> getById(int id) {
 		University university = this.universityDao.findById(id);
 		
 		GetByIdUniversityResponse response = this.modelMapperService.forResponse().map(university, GetByIdUniversityResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdUniversityResponse>(response);
 	}
 
 }

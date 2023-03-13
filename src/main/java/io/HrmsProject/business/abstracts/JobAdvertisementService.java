@@ -24,9 +24,11 @@ public interface JobAdvertisementService extends BaseEntityService<JobAdvertisem
 	
 	DataResult<List<GetAllJobAdvertisementResponses>> getByCompanyName(String companyName,boolean isActive);
 	
-	DataResult<JobAdvertisement> getByIdForActivePassive(int id);
+	//DataResult<JobAdvertisement> getByIdForActivePassive(int id);
 	
 	DataResult<GetByIdJobAdvertisementResponse> getById(int id);
+	
+	DataResult<List<GetAllJobAdvertisementResponses>> getAllByJobAdvertisementName(String advertisementName);
 	
 	
 }

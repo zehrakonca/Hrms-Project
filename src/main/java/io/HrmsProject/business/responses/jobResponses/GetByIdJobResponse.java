@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByIdJobResponse {
 
+	private String jobName;
 	private String sectorName;
-	private String job;
 }

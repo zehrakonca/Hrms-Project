@@ -21,6 +21,7 @@ import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.core.validations.concretes.MailValidation;
 import io.HrmsProject.dataAccess.abstracts.EmployerDao;
 import io.HrmsProject.entities.concretes.Employer;
+import io.HrmsProject.entities.concretes.JobAdvertisement;
 import io.HrmsProject.entities.concretes.UserStatu;
 
 @Service
@@ -148,6 +149,30 @@ public class EmployerManager implements EmployerService {
 		List<Employer> employers = employerDao.getByIsActive(isActive);
 		List<GetAllEmployerResponses> employerResponses =employers.stream().map(employer->this.modelMapperService.forResponse().map(employer, GetAllEmployerResponses.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllEmployerResponses>>(employerResponses);
+	}
+
+	@Override
+	public Result makeActiveOrPassive(boolean isActive, int id) {
+		String statuMessage = isActive ? "employer has been activated." 
+				   : "employer has been passived. ";
+
+
+		Employer employer = this.employerDao.findById(id);
+		employer.setActive(isActive);
+		update(employer,id);
+		return new SuccessResult(statuMessage);
+	}
+
+	@Override
+	public Result update(Employer employer, int id) {
+		Employer employerupd = this.employerDao.findById(id);
+		employerupd.setCompanyDescription(employer.getCompanyDescription());
+		employerupd.setCompanyMail(employer.getCompanyMail());
+		employerupd.setCompanyName(employer.getCompanyName());
+		employerupd.setWebSiteName(employer.getWebSiteName());
+		employerupd.setCompanyDescription(employer.getCompanyDescription());
+		this.employerDao.save(employerupd);
+		return new SuccessResult();
 	}
 	
 }

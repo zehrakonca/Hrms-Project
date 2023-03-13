@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateJobRequests {
 	
-	private String job;
+	private String jobName;
 	private int sectorId;
 }
 
