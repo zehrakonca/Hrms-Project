@@ -21,7 +21,6 @@ import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.core.validations.concretes.MailValidation;
 import io.HrmsProject.dataAccess.abstracts.EmployerDao;
 import io.HrmsProject.entities.concretes.Employer;
-import io.HrmsProject.entities.concretes.JobAdvertisement;
 import io.HrmsProject.entities.concretes.UserStatu;
 
 @Service
@@ -154,7 +153,7 @@ public class EmployerManager implements EmployerService {
 	@Override
 	public Result makeActiveOrPassive(boolean isActive, int id) {
 		String statuMessage = isActive ? "employer has been activated." 
-				   : "employer has been passived. ";
+									   : "employer has been passived. ";
 
 
 		Employer employer = this.employerDao.findById(id);

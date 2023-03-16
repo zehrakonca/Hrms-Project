@@ -127,4 +127,24 @@ public class JobSeekerManager implements JobSeekerService{
 		return false;
 	}
 
+	@Override
+	public Result makeActiveOrPassive(boolean isActive, int id) {			
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(id);
+		String statuMessage = isActive ? "advertisement has been activated." 
+										   : "advertisement has been passived. ";
+			
+		jobSeeker.setActive(isActive);
+		update(jobSeeker, id);
+		return new SuccessResult(statuMessage);
+	}
+
+	@Override
+	public Result update(JobSeeker jobSeeker, int id) {
+		JobSeeker jobSeekerUpd = this.jobSeekerDao.findById(id);
+		jobSeekerUpd.setNationalIdentity(jobSeeker.getNationalIdentity());
+		jobSeekerUpd.setDate(jobSeeker.getDate());
+		this.jobSeekerDao.save(jobSeekerUpd);
+		return new SuccessResult();
+	}
+
 }

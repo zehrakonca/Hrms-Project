@@ -89,11 +89,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(jobAdvertisementResponses);
 	}
 
-//	@Override
-//	public DataResult<JobAdvertisement> getByIdForActivePassive(int id) {
-//		return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.findById(id));
-//	}
-//	
+
 	@Override
 	public Result makeActiveOrPassive(boolean isActive, int advertisementId) {
 		

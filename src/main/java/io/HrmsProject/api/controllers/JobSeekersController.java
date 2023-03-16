@@ -68,5 +68,10 @@ public class JobSeekersController {
 		return this.jobSeekerService.delete(id);
 	}
 	
+	@PutMapping("/makeActiveOrPassive")
+	public ResponseEntity<?> makeActiveOrPassive(@RequestParam boolean isActive, @RequestParam int id){
+		return ResponseEntity.ok(this.jobSeekerService.makeActiveOrPassive(isActive, id));
+	}
+	
 
 }

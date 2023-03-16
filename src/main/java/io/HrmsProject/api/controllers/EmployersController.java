@@ -65,5 +65,10 @@ public class EmployersController {
 	public Result delete(int id) {
 		return this.employerService.delete(id);
 	}
+	
+	@PutMapping("/makeActiveOrPassive")
+	public ResponseEntity<?> makeActiveOrPassive(@RequestParam boolean isActive, @RequestParam int id){
+		return ResponseEntity.ok(this.employerService.makeActiveOrPassive(isActive, id));
+	}
 
 }
