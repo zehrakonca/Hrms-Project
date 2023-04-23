@@ -6,7 +6,6 @@ import io.HrmsProject.business.responses.programResponses.GetAllProgramResponse;
 import io.HrmsProject.business.responses.programResponses.GetByIdProgramResponse;
 import io.HrmsProject.entities.concretes.ProgramInfo;
 
-public interface ProgramInfoService extends BaseEntityService<ProgramInfo, CreateProgramRequest, UpdateProgramRequest, GetAllProgramResponse >{
+public interface ProgramInfoService extends BaseEntityService<ProgramInfo, CreateProgramRequest, UpdateProgramRequest, GetAllProgramResponse,GetByIdProgramResponse>{
 
-	GetByIdProgramResponse getById(int id);
 }

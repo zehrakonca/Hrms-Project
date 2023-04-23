@@ -43,7 +43,7 @@ public class JobSeekersController {
 	}
 	
 	@GetMapping("/getById")
-	public GetByIdJobSeekerResponse getById(@RequestParam() int id){
+	public DataResult<GetByIdJobSeekerResponse> getById(@RequestParam() int id){
 		return this.jobSeekerService.getById(id);
 	}
 	

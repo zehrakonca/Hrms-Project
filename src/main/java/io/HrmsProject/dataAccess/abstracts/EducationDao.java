@@ -14,5 +14,7 @@ public interface EducationDao extends JpaRepository<Education, Integer> {
 	Education findById(int educationId);
 	
 	List<Education> getByJobSeeker_Id(int jobSeekerId, Sort sort);
+	
+	List<Education> getByJobSeeker_Id(int jobSeekerId);
 
 }

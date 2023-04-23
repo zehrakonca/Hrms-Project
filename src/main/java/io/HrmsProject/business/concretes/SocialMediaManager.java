@@ -60,10 +60,10 @@ public class SocialMediaManager implements SocialMediaService {
 		return new SuccessDataResult<List<GetAllSocialMediaResponse>>(socialMediasResponse);
 	}
 	@Override
-	public GetByIdSocialMediaResponse getById(int id) {
+	public DataResult<GetByIdSocialMediaResponse> getById(int id) {
 		SocialMedia socialMedia = this.socialMediaDao.findById(id);
 		GetByIdSocialMediaResponse response = this.modelMapperService.forResponse().map(socialMedia, GetByIdSocialMediaResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdSocialMediaResponse>(response);
 	}
 	@Override
 	public GetByIdJobSeekerSocialMediaResponse getByJobSeekerId(int jobSeekerId) {

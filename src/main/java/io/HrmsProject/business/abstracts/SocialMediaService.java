@@ -7,10 +7,8 @@ import io.HrmsProject.business.responses.socialMediaResponses.GetByIdJobSeekerSo
 import io.HrmsProject.business.responses.socialMediaResponses.GetByIdSocialMediaResponse;
 import io.HrmsProject.entities.concretes.SocialMedia;
 
-public interface SocialMediaService extends BaseEntityService<SocialMedia, CreateSocialMediaRequest, UpdateSocialMediaRequest, GetAllSocialMediaResponse>{
+public interface SocialMediaService extends BaseEntityService<SocialMedia, CreateSocialMediaRequest, UpdateSocialMediaRequest, GetAllSocialMediaResponse,GetByIdSocialMediaResponse>{
 	
 	GetByIdJobSeekerSocialMediaResponse getByJobSeekerId(int jobSeekerId);
-	
-	GetByIdSocialMediaResponse getById(int id);
 
 }

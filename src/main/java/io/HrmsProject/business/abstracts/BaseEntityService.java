@@ -5,12 +5,12 @@ import java.util.List;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 
-public interface BaseEntityService<T,TAdd, TUpdate, TGet> {
+public interface BaseEntityService<T,TAdd, TUpdate, TGet,TGetById> {
 	
 	Result add(TAdd createEntity) throws Exception;
 	Result update (TUpdate updateEntity) throws Exception;
 	Result delete (int id);
 	
 	public DataResult<List<TGet>> getAll();
-
+	public DataResult<TGetById> getById(int id);
 }

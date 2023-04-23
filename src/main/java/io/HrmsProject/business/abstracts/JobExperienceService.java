@@ -10,11 +10,9 @@ import io.HrmsProject.business.responses.jobExperienceResponses.GetByJobSeekerId
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.JobExperience;
 
-public interface JobExperienceService extends BaseEntityService<JobExperience, CreateJobExperienceRequests, UpdateJobExperienceRequests, GetAllJobExperienceResponses>{
+public interface JobExperienceService extends BaseEntityService<JobExperience, CreateJobExperienceRequests, UpdateJobExperienceRequests, GetAllJobExperienceResponses,GetByIdJobExperienceResponse>{
 	
 	DataResult<List<GetByJobSeekerIdResponse>> getByJobSeekerIdResponse(int jobSeekerId);
 	
 	DataResult<List<GetByJobSeekerIdResponse>> getAllBySortedEndDate(int jobSeekerId);
-	
-	DataResult<GetByIdJobExperienceResponse> getById(int id);
 }

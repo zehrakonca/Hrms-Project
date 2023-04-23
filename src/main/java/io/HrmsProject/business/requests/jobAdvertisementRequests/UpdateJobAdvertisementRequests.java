@@ -17,5 +17,6 @@ public class UpdateJobAdvertisementRequests {
 	private int jobSalaryMin;
 	private int jobSalaryMax;
 	private LocalDate applicationDate;
+	private int typeOfWork;
 	private boolean isActive;
 }

@@ -83,11 +83,11 @@ public class SectorManager implements SectorService{
 	}
 
 	@Override
-	public GetByIdSectorResponse getById(int id) {
+	public DataResult<GetByIdSectorResponse> getById(int id) {
 		Sector sector = this.sectorDao.findById(id);
 		
 		GetByIdSectorResponse response = this.modelMapperService.forResponse().map(sector, GetByIdSectorResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdSectorResponse>(response);
 		
 	}
 	

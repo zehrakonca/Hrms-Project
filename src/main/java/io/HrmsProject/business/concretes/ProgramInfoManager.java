@@ -74,11 +74,11 @@ public class ProgramInfoManager implements ProgramInfoService {
 	}
 
 	@Override
-	public GetByIdProgramResponse getById(int id) {
+	public DataResult<GetByIdProgramResponse> getById(int id) {
 		ProgramInfo programInfo = this.programInfoDao.findById(id);
 		
 		GetByIdProgramResponse response = this.modelMapperService.forResponse().map(programInfo, GetByIdProgramResponse.class);
 		
-		return response;
+		return new SuccessDataResult<GetByIdProgramResponse>(response);
 	}
 }

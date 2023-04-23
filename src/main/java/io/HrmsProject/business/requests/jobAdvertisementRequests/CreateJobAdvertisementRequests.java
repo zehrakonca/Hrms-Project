@@ -22,6 +22,7 @@ public class CreateJobAdvertisementRequests {
 	private int jobSalaryMax;
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
+	private int typeOfWork;
 	private boolean isActive;
 	
 }

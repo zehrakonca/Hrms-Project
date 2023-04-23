@@ -21,11 +21,13 @@ import io.HrmsProject.dataAccess.abstracts.EmployerDao;
 import io.HrmsProject.dataAccess.abstracts.JobAdvertisementDao;
 import io.HrmsProject.dataAccess.abstracts.JobDao;
 import io.HrmsProject.dataAccess.abstracts.SectorDao;
+import io.HrmsProject.dataAccess.abstracts.TypeOfWorkDao;
 import io.HrmsProject.entities.concretes.City;
 import io.HrmsProject.entities.concretes.Employer;
 import io.HrmsProject.entities.concretes.Job;
 import io.HrmsProject.entities.concretes.JobAdvertisement;
 import io.HrmsProject.entities.concretes.Sector;
+import io.HrmsProject.entities.concretes.TypeOfWork;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -37,6 +39,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	private JobDao jobDao;
 	private CityDao cityDao;
 	private EmployerDao employerDao;
+	private TypeOfWorkDao typeOfWorkDao;
 	private ModelMapperService modelMapperService;
 	
 	@Override
@@ -46,12 +49,14 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		City city = this.cityDao.findById(createJobAdvertisement.getCity());
 		Employer employer = this.employerDao.findById(createJobAdvertisement.getEmployer());
 		Job job = this.jobDao.findById(createJobAdvertisement.getJob());
+		TypeOfWork typeOfWork = this.typeOfWorkDao.findById(createJobAdvertisement.getTypeOfWork());
 		
 		jobAdvertisement.setReleaseDate(createJobAdvertisement.getReleaseDate().atStartOfDay());	
 		jobAdvertisement.setSector(sector);
 		jobAdvertisement.setCity(city);
 		jobAdvertisement.setEmployer(employer);
 		jobAdvertisement.setJob(job);
+		jobAdvertisement.setTypeOfWork(typeOfWork);
 		jobAdvertisement.setActive(createJobAdvertisement.isActive()==false);;
 		this.jobAdvertisementDao.save(jobAdvertisement);
 		return new SuccessResult("job advertisement has been created. please wait for it to be published.");
@@ -149,6 +154,14 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		List<JobAdvertisement> jobAdvertisements = jobAdvertisementDao.findByAdvertisementNameContainsIgnoreCase(advertisementName, sort);
 		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
+	}
+
+	@Override
+	public DataResult<List<GetAllJobAdvertisementResponses>> getByCityAndWorkType(int cityId, int workTypeId) {
+		List<JobAdvertisement> jobAdvertisements = this.jobAdvertisementDao.findByCity_CityIdAndTypeOfWork_TypeOfWorkId(cityId, workTypeId);
+		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
+		
 	}
 	
 	

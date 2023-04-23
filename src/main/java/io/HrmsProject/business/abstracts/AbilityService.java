@@ -10,9 +10,7 @@ import io.HrmsProject.business.responses.abilityResponses.GetByIdJobSeekerAbilit
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.Ability;
 
-public interface AbilityService extends BaseEntityService<Ability, CreateAbilityRequests, UpdateAbilityRequests, GetAllAbilityResponses>{
-	
-	DataResult<GetByIdAbilityResponse> getById(int id);
+public interface AbilityService extends BaseEntityService<Ability, CreateAbilityRequests, UpdateAbilityRequests, GetAllAbilityResponses,GetByIdAbilityResponse>{
 
 	DataResult<List<GetByIdJobSeekerAbilityResponse>> getByJobSeekerId(int jobSeekerId);
 }

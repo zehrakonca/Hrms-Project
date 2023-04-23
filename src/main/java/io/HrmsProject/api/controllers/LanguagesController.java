@@ -41,7 +41,7 @@ public class LanguagesController {
 	}
 	
 	@GetMapping("/getById/{id}")
-	public GetByIdLanguageResponse getById(@PathVariable int id){
+	public DataResult<GetByIdLanguageResponse> getById(@PathVariable int id){
 		return languageService.getById(id);
 	}
 	

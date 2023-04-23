@@ -9,11 +9,9 @@ import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.entities.concretes.JobSeeker;
 
-public interface JobSeekerService extends BaseEntityService<JobSeeker, CreateJobSeekerRequests, UpdateJobSeekerRequest, GetAllJobSeekerResponses>{
+public interface JobSeekerService extends BaseEntityService<JobSeeker, CreateJobSeekerRequests, UpdateJobSeekerRequest, GetAllJobSeekerResponses,GetByIdJobSeekerResponse>{
 	
-	DataResult<GetByIdentityNumberJobSeekerResponse> getByIdentityNumber(String nationalIdentity);
-	GetByIdJobSeekerResponse getById(int id);
-	
+	DataResult<GetByIdentityNumberJobSeekerResponse> getByIdentityNumber(String nationalIdentity);	
 	Result makeActiveOrPassive(boolean isActive, int id);
 	Result update(JobSeeker jobSeeker, int id);
 }

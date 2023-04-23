@@ -39,7 +39,7 @@ public class SectorsController {
 	}
 	
 	@GetMapping("/{id}")
-	public GetByIdSectorResponse getById(@PathVariable int id) {
+	public DataResult<GetByIdSectorResponse> getById(@PathVariable int id) {
 		return this.sectorService.getById(id);
 	}
 	

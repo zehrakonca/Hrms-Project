@@ -75,6 +75,12 @@ public class JobAdvertisementsController {
 		return ResponseEntity.ok(this.jobAdvertisementService.getAllByJobAdvertisementName(advertisementName));
 	}
 	
+	@GetMapping("/getByCityAndWorkType")
+	public  ResponseEntity<?> getByCompanyName(@RequestParam int cityId, @RequestParam int workTypeId)
+	{
+		return ResponseEntity.ok(this.jobAdvertisementService.getByCityAndWorkType(cityId, workTypeId));
+	}
+	
 	@PostMapping("/add")
 	@ResponseStatus(code=HttpStatus.CREATED)
 	public ResponseEntity<?> add(@RequestBody() CreateJobAdvertisementRequests createJobAdvertisementRequests) throws Exception{

@@ -42,7 +42,7 @@ public class LanguageInfosController {
 	}
 	
 	@GetMapping("/getById/{id}")
-	public GetByIdLanguageInfoResponse getById(@PathVariable int id){
+	public DataResult<GetByIdLanguageInfoResponse> getById(@PathVariable int id){
 		return languageInfoService.getById(id);
 	}
 	

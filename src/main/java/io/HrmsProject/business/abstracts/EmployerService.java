@@ -10,9 +10,7 @@ import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.entities.concretes.Employer;
 
-public interface EmployerService extends BaseEntityService<Employer,CreateEmployerRequests, UpdateEmployerRequests, GetAllEmployerResponses>{
-
-	DataResult<GetByIdEmployerResponse>  getById(int id);
+public interface EmployerService extends BaseEntityService<Employer,CreateEmployerRequests, UpdateEmployerRequests, GetAllEmployerResponses,GetByIdEmployerResponse>{
 	
 	DataResult<List<GetAllEmployerResponses>> getAllByIsActive(boolean isActive);
 	

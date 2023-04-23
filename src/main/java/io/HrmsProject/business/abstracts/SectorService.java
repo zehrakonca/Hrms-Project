@@ -6,8 +6,6 @@ import io.HrmsProject.business.responses.sectorResponses.GetAllSectorResponse;
 import io.HrmsProject.business.responses.sectorResponses.GetByIdSectorResponse;
 import io.HrmsProject.entities.concretes.Sector;
 
-public interface SectorService extends BaseEntityService<Sector, CreateSectorRequests, UpdateSectorRequests, GetAllSectorResponse>{
-	
-	GetByIdSectorResponse getById(int id);
+public interface SectorService extends BaseEntityService<Sector, CreateSectorRequests, UpdateSectorRequests, GetAllSectorResponse,GetByIdSectorResponse>{
 
 }

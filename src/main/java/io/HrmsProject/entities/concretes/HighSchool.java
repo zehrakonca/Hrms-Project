@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Table(name="high_schools")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","programInfos"})
 public class HighSchool {
 	
 	@Id
@@ -56,6 +54,7 @@ public class HighSchool {
 	@ManyToOne()
 	@JoinColumn(name="jobSeeker_id")
 	private JobSeeker jobSeeker;
+
 	
 
 }

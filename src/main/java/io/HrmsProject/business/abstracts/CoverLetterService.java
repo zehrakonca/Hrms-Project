@@ -10,9 +10,7 @@ import io.HrmsProject.business.responses.coverLetterResponses.GetByIdJobSeekerCo
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.CoverLetter;
 
-public interface CoverLetterService extends BaseEntityService<CoverLetter, CreateCoverLetterRequests, UpdateCoverLetterRequests, GetAllCoverLetterResponses>{
-	
-	DataResult<GetByIdCoverLetterResponses> getById(int id);
+public interface CoverLetterService extends BaseEntityService<CoverLetter, CreateCoverLetterRequests, UpdateCoverLetterRequests, GetAllCoverLetterResponses,GetByIdCoverLetterResponses>{
 	
 	DataResult<List<GetByIdJobSeekerCoverLetterResponse>> getByJobSeeker(int jobSeeker);
 }

@@ -34,4 +34,5 @@ public class CoverLetter {
 	@ManyToOne()
 	@JoinColumn(name="jobSeeker_id")
 	private JobSeeker jobSeeker;
+
 }

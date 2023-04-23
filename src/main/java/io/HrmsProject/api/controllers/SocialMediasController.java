@@ -40,7 +40,7 @@ public class SocialMediasController {
 	}
 	
 	@GetMapping("/getById/{id}")
-	public GetByIdSocialMediaResponse getById(@PathVariable int id){
+	public DataResult<GetByIdSocialMediaResponse> getById(@PathVariable int id){
 		return socialMediaService.getById(id);
 	}
 	

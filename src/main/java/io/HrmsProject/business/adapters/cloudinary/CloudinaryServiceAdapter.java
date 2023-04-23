@@ -19,6 +19,7 @@ public class CloudinaryServiceAdapter implements CloudStorageService{
 	
 	private Cloudinary cloudinary; 
 	
+	@Autowired
 	public CloudinaryServiceAdapter() {
 		this.cloudinary = new Cloudinary(ObjectUtils.asMap(
 				"cloud_name", "myhrmsproject",

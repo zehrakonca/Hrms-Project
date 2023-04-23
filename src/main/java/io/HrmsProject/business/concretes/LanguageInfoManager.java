@@ -69,12 +69,12 @@ public class LanguageInfoManager implements LanguageInfoService{
 		return new SuccessDataResult<List<GetAllLanguageInfoResponse>>(languageInfosResponse);
 	}
 	@Override
-	public GetByIdLanguageInfoResponse getById(int id) {
+	public DataResult<GetByIdLanguageInfoResponse> getById(int id) {
 		
 		LanguageInfo languageInfo = this.languageInfoDao.findById(id);
 		
 		GetByIdLanguageInfoResponse response = this.modelMapperService.forResponse().map(languageInfo, GetByIdLanguageInfoResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdLanguageInfoResponse>(response);
 	}
 	@Override
 	public DataResult<List<GetByIdJobSeekerLanguageInfoResponse>> getByJobSeekerId(int jobSeekerId) {

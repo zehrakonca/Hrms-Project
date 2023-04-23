@@ -33,9 +33,20 @@ public class JobSeeker extends User{
 	private int date;
 	
 	@OneToMany(mappedBy="jobSeeker")
-	private List<HighSchool> highSchool;
+	private List<LanguageInfo> languageInfos;
 	
 	@OneToMany(mappedBy="jobSeeker")
-	private List<LanguageInfo> languageInfos;
+	private List<JobExperience> jobExperiences;
+	
+	@OneToMany(mappedBy="jobSeeker")
+	private List<Education> educations;
+	
+	@OneToMany(mappedBy="jobSeeker")
+	private List<Ability> abilities;
+	
+	@OneToMany(mappedBy="jobSeeker")
+	private List<FavoriteJobAdvertisement> favoriteJobAdvertisements;
+	
+	
 	
 }

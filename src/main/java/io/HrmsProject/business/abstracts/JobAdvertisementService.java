@@ -10,7 +10,7 @@ import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.entities.concretes.JobAdvertisement;
 
-public interface JobAdvertisementService extends BaseEntityService<JobAdvertisement, CreateJobAdvertisementRequests, UpdateJobAdvertisementRequests, GetAllJobAdvertisementResponses>{
+public interface JobAdvertisementService extends BaseEntityService<JobAdvertisement, CreateJobAdvertisementRequests, UpdateJobAdvertisementRequests, GetAllJobAdvertisementResponses,GetByIdJobAdvertisementResponse>{
 	
 	Result makeActiveOrPassive(boolean isActive, int id);
 
@@ -24,11 +24,8 @@ public interface JobAdvertisementService extends BaseEntityService<JobAdvertisem
 	
 	DataResult<List<GetAllJobAdvertisementResponses>> getByCompanyName(String companyName,boolean isActive);
 	
-	//DataResult<JobAdvertisement> getByIdForActivePassive(int id);
-	
-	DataResult<GetByIdJobAdvertisementResponse> getById(int id);
-	
 	DataResult<List<GetAllJobAdvertisementResponses>> getAllByJobAdvertisementName(String advertisementName);
 	
+	DataResult<List<GetAllJobAdvertisementResponses>> getByCityAndWorkType(int cityId, int workTypeId);
 	
 }

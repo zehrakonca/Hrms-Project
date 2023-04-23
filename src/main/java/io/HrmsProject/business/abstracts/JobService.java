@@ -11,9 +11,8 @@ import io.HrmsProject.business.responses.jobResponses.GetByJobNameAndSectorRespo
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.Job;
 
-public interface JobService extends BaseEntityService<Job, CreateJobRequests, UpdateJobRequests, GetAllJobResponses>{
+public interface JobService extends BaseEntityService<Job, CreateJobRequests, UpdateJobRequests, GetAllJobResponses,GetByIdJobResponse>{
 	
 	DataResult<List<GetByJobNameAndSectorResponse>> getByNameAndSector(String jobName);
 	DataResult<List<GetByIdSectorJobResponse>> getBySectorId(int sectorId);
-	DataResult<GetByIdJobResponse> getById(int id);
 }

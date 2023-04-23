@@ -23,6 +23,7 @@ public class GetAllJobAdvertisementResponses {
 	private int jobSalaryMax;
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
+	private String workTypeName;
 	private boolean isActive;
 
 }

@@ -2,6 +2,7 @@ package io.HrmsProject.entities.concretes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -92,7 +94,16 @@ public class JobAdvertisement {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate applicationDate;
 	
+	@NotNull
+	@NotBlank
+	@ManyToOne()
+	@JoinColumn(name="work_type_id")
+	private TypeOfWork typeOfWork;
+
+	
 	@Column(name="is_active")
 	private boolean isActive;
-
+	
+	@OneToMany(mappedBy="jobAdvertisement")
+	private List<FavoriteJobAdvertisement> favoriteJobAdvertisements;
 }

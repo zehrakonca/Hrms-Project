@@ -61,5 +61,16 @@ public class JobExperience {
 	@ManyToOne()
 	@JoinColumn(name="jobSeeker_id")
 	private JobSeeker jobSeeker;
+	
+	public String getTerminationDate() {
+
+		if (endDate == null) {
+			return "Is going.";
+		}
+
+		return endDate.toString();
+	}
+	
+	
 
 }

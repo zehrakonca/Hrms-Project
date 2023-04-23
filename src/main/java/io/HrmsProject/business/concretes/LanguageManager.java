@@ -52,11 +52,11 @@ public class LanguageManager implements LanguageService{
 		return new SuccessDataResult<List<GetAllLanguageResponse>>(languagesResponse);
 	}
 	@Override
-	public GetByIdLanguageResponse getById(int id) {
+	public DataResult<GetByIdLanguageResponse> getById(int id) {
 		Language language = this.languageDao.findById(id);
 		
 		GetByIdLanguageResponse response = this.modelMapperService.forResponse().map(language, GetByIdLanguageResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdLanguageResponse>(response);
 	}
 	
 	

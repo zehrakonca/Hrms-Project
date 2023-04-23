@@ -37,5 +37,8 @@ public class Job {
 	
 	@OneToMany(mappedBy = "job")
 	private List<JobAdvertisement> jobAdvertisements;
+	
+	@OneToMany(mappedBy="job")
+	private List<FavoriteJobAdvertisement> favoriteJobAdvertisements;
 
 }

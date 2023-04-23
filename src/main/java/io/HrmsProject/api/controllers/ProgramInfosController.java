@@ -56,7 +56,7 @@ public class ProgramInfosController {
 	}
 	
 	@GetMapping("/getById/{id}")
-	public GetByIdProgramResponse getById(@PathVariable int id){
+	public DataResult<GetByIdProgramResponse> getById(@PathVariable int id){
 		return this.programInfoService.getById(id);
 	}
 

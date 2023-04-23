@@ -31,5 +31,5 @@ public class Ability {
 	@ManyToOne
 	@JoinColumn(name="jobSeeker_id")
 	private JobSeeker jobSeeker;
-
+	
 }

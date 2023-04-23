@@ -4,10 +4,7 @@ import io.HrmsProject.business.requests.highSchoolTypeRequests.CreateHighSchoolT
 import io.HrmsProject.business.requests.highSchoolTypeRequests.UpdateHighSchoolTypeRequest;
 import io.HrmsProject.business.responses.highSchoolTypeResponses.GetAllHighSchoolTypeResponse;
 import io.HrmsProject.business.responses.highSchoolTypeResponses.GetByIdHighSchoolTypeResponse;
-import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.HighSchoolType;
 
-public interface HighSchoolTypeService extends BaseEntityService<HighSchoolType, CreateHighSchoolTypeRequest, UpdateHighSchoolTypeRequest, GetAllHighSchoolTypeResponse >{
-	
-	DataResult<GetByIdHighSchoolTypeResponse> getById(int id);
+public interface HighSchoolTypeService extends BaseEntityService<HighSchoolType, CreateHighSchoolTypeRequest, UpdateHighSchoolTypeRequest, GetAllHighSchoolTypeResponse,GetByIdHighSchoolTypeResponse>{
 }

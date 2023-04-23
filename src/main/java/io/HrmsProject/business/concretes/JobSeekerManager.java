@@ -60,6 +60,7 @@ public class JobSeekerManager implements JobSeekerService{
 	@Override
 	public Result update(UpdateJobSeekerRequest updateJobSeekerRequest) {
 		JobSeeker jobSeeker = this.modelMapperService.forRequest().map(updateJobSeekerRequest, JobSeeker.class);
+			jobSeeker.setTelephone(updateJobSeekerRequest.getTelephone());
 			jobSeeker.setEmail(updateJobSeekerRequest.getMail());
 			jobSeeker.setPassword(updateJobSeekerRequest.getPassword());
 			jobSeeker.setPasswordRep(updateJobSeekerRequest.getPasswordRep());
@@ -83,11 +84,11 @@ public class JobSeekerManager implements JobSeekerService{
 	}
 
 	@Override
-	public GetByIdJobSeekerResponse getById(int id) {
+	public DataResult<GetByIdJobSeekerResponse> getById(int id) {
 		JobSeeker jobSeeker = this.jobSeekerDao.findById(id);
 		
 		GetByIdJobSeekerResponse response = this.modelMapperService.forResponse().map(jobSeeker, GetByIdJobSeekerResponse.class);
-		return response;
+		return new SuccessDataResult<GetByIdJobSeekerResponse>(response);
 	}
 	
 	@Override

@@ -10,9 +10,7 @@ import io.HrmsProject.business.responses.languageInfoResponses.GetByIdLanguageIn
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.LanguageInfo;
 
-public interface LanguageInfoService extends BaseEntityService<LanguageInfo, CreateLanguageInfoRequest, UpdateLanguageInfoRequest, GetAllLanguageInfoResponse>{
-	
-	GetByIdLanguageInfoResponse getById(int id);
+public interface LanguageInfoService extends BaseEntityService<LanguageInfo, CreateLanguageInfoRequest, UpdateLanguageInfoRequest, GetAllLanguageInfoResponse,GetByIdLanguageInfoResponse>{
 	
 	DataResult<List<GetByIdJobSeekerLanguageInfoResponse>> getByJobSeekerId(int jobSeekerId);
 }

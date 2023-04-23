@@ -8,9 +8,7 @@ import io.HrmsProject.business.responses.highSchoolResponses.GetByJobSeekerIdRes
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.entities.concretes.HighSchool;
 
-public interface HighSchoolService extends BaseEntityService<HighSchool, CreateHighSchoolInfoRequests, UpdateHighSchoolInfoRequests, GetAllHighSchoolResponses>{
+public interface HighSchoolService extends BaseEntityService<HighSchool, CreateHighSchoolInfoRequests, UpdateHighSchoolInfoRequests, GetAllHighSchoolResponses,GetByIdHighSchoolResponse>{
 	
 	DataResult<GetByJobSeekerIdResponse> getByJobSeekerId(int jobSeekerId);
-	
-	DataResult<GetByIdHighSchoolResponse> getById(int id);
 }
