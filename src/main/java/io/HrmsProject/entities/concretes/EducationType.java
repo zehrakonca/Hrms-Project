@@ -40,5 +40,8 @@ public class EducationType {
 	@OneToMany(mappedBy = "educationType", cascade = CascadeType.ALL)
 	private List<Education> educations;
 	
+	@OneToMany(mappedBy="educationType")
+	private List<JobAdvertisement> jobAdvertisements;
+	
 
 }

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +27,7 @@ import io.HrmsProject.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/jobExperiences")
+@CrossOrigin
 public class JobExperiencesController {
 	
 	private JobExperienceService jobExperienceService;
@@ -48,8 +49,8 @@ public class JobExperiencesController {
 		return ResponseEntity.ok(this.jobExperienceService.update(updateJobExperienceRequests));
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public Result delete(@PathVariable int id) {
+	@DeleteMapping("/delete")
+	public Result delete(@RequestParam int id) {
 		return this.jobExperienceService.delete(id);
 	}
 	
@@ -63,12 +64,12 @@ public class JobExperiencesController {
 		return jobExperienceService.getAll();
 	}
 	
-	@GetMapping("/getByExperienceId/{id}")
+	@GetMapping("/getByExperienceId")
 	public DataResult<GetByIdJobExperienceResponse> getById(@RequestParam() int id){
 		return jobExperienceService.getById(id);
 	}
 
-	@GetMapping("/getByJobSeekerId/{id}")
+	@GetMapping("/getByJobSeekerId")
 	public DataResult<List<GetByJobSeekerIdResponse>> getByJobSeekerId(@RequestParam() int jobSeekerId){
 		return jobExperienceService.getByJobSeekerIdResponse(jobSeekerId);
 	}

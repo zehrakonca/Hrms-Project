@@ -93,7 +93,7 @@ public class JobSeekerManager implements JobSeekerService{
 	
 	@Override
 	public DataResult<GetByIdentityNumberJobSeekerResponse> getByIdentityNumber(String nationalIdentity) {
-		JobSeeker jobSeeker = this.jobSeekerDao.findByNationalIdentity(nationalIdentity);
+		JobSeeker jobSeeker = this.jobSeekerDao.findJobSeekerByNationalIdentityIs(nationalIdentity);
 		
 		GetByIdentityNumberJobSeekerResponse response = this.modelMapperService.forResponse().map(jobSeeker, GetByIdentityNumberJobSeekerResponse.class);
 		return new SuccessDataResult<GetByIdentityNumberJobSeekerResponse>(response);

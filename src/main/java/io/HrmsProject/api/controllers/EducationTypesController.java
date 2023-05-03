@@ -40,7 +40,7 @@ public class EducationTypesController {
 		return ResponseEntity.ok(this.educationTypeService.add(educationType));
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/update")
 	public ResponseEntity<?> update(@RequestBody() UpdateEducationTypeRequests educationType)throws Exception{
 		return ResponseEntity.ok(this.educationTypeService.update(educationType));
 	}
@@ -50,8 +50,8 @@ public class EducationTypesController {
 		return this.educationTypeService.getAll();
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> delete(@RequestBody() int id){
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> delete(@RequestParam int id){
 		return ResponseEntity.ok(this.educationTypeService.delete(id));
 	}
 	

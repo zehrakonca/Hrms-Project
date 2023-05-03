@@ -24,6 +24,10 @@ public class GetByIdJobAdvertisementResponse {
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
 	private String workTypeName;
+	private String experienceName;
+	private String militaryStatuName;
+	private String positionLevelName;
+	private String educationTypeName;
 	private boolean isActive;
 
 }

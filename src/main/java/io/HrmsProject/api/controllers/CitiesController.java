@@ -6,9 +6,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +26,7 @@ import io.HrmsProject.core.utilities.results.DataResult;
 
 @RestController
 @RequestMapping("/api/cities")
+@CrossOrigin
 public class CitiesController {
 
 	private CityService cityService;
@@ -41,25 +42,25 @@ public class CitiesController {
 		return cityService.getAll();
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/getById")
 	public DataResult<GetByIdCityResponse> getById(@RequestParam() int id){
 		return cityService.getById(id);
 	}
 	
-	@PostMapping()
+	@PostMapping("/add")
 	@ResponseStatus(code=HttpStatus.CREATED)
 	public void add(@RequestBody() @Valid CreateCityRequests createCity) throws Exception {
 		this.cityService.add(createCity);
 		
 	}
 	
-	@PutMapping
+	@PutMapping("/update")
 	public void update(@RequestBody UpdateCityRequests updateCity) throws Exception {
 		this.cityService.update(updateCity);
 	}
 	
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable int id) {
+	@DeleteMapping("/delete")
+	public void delete(@RequestParam int id) {
 	 this.cityService.delete(id);
 	}
 	

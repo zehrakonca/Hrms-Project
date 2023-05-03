@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +27,7 @@ import io.HrmsProject.core.utilities.results.DataResult;
 
 @RestController
 @RequestMapping("/api/jobs")
+@CrossOrigin
 public class JobsController {
 	
 	private JobService jobService;
@@ -53,12 +54,12 @@ public class JobsController {
 		return ResponseEntity.ok(this.jobService.add(createJobRequests));
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> delete(@RequestParam() int id) {
 		return ResponseEntity.ok(this.jobService.delete(id));
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/update")
 	public ResponseEntity<?> update(@RequestBody() UpdateJobRequests updateJobRequests) throws Exception {
 		return ResponseEntity.ok(this.jobService.update(updateJobRequests));
 	}
@@ -68,7 +69,7 @@ public class JobsController {
 		return this.jobService.getByNameAndSector(jobName);
 	}
 	
-	@GetMapping("/getBySector/Id")
+	@GetMapping("/getBySector")
 	public DataResult<List<GetByIdSectorJobResponse>> getBySectorId(@RequestParam() int sectorId) {
 		return this.jobService.getBySectorId(sectorId);
 	}

@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.HrmsProject.business.abstracts.SocialMediaService;
@@ -24,6 +25,7 @@ import io.HrmsProject.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("api/socialMedias")
+@CrossOrigin
 public class SocialMediasController {
 
 	private SocialMediaService socialMediaService;
@@ -39,8 +41,8 @@ public class SocialMediasController {
 		return socialMediaService.getAll();
 	}
 	
-	@GetMapping("/getById/{id}")
-	public DataResult<GetByIdSocialMediaResponse> getById(@PathVariable int id){
+	@GetMapping("/getById")
+	public DataResult<GetByIdSocialMediaResponse> getById(@RequestParam() int id){
 		return socialMediaService.getById(id);
 	}
 	
@@ -59,7 +61,7 @@ public class SocialMediasController {
 	}
 	
 	@DeleteMapping("/delete")
-	public Result delete(int id) {
+	public Result delete(@RequestParam() int id) {
 		return this.socialMediaService.delete(id);
 	}
 }

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +27,7 @@ import io.HrmsProject.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/jobSeekers")
+@CrossOrigin
 public class JobSeekersController {
 	
 	private JobSeekerService jobSeekerService;
@@ -48,7 +49,7 @@ public class JobSeekersController {
 	}
 	
 	@GetMapping("/getByNationalityId")
-	public DataResult<GetByIdentityNumberJobSeekerResponse> getByNationalityId(String nationalIdentity){
+	public DataResult<GetByIdentityNumberJobSeekerResponse> getByNationalityId(@RequestParam String nationalIdentity){
 		return this.jobSeekerService.getByIdentityNumber(nationalIdentity);
 	}
 	
@@ -58,13 +59,13 @@ public class JobSeekersController {
 		return ResponseEntity.ok(this.jobSeekerService.add(createJobSeekerRequests));
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/update")
 	public ResponseEntity<?> update(@RequestBody() UpdateJobSeekerRequest updateJobSeekerRequest)throws Exception{
 		return ResponseEntity.ok(this.jobSeekerService.update(updateJobSeekerRequest));
 	}
 	
-	@DeleteMapping("{id}")
-	public Result delete(@PathVariable int id) {
+	@DeleteMapping("/delete")
+	public Result delete(@RequestParam() int id) {
 		return this.jobSeekerService.delete(id);
 	}
 	

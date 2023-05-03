@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByIdSectorResponse {
 	
-	private String sector;
+	private String sectorName;
 
 }

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +26,7 @@ import io.HrmsProject.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/systemEmployees")
+@CrossOrigin
 public class SystemEmployeesController {
 
 	private SystemEmployeeService systemEmployeeService;
@@ -52,13 +53,13 @@ public class SystemEmployeesController {
 		return ResponseEntity.ok(this.systemEmployeeService.add(createSystemEmployeeRequests));
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/update")
 	public ResponseEntity<?> update(@RequestBody() UpdateSystemEmployeeRequest updateSystemEmployeeRequests)throws Exception{
 		return ResponseEntity.ok(this.systemEmployeeService.update(updateSystemEmployeeRequests));
 	}
 	
 	@DeleteMapping("{id}")
-	public Result delete(@PathVariable int id) {
+	public Result delete(@RequestParam() int id) {
 		return this.systemEmployeeService.delete(id);
 	}
 	

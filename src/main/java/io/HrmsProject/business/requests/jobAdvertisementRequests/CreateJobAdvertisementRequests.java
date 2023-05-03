@@ -23,6 +23,9 @@ public class CreateJobAdvertisementRequests {
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
 	private int typeOfWork;
+	private int experience;
+	private int educationType;
+	private int positionLevel;
 	private boolean isActive;
 	
 }

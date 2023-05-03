@@ -99,6 +99,30 @@ public class JobAdvertisement {
 	@ManyToOne()
 	@JoinColumn(name="work_type_id")
 	private TypeOfWork typeOfWork;
+	
+	@NotNull
+	@NotBlank
+	@ManyToOne()
+	@JoinColumn(name="experience_type_id")
+	private Experience experience;
+
+	@NotNull
+	@NotBlank
+	@ManyToOne()
+	@JoinColumn(name="military_statu_id")
+	private MilitaryStatu militaryStatu;
+	
+	@NotNull
+	@NotBlank
+	@ManyToOne()
+	@JoinColumn(name="education_type_id")
+	private EducationType educationType;
+	
+	@NotNull
+	@NotBlank
+	@ManyToOne()
+	@JoinColumn(name="position_level_id")
+	private PositionLevel positionLevel;
 
 	
 	@Column(name="is_active")

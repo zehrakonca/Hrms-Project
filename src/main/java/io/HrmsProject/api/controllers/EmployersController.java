@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import io.HrmsProject.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/employers")
+@CrossOrigin
 public class EmployersController {
 	
 	private EmployerService employerService;
@@ -40,7 +42,7 @@ public class EmployersController {
 		return employerService.getAll();
 	}
 	
-	@GetMapping("/getById/{id}")
+	@GetMapping("/getById")
 	public DataResult<GetByIdEmployerResponse> getById(@RequestParam() int id){
 		return this.employerService.getById(id);
 	}
@@ -56,13 +58,13 @@ public class EmployersController {
 		return ResponseEntity.ok(this.employerService.add(createEmployerRequests));
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/update")
 	public ResponseEntity<?> update(@RequestBody() UpdateEmployerRequests updateEmployerRequests, int id) throws Exception {
 		return ResponseEntity.ok(this.employerService.update(updateEmployerRequests));
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public Result delete(int id) {
+	@DeleteMapping("/delete")
+	public Result delete(@RequestParam int id) {
 		return this.employerService.delete(id);
 	}
 	

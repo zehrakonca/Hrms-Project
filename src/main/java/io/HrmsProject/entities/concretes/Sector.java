@@ -27,13 +27,13 @@ public class Sector {
 	public int sectorId;
 	
 	@Column(name="sector_name")
-	public String sector;
-	
-	@OneToMany(mappedBy = "sector")
-	private List<Job> jobs;
+	public String sector;	
 	
 	@OneToMany(mappedBy = "sector")
 	private List<JobAdvertisement> jobAdvertisements;
+	
+	@OneToMany(mappedBy = "sector")
+	private List<Job> jobs;
 	
 	@OneToMany(mappedBy = "sector")
 	private List<JobExperience> jobExperiences;
