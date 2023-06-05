@@ -2,6 +2,7 @@ package io.HrmsProject.business.concretes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,11 @@ import io.HrmsProject.business.responses.userResponses.GetAllUserResponses;
 import io.HrmsProject.core.dataAccess.UserDao;
 import io.HrmsProject.core.entities.User;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
+import io.HrmsProject.core.utilities.results.DataResult;
+import io.HrmsProject.core.utilities.results.ErrorDataResult;
 import io.HrmsProject.core.utilities.results.ErrorResult;
 import io.HrmsProject.core.utilities.results.Result;
+import io.HrmsProject.core.utilities.results.SuccessDataResult;
 import io.HrmsProject.core.utilities.results.SuccessResult;
 import lombok.AllArgsConstructor;
 
@@ -89,5 +93,31 @@ public class UserManager implements UserService{
 		}
 		return false;
 	}
+
+	@Override
+	public DataResult<User> findByEmailAndPassword(String email, String password) {
+		Optional<User> user = this.userDao.findByEmailAndPassword(email, password);
+		if(user.isPresent()) {
+			return new SuccessDataResult<User>(user.get());
+		}
+		else {
+			return new ErrorDataResult<User>("email or password is incorrect.");
+		}
+	}
+
+	@Override
+	public DataResult<User> findByEmail(String email) {
+		Optional<User> user = this.userDao.findByEmail(email);
+		if(user.isPresent()) {
+			return new SuccessDataResult<User>(user.get());
+		}
+		else {
+			return new ErrorDataResult<User>("email is incorrect.");
+		}
+	}
+
+	
+	
+	
 
 }

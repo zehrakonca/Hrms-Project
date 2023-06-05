@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllFacultyResponse {
 	
+	private int id;
 	private String facultyName;
 
 }

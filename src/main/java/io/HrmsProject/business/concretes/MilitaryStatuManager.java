@@ -47,7 +47,7 @@ public class MilitaryStatuManager implements MilitaryStatuService{
 		List<MilitaryStatu> militaryStatus = this.militaryStatuDao.findAll();
 		
 		List<GetAllMilitaryStatuResponse> response = militaryStatus.stream().map(militaryStatu->this.modelMapperService.forResponse().map(militaryStatu, GetAllMilitaryStatuResponse.class)).collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllMilitaryStatuResponse>>();
+		return new SuccessDataResult<List<GetAllMilitaryStatuResponse>>(response);
 	}
 	@Override
 	public DataResult<GetByIdMilitaryStatuResponse> getById(int id) {

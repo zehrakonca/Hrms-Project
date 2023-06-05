@@ -11,6 +11,6 @@ public class GetAllLanguageInfoResponse {
 	
 	private int languageInfoId;
 	private String language;
-	private int jobSeekeId;
+	private int jobSeekerId;
 
 }

@@ -33,9 +33,6 @@ public class Sector {
 	private List<JobAdvertisement> jobAdvertisements;
 	
 	@OneToMany(mappedBy = "sector")
-	private List<Job> jobs;
-	
-	@OneToMany(mappedBy = "sector")
 	private List<JobExperience> jobExperiences;
 
 }

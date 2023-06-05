@@ -36,8 +36,8 @@ public class LanguageInfoManager implements LanguageInfoService{
 	@Override
 	public Result add(CreateLanguageInfoRequest createEntity) throws Exception {
 		LanguageInfo languageInfo = this.modelMapperService.forRequest().map(createEntity, LanguageInfo.class);
-		JobSeeker jobSeeker = this.jobSeekerDao.findById(createEntity.getJobSeeker());
-		Language language = this.languageDao.findById(createEntity.getLanguage());
+		JobSeeker jobSeeker = this.jobSeekerDao.findById(createEntity.getJobSeekerId());
+		Language language = this.languageDao.findById(createEntity.getLanguageId());
 		
 		languageInfo.setJobSeeker(jobSeeker);
 		languageInfo.setLanguage(language);

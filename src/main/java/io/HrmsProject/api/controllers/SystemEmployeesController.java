@@ -23,10 +23,12 @@ import io.HrmsProject.business.responses.systemEmployeeResponses.GetAllSystemEmp
 import io.HrmsProject.business.responses.systemEmployeeResponses.GetByIdSystemEmployeeResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/systemEmployees")
 @CrossOrigin
+@RequiredArgsConstructor
 public class SystemEmployeesController {
 
 	private SystemEmployeeService systemEmployeeService;
@@ -58,7 +60,7 @@ public class SystemEmployeesController {
 		return ResponseEntity.ok(this.systemEmployeeService.update(updateSystemEmployeeRequests));
 	}
 	
-	@DeleteMapping("{id}")
+	@DeleteMapping("/deleteById")
 	public Result delete(@RequestParam() int id) {
 		return this.systemEmployeeService.delete(id);
 	}

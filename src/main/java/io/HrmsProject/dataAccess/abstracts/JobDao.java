@@ -13,6 +13,4 @@ public interface JobDao extends JpaRepository<Job, Integer>{
 	Job findById(int id);
 
 	List<Job> findByJobNameContainsIgnoreCase(String jobName);
-	
-	List<Job> findBySector_SectorId(int sectorId);
 }

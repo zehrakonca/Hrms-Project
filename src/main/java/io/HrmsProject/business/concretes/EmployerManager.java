@@ -3,6 +3,7 @@ package io.HrmsProject.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,9 @@ public class EmployerManager implements EmployerService {
 		else {
 			employer.setActive(createEmployerRequests.isActive() == false);
 			UserStatu userStatu = this.userStatuDao.findByTypeId(createEmployerRequests.getUserType());
-			employer.setUserStatu(userStatu);;
+			employer.setUserStatu(userStatu);
+			employer.setPassword(BCrypt.hashpw(createEmployerRequests.getPassword(), BCrypt.gensalt()));
+			employer.setPasswordRep(BCrypt.hashpw(createEmployerRequests.getPasswordRep(), BCrypt.gensalt()));
 			this.employerDao.save(employer);
 			return new SuccessResult("employer has been created. please wait confirmation mail.");
 		}

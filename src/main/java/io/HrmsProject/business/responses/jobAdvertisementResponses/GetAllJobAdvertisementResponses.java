@@ -19,11 +19,10 @@ public class GetAllJobAdvertisementResponses {
 	private String companyName;
 	private int numberOfVacancies;
 	private String jobDescription;
-	private int jobSalaryMin;
-	private int jobSalaryMax;
+	private int jobSalary;
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
-	private String workTypeName;
+	//private String workTypeName;
 	private String experienceName;
 	private String militaryStatuName;
 	private String positionLevelName;

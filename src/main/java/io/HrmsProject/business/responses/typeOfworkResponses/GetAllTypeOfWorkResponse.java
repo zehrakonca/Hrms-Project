@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllTypeOfWorkResponse {
 	
-	private int typeId;
-	private String typeName;
+	private int typeOfWorkId;
+	private String typeOfWork;
 
 }

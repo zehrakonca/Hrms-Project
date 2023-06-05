@@ -13,7 +13,9 @@ import javax.persistence.Table;
 
 import io.HrmsProject.entities.concretes.UserStatu;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Table(name="users")
@@ -21,7 +23,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Inheritance(strategy = InheritanceType.JOINED)
+@EqualsAndHashCode(callSuper = false)
 public class User {
 	
 	@Id

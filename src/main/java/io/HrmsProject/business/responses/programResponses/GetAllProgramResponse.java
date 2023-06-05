@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class GetAllProgramResponse {
 	
 	private int programId;
-	private String program;
+	private String programName;
 
 }

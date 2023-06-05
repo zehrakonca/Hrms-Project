@@ -32,7 +32,6 @@ public class JobExperience {
 	@Column(name="experience_id")
 	private int experienceId;
 
-	
 	@Column(name="company_name")
 	private String companyName;
 	

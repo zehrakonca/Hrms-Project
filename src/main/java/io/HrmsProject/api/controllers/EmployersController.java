@@ -23,10 +23,12 @@ import io.HrmsProject.business.responses.employerResponses.GetAllEmployerRespons
 import io.HrmsProject.business.responses.employerResponses.GetByIdEmployerResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/employers")
 @CrossOrigin
+@RequiredArgsConstructor
 public class EmployersController {
 	
 	private EmployerService employerService;

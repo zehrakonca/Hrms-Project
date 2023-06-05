@@ -17,17 +17,24 @@ import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.core.utilities.results.SuccessDataResult;
 import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.dataAccess.abstracts.CityDao;
+import io.HrmsProject.dataAccess.abstracts.EducationTypeDao;
 import io.HrmsProject.dataAccess.abstracts.EmployerDao;
+import io.HrmsProject.dataAccess.abstracts.ExperienceDao;
 import io.HrmsProject.dataAccess.abstracts.JobAdvertisementDao;
 import io.HrmsProject.dataAccess.abstracts.JobDao;
+import io.HrmsProject.dataAccess.abstracts.MilitaryStatuDao;
+import io.HrmsProject.dataAccess.abstracts.PositionLevelDao;
 import io.HrmsProject.dataAccess.abstracts.SectorDao;
 import io.HrmsProject.dataAccess.abstracts.TypeOfWorkDao;
 import io.HrmsProject.entities.concretes.City;
+import io.HrmsProject.entities.concretes.EducationType;
 import io.HrmsProject.entities.concretes.Employer;
+import io.HrmsProject.entities.concretes.Experience;
 import io.HrmsProject.entities.concretes.Job;
 import io.HrmsProject.entities.concretes.JobAdvertisement;
+import io.HrmsProject.entities.concretes.MilitaryStatu;
+import io.HrmsProject.entities.concretes.PositionLevel;
 import io.HrmsProject.entities.concretes.Sector;
-import io.HrmsProject.entities.concretes.TypeOfWork;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -40,6 +47,10 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	private CityDao cityDao;
 	private EmployerDao employerDao;
 	private TypeOfWorkDao typeOfWorkDao;
+	private ExperienceDao experienceDao;
+	private EducationTypeDao educationTypeDao;
+	private PositionLevelDao positionLevelDao;
+	private MilitaryStatuDao militaryStatuDao;
 	private ModelMapperService modelMapperService;
 	
 	@Override
@@ -49,14 +60,22 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		City city = this.cityDao.findById(createJobAdvertisement.getCity());
 		Employer employer = this.employerDao.findById(createJobAdvertisement.getEmployer());
 		Job job = this.jobDao.findById(createJobAdvertisement.getJob());
-		TypeOfWork typeOfWork = this.typeOfWorkDao.findById(createJobAdvertisement.getTypeOfWork());
-		
+		//TypeOfWork typeOfWork = this.typeOfWorkDao.findById(createJobAdvertisement.getTypeOfWork());
+		PositionLevel positionLevel=this.positionLevelDao.findById(createJobAdvertisement.getPositionLevel());
+		Experience experience = this.experienceDao.findById(createJobAdvertisement.getExperience());
+		EducationType educationType = this.educationTypeDao.findById(createJobAdvertisement.getEducationType());
+		MilitaryStatu militaryStatu = this.militaryStatuDao.findById(createJobAdvertisement.getMilitaryStatu());
+
 		jobAdvertisement.setReleaseDate(createJobAdvertisement.getReleaseDate().atStartOfDay());	
 		jobAdvertisement.setSector(sector);
 		jobAdvertisement.setCity(city);
 		jobAdvertisement.setEmployer(employer);
 		jobAdvertisement.setJob(job);
-		jobAdvertisement.setTypeOfWork(typeOfWork);
+		//jobAdvertisement.setTypeOfWork(typeOfWork);
+		jobAdvertisement.setPositionLevel(positionLevel);
+		jobAdvertisement.setExperience(experience);
+		jobAdvertisement.setEducationType(educationType);
+		jobAdvertisement.setMilitaryStatu(militaryStatu);
 		jobAdvertisement.setActive(createJobAdvertisement.isActive()==false);;
 		this.jobAdvertisementDao.save(jobAdvertisement);
 		return new SuccessResult("job advertisement has been created. please wait for it to be published.");
@@ -74,8 +93,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		JobAdvertisement advertisement = jobAdvertisementDao.findById(id);
 		advertisement.setJobDescription(jobAdvertisement.getJobDescription());
 		advertisement.setNumberOfVacancies(jobAdvertisement.getNumberOfVacancies());
-		advertisement.setJobSalaryMax(jobAdvertisement.getJobSalaryMax());
-		advertisement.setJobSalaryMin(jobAdvertisement.getJobSalaryMin());
+		advertisement.setJobSalary(jobAdvertisement.getJobSalary());
 		advertisement.setApplicationDate(jobAdvertisement.getApplicationDate());
 		this.jobAdvertisementDao.save(jobAdvertisement);
 		return new SuccessResult("job advertisement has been updated.");
@@ -158,10 +176,11 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 
 	@Override
 	public DataResult<List<GetAllJobAdvertisementResponses>> getByCityAndWorkType(int cityId, int workTypeId) {
-		List<JobAdvertisement> jobAdvertisements = this.jobAdvertisementDao.findByCity_CityIdAndTypeOfWork_TypeOfWorkId(cityId, workTypeId);
-		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
+//		List<JobAdvertisement> jobAdvertisements = this.jobAdvertisementDao.findByCity_CityIdAndTypeOfWork_TypeOfWorkId(cityId, workTypeId);
+//		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+//		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
 		
+		return null;
 	}
 	
 	

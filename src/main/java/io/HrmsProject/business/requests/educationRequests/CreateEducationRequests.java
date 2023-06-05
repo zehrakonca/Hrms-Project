@@ -15,7 +15,7 @@ public class CreateEducationRequests {
 	private int university;
 	private int faculty;
 	private int program;
-	private LocalDate startedDay;
+	private LocalDate startedDate;
 	private LocalDate graduationDate;
 	private int jobSeeker;
 

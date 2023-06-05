@@ -1,13 +1,10 @@
 package io.HrmsProject.entities.concretes;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -28,9 +25,5 @@ public class TypeOfWork {
 	
 	@Column(name="work_type_name")
 	private String typeOfWork;
-	
-	@OneToMany(mappedBy = "typeOfWork")
-	private List<JobAdvertisement> jobAdvertisements;
-	
 
 }

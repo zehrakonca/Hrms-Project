@@ -14,4 +14,9 @@ public interface JobSeekerService extends BaseEntityService<JobSeeker, CreateJob
 	DataResult<GetByIdentityNumberJobSeekerResponse> getByIdentityNumber(String nationalIdentity);	
 	Result makeActiveOrPassive(boolean isActive, int id);
 	Result update(JobSeeker jobSeeker, int id);
+	
+//	void add(CreateJobSeekerRequests createJobSeekerRequests);
+//	void update(UpdateJobSeekerRequest jobSeekerRequest);
+//	void getAll(GetAllJobSeekerResponses getAllJobSeekerResponses);
+//	void getById(GetByIdJobSeekerResponse getByIdJobSeekerResponse);
 }

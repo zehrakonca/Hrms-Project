@@ -18,14 +18,14 @@ public class CreateJobAdvertisementRequests {
 	private int employer;
 	private int numberOfVacancies;
 	private String jobDescription;
-	private int jobSalaryMin;
-	private int jobSalaryMax;
+	private int jobSalary;
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
-	private int typeOfWork;
+	//private int typeOfWork;
 	private int experience;
 	private int educationType;
 	private int positionLevel;
+	private int militaryStatu;
 	private boolean isActive;
 	
 }

@@ -3,6 +3,7 @@ package io.HrmsProject.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import io.HrmsProject.business.abstracts.JobSeekerService;
@@ -51,6 +52,8 @@ public class JobSeekerManager implements JobSeekerService{
 			UserStatu userStatu = this.userStatuDao.findByTypeId(2);
 			jobSeeker.setUserStatu(userStatu);
 			jobSeeker.setEmail(createJobSeekerRequests.getEmail());
+			jobSeeker.setPassword(BCrypt.hashpw(createJobSeekerRequests.getPassword(), BCrypt.gensalt()));
+			jobSeeker.setPasswordRep(BCrypt.hashpw(createJobSeekerRequests.getPasswordRep(), BCrypt.gensalt()));
 			this.jobSeekerDao.save(jobSeeker);
 			return new SuccessResult("jobSeeker has been created. please wait confirmation mail.");
 		}

@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateTypeOfWorkRequest {
 
-	private String typeName;
+	private String typeOfWork;
 }

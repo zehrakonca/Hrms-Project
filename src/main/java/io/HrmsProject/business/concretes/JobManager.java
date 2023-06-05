@@ -10,7 +10,6 @@ import io.HrmsProject.business.requests.jobRequests.CreateJobRequests;
 import io.HrmsProject.business.requests.jobRequests.UpdateJobRequests;
 import io.HrmsProject.business.responses.jobResponses.GetAllJobResponses;
 import io.HrmsProject.business.responses.jobResponses.GetByIdJobResponse;
-import io.HrmsProject.business.responses.jobResponses.GetByIdSectorJobResponse;
 import io.HrmsProject.business.responses.jobResponses.GetByJobNameAndSectorResponse;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
@@ -21,7 +20,6 @@ import io.HrmsProject.core.utilities.results.SuccessResult;
 import io.HrmsProject.dataAccess.abstracts.JobDao;
 import io.HrmsProject.dataAccess.abstracts.SectorDao;
 import io.HrmsProject.entities.concretes.Job;
-import io.HrmsProject.entities.concretes.Sector;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -36,8 +34,7 @@ public class JobManager implements JobService{
 	public Result add(CreateJobRequests createJobRequests) {
 		
 		Job job =this.modelMapperService.forRequest().map(createJobRequests, Job.class);
-		Sector sector = sectorDao.findById(createJobRequests.getSectorId());
-		
+		System.out.println(createJobRequests);
 		if((createJobRequests.getJobName().isEmpty())) {
 			return  new ErrorResult("job information cannot be blank.");
 		}
@@ -45,7 +42,6 @@ public class JobManager implements JobService{
 			return new ErrorResult("this job information already in list.");
 		}
 		else {
-			job.setSector(sector);
 			this.jobDao.save(job);
 			return new SuccessResult("job information has been added.");
 		}
@@ -108,14 +104,6 @@ List<GetByJobNameAndSectorResponse> jobsResponse = jobs.stream().map(job->this.m
 		return new SuccessDataResult<List<GetByJobNameAndSectorResponse>>(jobsResponse);
 	}
 
-	@Override
-	public DataResult<List<GetByIdSectorJobResponse>> getBySectorId(int sectorId) {
-		List<Job> jobs = this.jobDao.findBySector_SectorId(sectorId);
-		
-		List<GetByIdSectorJobResponse> jobsResponse = jobs.stream().map(job->this.modelMapperService.forResponse().map(job, GetByIdSectorJobResponse.class)).collect(Collectors.toList());
-				
-				return new SuccessDataResult<List<GetByIdSectorJobResponse>>(jobsResponse); 
-	}
 
 
 }

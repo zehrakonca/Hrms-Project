@@ -24,10 +24,12 @@ import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdJobSeekerResp
 import io.HrmsProject.business.responses.jobSeekerResponses.GetByIdentityNumberJobSeekerResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/jobSeekers")
 @CrossOrigin
+@RequiredArgsConstructor
 public class JobSeekersController {
 	
 	private JobSeekerService jobSeekerService;

@@ -53,9 +53,6 @@ public class FavoriteJobAdvertisementManager implements FavoriteJobAdvertisement
 		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(createEntity.getJobAdvertisementId());
 		
 		favoriteJobAdvertisement.setJobSeeker(jobSeeker);
-		favoriteJobAdvertisement.setEmployer(employer);
-		favoriteJobAdvertisement.setJob(job);
-		favoriteJobAdvertisement.setCity(city);
 		favoriteJobAdvertisement.setJobAdvertisement(jobAdvertisement);
 		
 		this.favoriteJobAdvertisementDao.save(favoriteJobAdvertisement);

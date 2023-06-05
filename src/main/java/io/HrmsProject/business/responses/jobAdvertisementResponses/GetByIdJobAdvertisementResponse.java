@@ -19,8 +19,7 @@ public class GetByIdJobAdvertisementResponse {
 	private String companyName;
 	private int numberOfVacancies;
 	private String jobDescription;
-	private int jobSalaryMin;
-	private int jobSalaryMax;
+	private int jobSalary;
 	private LocalDate releaseDate;
 	private LocalDate applicationDate;
 	private String workTypeName;

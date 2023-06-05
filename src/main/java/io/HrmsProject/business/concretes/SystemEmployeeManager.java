@@ -3,6 +3,7 @@ package io.HrmsProject.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import io.HrmsProject.business.abstracts.SystemEmployeeService;
@@ -47,6 +48,8 @@ public class SystemEmployeeManager implements SystemEmployeeService {
 			UserStatu userStatu = this.userStatuDao.findByTypeId(3);
 			systemEmployee.setUserStatu(userStatu);
 			systemEmployee.setEmail(createEntity.getEmail());
+			systemEmployee.setPassword(BCrypt.hashpw(createEntity.getPassword(), BCrypt.gensalt()));
+			systemEmployee.setPasswordRep(BCrypt.hashpw(createEntity.getPasswordRep(), BCrypt.gensalt()));
 			this.systemEmployeeDao.save(systemEmployee);
 			return new SuccessResult("system employee has been created. please wait confirmation mail.");
 		}

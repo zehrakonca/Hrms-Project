@@ -2,10 +2,9 @@ package io.HrmsProject.api.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,8 +48,8 @@ public class CitiesController {
 	
 	@PostMapping("/add")
 	@ResponseStatus(code=HttpStatus.CREATED)
-	public void add(@RequestBody() @Valid CreateCityRequests createCity) throws Exception {
-		this.cityService.add(createCity);
+	public ResponseEntity<?> add(@RequestBody() CreateCityRequests createCity) throws Exception {
+		return ResponseEntity.ok(this.cityService.add(createCity));
 		
 	}
 	

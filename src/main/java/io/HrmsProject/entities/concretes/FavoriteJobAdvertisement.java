@@ -30,18 +30,6 @@ public class FavoriteJobAdvertisement {
 	private JobSeeker jobSeeker;
 	
 	@ManyToOne()
-	@JoinColumn(name="employer_id")
-	private Employer employer;
-	
-	@ManyToOne()
-	@JoinColumn(name="job_id")
-	private Job job;
-	
-	@ManyToOne()
-	@JoinColumn(name="city_id")
-	private City city;
-	
-	@ManyToOne()
 	@JoinColumn(name="advertisement_id")
 	private JobAdvertisement jobAdvertisement;
 	

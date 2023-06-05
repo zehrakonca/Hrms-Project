@@ -75,12 +75,8 @@ public class JobAdvertisement {
 	
 	@NotNull
 	@NotBlank
-	@Column(name="job_salary_min")
-	private int jobSalaryMin;
-	
-	
-	@Column(name="job_salary_max")
-	private int jobSalaryMax;
+	@Column(name="job_salary")
+	private int jobSalary;
 	
 	@NotNull
 	@NotBlank
@@ -94,11 +90,11 @@ public class JobAdvertisement {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate applicationDate;
 	
-	@NotNull
-	@NotBlank
-	@ManyToOne()
-	@JoinColumn(name="work_type_id")
-	private TypeOfWork typeOfWork;
+//	@NotNull
+//	@NotBlank
+//	@ManyToOne()
+//	@JoinColumn(name="work_type_id")
+//	private TypeOfWork typeOfWork;
 	
 	@NotNull
 	@NotBlank

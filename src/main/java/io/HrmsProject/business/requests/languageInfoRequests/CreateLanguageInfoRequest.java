@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateLanguageInfoRequest {
 	
-	private int language;
-	private int jobSeeker;
+	private int languageId;
+	private int jobSeekerId;
 
 }

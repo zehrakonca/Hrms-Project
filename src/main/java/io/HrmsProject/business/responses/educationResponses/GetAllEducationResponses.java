@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllEducationResponses {
 	
+	private int educationId;
 	private int jobSeekerId;
 	private String educationTypeName;
 	private String universityName;

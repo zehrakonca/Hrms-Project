@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllHighSchoolTypeResponse {
 	
-	private String highSchoolTypeName;
+	private int id;
+	private String highSchoolType;
 
 }
