@@ -62,13 +62,21 @@ public class JobSeekerManager implements JobSeekerService{
 
 	@Override
 	public Result update(UpdateJobSeekerRequest updateJobSeekerRequest) {
-		JobSeeker jobSeeker = this.modelMapperService.forRequest().map(updateJobSeekerRequest, JobSeeker.class);
+		
+		if(updateJobSeekerRequest == null) {
+			return new ErrorResult("your information is missing. please check your information.");
+		}
+		else {
+			JobSeeker jobSeeker = jobSeekerDao.findById(updateJobSeekerRequest.getId());
+			jobSeeker.setFirstName(updateJobSeekerRequest.getFirstName());
+			jobSeeker.setLastName(updateJobSeekerRequest.getLastName());
 			jobSeeker.setTelephone(updateJobSeekerRequest.getTelephone());
-			jobSeeker.setEmail(updateJobSeekerRequest.getMail());
-			jobSeeker.setPassword(updateJobSeekerRequest.getPassword());
-			jobSeeker.setPasswordRep(updateJobSeekerRequest.getPasswordRep());
+			jobSeeker.setEmail(updateJobSeekerRequest.getEmail());
+			jobSeeker.setPassword(BCrypt.hashpw(updateJobSeekerRequest.getPassword(), BCrypt.gensalt()));
+			jobSeeker.setPasswordRep(BCrypt.hashpw(updateJobSeekerRequest.getPasswordRep(), BCrypt.gensalt()));
 			this.jobSeekerDao.save(jobSeeker);
 		return new SuccessResult("your information has been updated");
+		}
 		
 	}
 

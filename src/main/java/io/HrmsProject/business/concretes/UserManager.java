@@ -49,9 +49,9 @@ public class UserManager implements UserService{
 	}
 
 	@Override
-	public Result update(UpdateUserRequests updateUserRequests, int id) throws Exception {
-		User user = this.modelMapperService.forRequest().map(updateUserRequests, User.class);
-		if(!isMailExist(updateUserRequests.getMail())){
+	public Result update(UpdateUserRequests updateUserRequests) throws Exception {
+		User user = this.userDao.findById(updateUserRequests.getId());
+		if(!isMailExist(updateUserRequests.getEmail())){
 			return new ErrorResult("your mail already registered. please check your information.");
 		}
 		else {

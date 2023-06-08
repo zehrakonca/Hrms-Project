@@ -13,7 +13,7 @@ public interface UserService  {
 	
 	Result add(CreateUserRequests createUserRequests)throws Exception;
 	Result delete(int id);
-	Result update(UpdateUserRequests updateUserRequests, int id)throws Exception;
+	Result update(UpdateUserRequests updateUserRequests)throws Exception;
 	
 	public List<GetAllUserResponses> getAll();
 	public User getById(int id);

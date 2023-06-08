@@ -42,8 +42,8 @@ public class UsersController {
 	}
 	
 	@PutMapping("/update")
-	public void update(@RequestBody() UpdateUserRequests updateUserRequests, int id) throws Exception {
-		this.userService.update(updateUserRequests,id);
+	public void update(@RequestBody() UpdateUserRequests updateUserRequests) throws Exception {
+		this.userService.update(updateUserRequests);
 	}	
 	
 	@GetMapping("/getAll")

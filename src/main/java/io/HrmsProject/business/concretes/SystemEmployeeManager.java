@@ -59,7 +59,7 @@ public class SystemEmployeeManager implements SystemEmployeeService {
 	public Result update(UpdateSystemEmployeeRequest updateEntity) throws Exception {
 		SystemEmployee systemEmployee = this.modelMapperService.forRequest().map(updateEntity, SystemEmployee.class);
 		systemEmployee.setTelephone(updateEntity.getTelephone());
-		systemEmployee.setEmail(updateEntity.getMail());
+		systemEmployee.setEmail(updateEntity.getEmail());
 		systemEmployee.setPassword(updateEntity.getPassword());
 		systemEmployee.setPasswordRep(updateEntity.getPasswordRep());
 		this.systemEmployeeDao.save(systemEmployee);

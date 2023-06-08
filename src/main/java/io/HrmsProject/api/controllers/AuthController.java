@@ -27,4 +27,4 @@ public class AuthController {
 	public ResponseEntity<?> login (@RequestBody UserLogin userLogin){
 		return ResponseEntity.ok(this.authService.login(userLogin));
 	}
-}
+} 
