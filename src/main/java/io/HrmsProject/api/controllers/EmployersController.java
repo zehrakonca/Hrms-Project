@@ -61,7 +61,7 @@ public class EmployersController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody() UpdateEmployerRequests updateEmployerRequests, int id) throws Exception {
+	public ResponseEntity<?> update(@RequestBody() UpdateEmployerRequests updateEmployerRequests) throws Exception {
 		return ResponseEntity.ok(this.employerService.update(updateEmployerRequests));
 	}
 	

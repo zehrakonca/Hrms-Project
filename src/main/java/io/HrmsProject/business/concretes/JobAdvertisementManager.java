@@ -175,12 +175,11 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	}
 
 	@Override
-	public DataResult<List<GetAllJobAdvertisementResponses>> getByCityAndWorkType(int cityId, int workTypeId) {
-//		List<JobAdvertisement> jobAdvertisements = this.jobAdvertisementDao.findByCity_CityIdAndTypeOfWork_TypeOfWorkId(cityId, workTypeId);
-//		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
-//		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
-		
-		return null;
+	public DataResult<List<GetAllJobAdvertisementResponses>> getByCitySectorTypeOfWorkAndEducationType(int cityId,
+			int sectorId, int typeOfWorkId, int educationTypeId) {
+		List<JobAdvertisement> jobAdvertisements = this.jobAdvertisementDao.findByCity_CityIdAndSector_SectorIdAndTypeOfWork_TypeOfWorkIdAndEducationType_EducationTypeId(cityId, sectorId, typeOfWorkId, educationTypeId);
+		List<GetAllJobAdvertisementResponses> response = jobAdvertisements.stream().map(jobAdvertisement->this.modelMapperService.forResponse().map(jobAdvertisement, GetAllJobAdvertisementResponses.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllJobAdvertisementResponses>>(response);
 	}
 	
 	

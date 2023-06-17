@@ -15,6 +15,6 @@ public class CreateUserRequests {
 	private String email;
 	private String password;
 	private String passwordRep;
-	private boolean isActive;
+	private boolean isActive = false;
 	private int userStatu;
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetByIdSocialMediaResponse {
 	
+	private int socialMediaId;
 	private String linkedinAccount;
 	private String githubAccount;
 	private String twitterAccount;

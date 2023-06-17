@@ -1,10 +1,7 @@
 package io.HrmsProject.entities.concretes;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -31,21 +28,6 @@ public class JobSeeker extends User{
 	
 	@Column(name="date")
 	private int date;
-	
-	@OneToMany(mappedBy="jobSeeker")
-	private List<LanguageInfo> languageInfos;
-	
-	@OneToMany(mappedBy="jobSeeker")
-	private List<JobExperience> jobExperiences;
-	
-	@OneToMany(mappedBy="jobSeeker")
-	private List<Education> educations;
-	
-	@OneToMany(mappedBy="jobSeeker")
-	private List<Ability> abilities;
-	
-	@OneToMany(mappedBy="jobSeeker")
-	private List<FavoriteJobAdvertisement> favoriteJobAdvertisements;
 	
 	
 	

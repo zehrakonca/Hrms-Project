@@ -49,7 +49,6 @@ public class SystemEmployeeManager implements SystemEmployeeService {
 			systemEmployee.setUserStatu(userStatu);
 			systemEmployee.setEmail(createEntity.getEmail());
 			systemEmployee.setPassword(BCrypt.hashpw(createEntity.getPassword(), BCrypt.gensalt()));
-			systemEmployee.setPasswordRep(BCrypt.hashpw(createEntity.getPasswordRep(), BCrypt.gensalt()));
 			this.systemEmployeeDao.save(systemEmployee);
 			return new SuccessResult("system employee has been created. please wait confirmation mail.");
 		}
@@ -61,7 +60,6 @@ public class SystemEmployeeManager implements SystemEmployeeService {
 		systemEmployee.setTelephone(updateEntity.getTelephone());
 		systemEmployee.setEmail(updateEntity.getEmail());
 		systemEmployee.setPassword(updateEntity.getPassword());
-		systemEmployee.setPasswordRep(updateEntity.getPasswordRep());
 		this.systemEmployeeDao.save(systemEmployee);
 	return new SuccessResult("your information has been updated");
 	

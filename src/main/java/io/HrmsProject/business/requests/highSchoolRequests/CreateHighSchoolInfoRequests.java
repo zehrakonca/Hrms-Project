@@ -14,7 +14,7 @@ public class CreateHighSchoolInfoRequests {
 	private int program;
 	private int startedDate;
 	private int graduationDate;
-	private int jobSeeker;
+	private int jobSeekerId;
 	
 
 }

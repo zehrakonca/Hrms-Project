@@ -13,4 +13,6 @@ public interface EmployerDao extends JpaRepository<Employer, Integer>{
 	Employer findById(int id);
 
 	List<Employer> getByIsActive(boolean isActive);
+	
+	Employer findByCompanyName(String companyName);
 }

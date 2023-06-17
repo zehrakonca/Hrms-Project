@@ -90,11 +90,11 @@ public class JobAdvertisement {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate applicationDate;
 	
-//	@NotNull
-//	@NotBlank
-//	@ManyToOne()
-//	@JoinColumn(name="work_type_id")
-//	private TypeOfWork typeOfWork;
+	@NotNull
+	@NotBlank
+	@ManyToOne()
+	@JoinColumn(name="work_type_id")
+	private TypeOfWork typeOfWork;
 	
 	@NotNull
 	@NotBlank

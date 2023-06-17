@@ -76,10 +76,10 @@ public class JobAdvertisementsController {
 		return ResponseEntity.ok(this.jobAdvertisementService.getAllByJobAdvertisementName(advertisementName));
 	}
 	
-	@GetMapping("/getByCityAndWorkType")
-	public  ResponseEntity<?> getByCompanyName(@RequestParam int cityId, @RequestParam int workTypeId)
+	@GetMapping("/getByCitySectorTypeOfWorkAndEducationType")
+	public  ResponseEntity<?> getByCitySectorTypeOfWorkAndEducationType(@RequestParam() int cityId, @RequestParam() int sectorId, @RequestParam() int typeOfWorkId, @RequestParam() int educationTypeId )
 	{
-		return ResponseEntity.ok(this.jobAdvertisementService.getByCityAndWorkType(cityId, workTypeId));
+		return ResponseEntity.ok(this.jobAdvertisementService.getByCitySectorTypeOfWorkAndEducationType(cityId, sectorId, typeOfWorkId, educationTypeId));
 	}
 	
 	@PostMapping("/add")

@@ -48,9 +48,6 @@ public class User {
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="password_rep")
-	private String passwordRep;
-	
 	@ManyToOne
 	@JoinColumn(name="type_id")
 	private UserStatu userStatu;

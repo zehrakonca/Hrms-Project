@@ -26,6 +26,7 @@ public interface JobAdvertisementService extends BaseEntityService<JobAdvertisem
 	
 	DataResult<List<GetAllJobAdvertisementResponses>> getAllByJobAdvertisementName(String advertisementName);
 	
-	DataResult<List<GetAllJobAdvertisementResponses>> getByCityAndWorkType(int cityId, int workTypeId);
+	
+	DataResult<List<GetAllJobAdvertisementResponses>> getByCitySectorTypeOfWorkAndEducationType(int cityId, int sectorId, int typeOfWorkId, int educationTypeId);
 	
 }

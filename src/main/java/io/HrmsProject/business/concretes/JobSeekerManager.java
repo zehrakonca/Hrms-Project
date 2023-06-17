@@ -53,7 +53,6 @@ public class JobSeekerManager implements JobSeekerService{
 			jobSeeker.setUserStatu(userStatu);
 			jobSeeker.setEmail(createJobSeekerRequests.getEmail());
 			jobSeeker.setPassword(BCrypt.hashpw(createJobSeekerRequests.getPassword(), BCrypt.gensalt()));
-			jobSeeker.setPasswordRep(BCrypt.hashpw(createJobSeekerRequests.getPasswordRep(), BCrypt.gensalt()));
 			this.jobSeekerDao.save(jobSeeker);
 			return new SuccessResult("jobSeeker has been created. please wait confirmation mail.");
 		}
@@ -62,23 +61,37 @@ public class JobSeekerManager implements JobSeekerService{
 
 	@Override
 	public Result update(UpdateJobSeekerRequest updateJobSeekerRequest) {
-		
-		if(updateJobSeekerRequest == null) {
-			return new ErrorResult("your information is missing. please check your information.");
-		}
-		else {
-			JobSeeker jobSeeker = jobSeekerDao.findById(updateJobSeekerRequest.getId());
-			jobSeeker.setFirstName(updateJobSeekerRequest.getFirstName());
-			jobSeeker.setLastName(updateJobSeekerRequest.getLastName());
-			jobSeeker.setTelephone(updateJobSeekerRequest.getTelephone());
-			jobSeeker.setEmail(updateJobSeekerRequest.getEmail());
-			jobSeeker.setPassword(BCrypt.hashpw(updateJobSeekerRequest.getPassword(), BCrypt.gensalt()));
-			jobSeeker.setPasswordRep(BCrypt.hashpw(updateJobSeekerRequest.getPasswordRep(), BCrypt.gensalt()));
-			this.jobSeekerDao.save(jobSeeker);
-		return new SuccessResult("your information has been updated");
-		}
-		
+	    if (updateJobSeekerRequest == null) {
+	        return new ErrorResult("your information has been missing. please try again.");
+	    }
+	    
+	    JobSeeker jobSeeker = jobSeekerDao.findById(updateJobSeekerRequest.getId());
+	    
+	    if (jobSeeker != null) {
+	        if (!updateJobSeekerRequest.getFirstName().equals("string")) {
+	            jobSeeker.setFirstName(updateJobSeekerRequest.getFirstName());
+	        }
+	        if (!updateJobSeekerRequest.getLastName().equals("string")) {
+	            jobSeeker.setLastName(updateJobSeekerRequest.getLastName());
+	        }
+	        if (!updateJobSeekerRequest.getTelephone().equals("string")) {
+	            jobSeeker.setTelephone(updateJobSeekerRequest.getTelephone());
+	        }
+	        if (!updateJobSeekerRequest.getEmail().equals("string")) {
+	            jobSeeker.setEmail(updateJobSeekerRequest.getEmail());
+	        }
+	        if (!updateJobSeekerRequest.getPassword().equals("string")) {
+	            String hashedPassword = BCrypt.hashpw(updateJobSeekerRequest.getPassword(), BCrypt.gensalt());
+	            jobSeeker.setPassword(hashedPassword);
+	        }
+	        
+	        this.jobSeekerDao.save(jobSeeker);
+	        return new SuccessResult("your information has been updated.");
+	    }
+	    
+	    return new ErrorResult("JobSeeker bulunamadı.");
 	}
+
 
 	@Override
 	public Result delete(int id) {
@@ -126,6 +139,7 @@ public class JobSeekerManager implements JobSeekerService{
 			return true; 
 		}
 	}
+	
 	
 	
 	private boolean isNationalIdentityExist(String nationalIdentity) {

@@ -41,11 +41,11 @@ public class HighSchoolManager implements HighSchoolService{
 		HighSchool highSchool = this.modelMapperService.forRequest().map(createEntity, HighSchool.class);
 		HighSchoolType highSchoolType = this.highSchoolTypeDao.findById(createEntity.getHighSchoolType());
 		ProgramInfo programInfo = this.programInfoDao.findById(createEntity.getProgram());
-		JobSeeker jobSeeker = this.jobSeeker.findById(createEntity.getJobSeeker());
+		JobSeeker jobSeeker = this.jobSeeker.findById(createEntity.getJobSeekerId());
 		
 		highSchool.setHighSchoolType(highSchoolType);
 		highSchool.setProgram(programInfo);
-		highSchool.setJobSeeker(jobSeeker);
+		//highSchool.setJobSeeker(jobSeeker);
 		
 		this.highSchoolDao.save(highSchool);
 		return new SuccessResult("your high school information has been saved.");
@@ -89,10 +89,11 @@ public class HighSchoolManager implements HighSchoolService{
 
 	@Override
 	public DataResult<GetByJobSeekerIdResponse> getByJobSeekerId(int jobSeekerId) {
-		HighSchool highSchool = this.highSchoolDao.findByJobSeeker_Id(jobSeekerId);
-		
-		GetByJobSeekerIdResponse response = this.modelMapperService.forResponse().map(highSchool, GetByJobSeekerIdResponse.class);
-		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
+//		HighSchool highSchool = this.highSchoolDao.findByJobSeeker_Id(jobSeekerId);
+//		
+//		GetByJobSeekerIdResponse response = this.modelMapperService.forResponse().map(highSchool, GetByJobSeekerIdResponse.class);
+//		return new SuccessDataResult<GetByJobSeekerIdResponse>(response);
+		return null;
 	}
 
 }
