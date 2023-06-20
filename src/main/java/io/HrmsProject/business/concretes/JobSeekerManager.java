@@ -80,7 +80,7 @@ public class JobSeekerManager implements JobSeekerService{
 	        if (!updateJobSeekerRequest.getEmail().equals("string")) {
 	            jobSeeker.setEmail(updateJobSeekerRequest.getEmail());
 	        }
-	        if (!updateJobSeekerRequest.getPassword().equals("string")) {
+	        if ((!updateJobSeekerRequest.getPassword().equals("string")) && (updateJobSeekerRequest.getPassword()!=null) && (!updateJobSeekerRequest.getPassword().isEmpty())) {
 	            String hashedPassword = BCrypt.hashpw(updateJobSeekerRequest.getPassword(), BCrypt.gensalt());
 	            jobSeeker.setPassword(hashedPassword);
 	        }

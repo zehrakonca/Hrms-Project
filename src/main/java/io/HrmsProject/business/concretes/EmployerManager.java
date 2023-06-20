@@ -68,43 +68,43 @@ public class EmployerManager implements EmployerService {
 
 	@Override
 	public Result update(UpdateEmployerRequests updateEmployerRequests) {
-	    Employer existingEmployer = employerDao.findById(updateEmployerRequests.getId());
-	    if (existingEmployer == null) {
-	        return new ErrorResult("Employer not found.");
-	    }
-
-	    if (updateEmployerRequests.getCompanyName() != null && !("string".equals(updateEmployerRequests.getCompanyName()))) {
-	        existingEmployer.setCompanyName(updateEmployerRequests.getCompanyName());
-	    }
-
-	    if (!updateEmployerRequests.getFirstName().equals("string")) {
-	        existingEmployer.setFirstName(updateEmployerRequests.getFirstName());
-	    }
-	    if (!updateEmployerRequests.getLastName().equals("string")) {
-	        existingEmployer.setLastName(updateEmployerRequests.getLastName());
-	    }
-	    if (!updateEmployerRequests.getTelephone().equals("string")) {
-	        existingEmployer.setTelephone(updateEmployerRequests.getTelephone());
-	    }
-	    if (!updateEmployerRequests.getEmail().equals("string")) {
-	        existingEmployer.setEmail(updateEmployerRequests.getEmail());
-	    }
-	    if (!updateEmployerRequests.getPassword().equals("string")) {
-	    	  String hashedPassword = BCrypt.hashpw(updateEmployerRequests.getPassword(), BCrypt.gensalt());
-	    	  existingEmployer.setPassword(hashedPassword);
-	    }
-	    if (!updateEmployerRequests.getWebSiteName().equals("string")) {
-	        existingEmployer.setWebSiteName(updateEmployerRequests.getWebSiteName());
-	    }
-	    if (!updateEmployerRequests.getCompanyMail().equals("string")) {
-	        existingEmployer.setCompanyMail(updateEmployerRequests.getCompanyMail());
-	    }
-	    if (!updateEmployerRequests.getCompanyDescription().equals("string")) {
-	        existingEmployer.setCompanyDescription(updateEmployerRequests.getCompanyDescription());
-	    }
-
-	    employerDao.save(existingEmployer);
-	    return new SuccessResult("Your information has been updated.");
+		if (updateEmployerRequests == null) {
+			return new ErrorResult("your information has been missing. please try again.");
+		}
+		
+		Employer employer = employerDao.findById(updateEmployerRequests.getId());
+		
+		if (employer!=null) {
+			if(!updateEmployerRequests.getFirstName().equals("string")) {
+				employer.setFirstName(updateEmployerRequests.getFirstName());
+			}
+			if(!updateEmployerRequests.getLastName().equals("string")) {
+				employer.setLastName(updateEmployerRequests.getLastName());
+			}
+			if(!updateEmployerRequests.getTelephone().equals("string")) {
+				employer.setTelephone(updateEmployerRequests.getTelephone());
+			}
+			if(!updateEmployerRequests.getEmail().equals("string")) {
+				employer.setEmail(updateEmployerRequests.getEmail());
+			}
+			if((!updateEmployerRequests.getPassword().equals("string")) && (updateEmployerRequests.getPassword()!=null) && (!updateEmployerRequests.getPassword().isEmpty())) {
+				 String hashedPassword = BCrypt.hashpw(updateEmployerRequests.getPassword(), BCrypt.gensalt());
+		            employer.setPassword(hashedPassword);
+			}
+			if(!updateEmployerRequests.getCompanyName().equals("string")) {
+				employer.setCompanyName(updateEmployerRequests.getCompanyName());
+			}
+			if(!updateEmployerRequests.getCompanyMail().equals("string")) {
+				employer.setCompanyMail(updateEmployerRequests.getCompanyMail());
+			}
+			if(!updateEmployerRequests.getCompanyDescription().equals("string")) {
+				employer.setCompanyDescription(updateEmployerRequests.getCompanyDescription());
+			}
+			
+			this.employerDao.save(employer);
+			return new SuccessResult("your information has been updated.");
+		}
+		return new ErrorResult("employer has no found.");
 	}
 
 

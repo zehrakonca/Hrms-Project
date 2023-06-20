@@ -10,8 +10,5 @@ import lombok.NoArgsConstructor;
 public class CreateFavoriteJobAdvertisementRequest {
 	
 	private int jobSeekerId;
-	private int employerId;
-	private int jobId;
-	private int cityId;
 	private int jobAdvertisementId;
 }

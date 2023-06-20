@@ -22,10 +22,7 @@ import io.HrmsProject.dataAccess.abstracts.FavoriteJobAdvertisementDao;
 import io.HrmsProject.dataAccess.abstracts.JobAdvertisementDao;
 import io.HrmsProject.dataAccess.abstracts.JobDao;
 import io.HrmsProject.dataAccess.abstracts.JobSeekerDao;
-import io.HrmsProject.entities.concretes.City;
-import io.HrmsProject.entities.concretes.Employer;
 import io.HrmsProject.entities.concretes.FavoriteJobAdvertisement;
-import io.HrmsProject.entities.concretes.Job;
 import io.HrmsProject.entities.concretes.JobAdvertisement;
 import io.HrmsProject.entities.concretes.JobSeeker;
 import lombok.AllArgsConstructor;
@@ -47,9 +44,6 @@ public class FavoriteJobAdvertisementManager implements FavoriteJobAdvertisement
 		FavoriteJobAdvertisement favoriteJobAdvertisement =this.modelMapperService.forRequest().map(createEntity, FavoriteJobAdvertisement.class);
 		
 		JobSeeker jobSeeker = this.jobSeekerDao.findById(createEntity.getJobSeekerId());
-		Employer employer = this.employerDao.findById(createEntity.getEmployerId());
-		Job job = this.jobDao.findById(createEntity.getJobId());
-		City city = this.cityDao.findById(createEntity.getCityId());
 		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(createEntity.getJobAdvertisementId());
 		
 		favoriteJobAdvertisement.setJobSeeker(jobSeeker);
