@@ -76,10 +76,10 @@ public class JobAdvertisementsController {
 		return ResponseEntity.ok(this.jobAdvertisementService.getAllByJobAdvertisementName(advertisementName));
 	}
 	
-	@GetMapping("/getByCitySectorTypeOfWorkAndEducationType")
-	public  ResponseEntity<?> getByCitySectorTypeOfWorkAndEducationType(@RequestParam() int cityId, @RequestParam() int sectorId, @RequestParam() int typeOfWorkId, @RequestParam() int educationTypeId )
+	@GetMapping("/getBySectorAndCityId")
+	public  ResponseEntity<?> getByCityAndSectorId(@RequestParam int sectorId, @RequestParam int cityId )
 	{
-		return ResponseEntity.ok(this.jobAdvertisementService.getByCitySectorTypeOfWorkAndEducationType(cityId, sectorId, typeOfWorkId, educationTypeId));
+		return ResponseEntity.ok(this.jobAdvertisementService.getBySectorAndCity(sectorId, cityId));
 	}
 	
 	@PostMapping("/add")
@@ -101,6 +101,5 @@ public class JobAdvertisementsController {
 	public ResponseEntity<?> makeActiveOrPassive(@RequestParam boolean isActive, @RequestParam int id){
 		return ResponseEntity.ok(this.jobAdvertisementService.makeActiveOrPassive(isActive, id));
 	}
-	
 	
 }

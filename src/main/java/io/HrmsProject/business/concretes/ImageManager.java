@@ -9,12 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.HrmsProject.business.abstracts.ImageService;
 import io.HrmsProject.business.adapters.cloudinary.CloudStorageService;
-import io.HrmsProject.business.requests.imageRequests.CreateImageRequest;
-import io.HrmsProject.business.requests.imageRequests.UpdateImageRequest;
 import io.HrmsProject.business.responses.imageResponse.GetAllImageResponse;
 import io.HrmsProject.business.responses.imageResponse.GetByIdImageResponse;
+import io.HrmsProject.business.responses.imageResponse.GetByUserIdImageResponse;
 import io.HrmsProject.core.dataAccess.UserDao;
-import io.HrmsProject.core.entities.User;
 import io.HrmsProject.core.utilities.mappers.ModelMapperService;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
@@ -35,26 +33,18 @@ public class ImageManager implements ImageService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Result add(CreateImageRequest createImageRequest, MultipartFile multipartFile) {
-		Image image = this.modelMapperService.forRequest().map(createImageRequest, Image.class);
-		User user = this.userDao.findById(createImageRequest.getUser());
+	public Result add(Image image, MultipartFile multipartFile) {
+		
 		Map<String, String> imageUpload = this.cloudStorageService.uploadImage(multipartFile).getData();
 		image.setUrl(imageUpload.get("url"));
-		image.setUser(user);
 		this.imageDao.save(image);
-		return new SuccessResult("image has been saved.");
+		return new SuccessResult("resim başarıyla eklendi.");
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Result update(UpdateImageRequest updateImageRequest, MultipartFile multipartFile) {
-		Image image = this.modelMapperService.forRequest().map(updateImageRequest, Image.class);
-		User user = this.userDao.findById(updateImageRequest.getUserId());
-		Map<String, String> imageUpload = this.cloudStorageService.uploadImage(multipartFile).getData();
-		image.setUrl(imageUpload.get("url"));
-		image.setUser(user);
+	public Result update(Image image) {
 		this.imageDao.save(image);
-		return new SuccessResult("image has been saved.");
+		return new SuccessResult("fotoğraf güncellendi."); 
 	}
 
 	@Override
@@ -72,12 +62,12 @@ public class ImageManager implements ImageService {
 	}
 
 	@Override
-	public DataResult<GetByIdImageResponse> getByUserId(int userId) {
+	public DataResult<GetByUserIdImageResponse> getByUserId(int userId) {
 		
 		Image image = this.imageDao.findByUser_Id(userId);
 		
-		GetByIdImageResponse response = this.modelMapperService.forResponse().map(image, GetByIdImageResponse.class);
-		return new SuccessDataResult<GetByIdImageResponse>(response);
+		GetByUserIdImageResponse response = this.modelMapperService.forResponse().map(image, GetByUserIdImageResponse.class);
+		return new SuccessDataResult<GetByUserIdImageResponse>(response);
 		
 	}
 

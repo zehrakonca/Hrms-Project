@@ -68,7 +68,7 @@ public class FavoriteJobAdvertisementManager implements FavoriteJobAdvertisement
 	@Override
 	public DataResult<List<GetAllFavoriteJobAdvertisementResponse>> getAll() {
 		List<FavoriteJobAdvertisement> favoriteJobAdvertisements = this.favoriteJobAdvertisementDao.findAll();
-		List<GetAllFavoriteJobAdvertisementResponse> favoriteJobAdvertisementsResponses = favoriteJobAdvertisements.stream().map(favoriteJobAdvertisement->this.modelMapperService.forResponse().map(favoriteJobAdvertisements, GetAllFavoriteJobAdvertisementResponse.class)).collect(Collectors.toList());
+		List<GetAllFavoriteJobAdvertisementResponse> favoriteJobAdvertisementsResponses = favoriteJobAdvertisements.stream().map(favoriteJobAdvertisement->this.modelMapperService.forResponse().map(favoriteJobAdvertisement, GetAllFavoriteJobAdvertisementResponse.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllFavoriteJobAdvertisementResponse>>(favoriteJobAdvertisementsResponses);
 	}
 

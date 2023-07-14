@@ -50,7 +50,7 @@ public class UserManager implements UserService{
 
 	@Override
 	public Result update(UpdateUserRequests updateUserRequests) throws Exception {
-		User user = this.userDao.findById(updateUserRequests.getId());
+		User user = this.userDao.findById(updateUserRequests.getId()).orElseThrow();
 		if(!isMailExist(updateUserRequests.getEmail())){
 			return new ErrorResult("your mail already registered. please check your information.");
 		}
@@ -80,7 +80,7 @@ public class UserManager implements UserService{
 
 	@Override
 	public User getById(int id) {
-	return this.userDao.findById(id);
+	return this.userDao.findById(id).orElseThrow();
 	}
 	
 	private boolean isMailExist(String mail) {

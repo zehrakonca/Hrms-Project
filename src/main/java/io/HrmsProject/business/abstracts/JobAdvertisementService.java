@@ -4,8 +4,8 @@ import java.util.List;
 
 import io.HrmsProject.business.requests.jobAdvertisementRequests.CreateJobAdvertisementRequests;
 import io.HrmsProject.business.requests.jobAdvertisementRequests.UpdateJobAdvertisementRequests;
-import io.HrmsProject.business.responses.jobAdvertisementResponses.GetByIdJobAdvertisementResponse;
 import io.HrmsProject.business.responses.jobAdvertisementResponses.GetAllJobAdvertisementResponses;
+import io.HrmsProject.business.responses.jobAdvertisementResponses.GetByIdJobAdvertisementResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
 import io.HrmsProject.entities.concretes.JobAdvertisement;
@@ -26,7 +26,5 @@ public interface JobAdvertisementService extends BaseEntityService<JobAdvertisem
 	
 	DataResult<List<GetAllJobAdvertisementResponses>> getAllByJobAdvertisementName(String advertisementName);
 	
-	
-	DataResult<List<GetAllJobAdvertisementResponses>> getByCitySectorTypeOfWorkAndEducationType(int cityId, int sectorId, int typeOfWorkId, int educationTypeId);
-	
+	DataResult<List<GetAllJobAdvertisementResponses>> getBySectorAndCity(int sectorId, int cityId);
 }

@@ -10,14 +10,18 @@ import io.HrmsProject.entities.concretes.JobAdvertisement;
 
 @Repository
 public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Integer> {
-	
+
 	JobAdvertisement findById(int id);
-	List<JobAdvertisement> findByAdvertisementNameContainsIgnoreCase(String advertisementName,Sort sort);
+
+	List<JobAdvertisement> findByAdvertisementNameContainsIgnoreCase(String advertisementName, Sort sort);
 
 	List<JobAdvertisement> getByIsActive(boolean isActive);
+
 	List<JobAdvertisement> getByIsActive(boolean isActive, Sort sort);
+
 	List<JobAdvertisement> getByIsActiveAndEmployer_Id(boolean isActive, int employerId, Sort sort);
-	
-	List<JobAdvertisement> findByEmployer_CompanyNameAndIsActive(String companyName,Sort sort, boolean isActive);
-	List<JobAdvertisement> findByCity_CityIdAndSector_SectorIdAndTypeOfWork_TypeOfWorkIdAndEducationType_EducationTypeId(int cityId, int sectorId, int typeOfWorkId, int educationTypeId);
+
+	List<JobAdvertisement> findByEmployer_CompanyNameAndIsActive(String companyName, Sort sort, boolean isActive);
+
+	List<JobAdvertisement> findBySector_SectorIdAndCity_CityId(int sectorId, int cityId);
 }

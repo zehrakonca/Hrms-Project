@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 public class GetByIdFavoriteJobAdvertisementResponse {
 	
 	private int jobSeekerId;
-	private String companyName;
-	private String jobName;
-	private String cityName;
-	private String advertisementName;
+	private int advertisementId;
 
 }

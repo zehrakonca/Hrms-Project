@@ -3,7 +3,6 @@ package io.HrmsProject.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,18 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.HrmsProject.business.abstracts.ImageService;
 import io.HrmsProject.business.abstracts.UserService;
-import io.HrmsProject.business.requests.imageRequests.CreateImageRequest;
-import io.HrmsProject.business.requests.imageRequests.UpdateImageRequest;
 import io.HrmsProject.business.responses.imageResponse.GetAllImageResponse;
 import io.HrmsProject.business.responses.imageResponse.GetByIdImageResponse;
+import io.HrmsProject.business.responses.imageResponse.GetByUserIdImageResponse;
+import io.HrmsProject.core.entities.User;
 import io.HrmsProject.core.utilities.results.DataResult;
 import io.HrmsProject.core.utilities.results.Result;
+import io.HrmsProject.entities.concretes.Image;
 
 @RestController
 @RequestMapping("/api/images")
@@ -40,15 +39,18 @@ public class ImagesController {
 		this.userService = userService;
 	}
 	
-	@PostMapping("/add")
-	@ResponseStatus(code=HttpStatus.CREATED)
-	public ResponseEntity<?> add(@RequestParam() CreateImageRequest createImageRequest, @RequestParam() MultipartFile multiPartFile) {
-		return ResponseEntity.ok(imageService.add(createImageRequest, multiPartFile));
+	@PostMapping("add")
+	public Result add (@RequestParam(value="userId") int userId, @RequestParam(value="imageFile") MultipartFile imageFile)
+	{
+		User user = this.userService.getById(userId);
+		Image image = new Image();
+		image.setUser(user);
+		return this.imageService.add(image, imageFile);
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestParam() UpdateImageRequest updateImageRequest, @RequestParam() MultipartFile multiPartFile) {
-		return ResponseEntity.ok(imageService.update(updateImageRequest, multiPartFile));
+	public ResponseEntity<?> update(@RequestParam() Image image) {
+		return ResponseEntity.ok(imageService.update(image));
 	}
 	
 	@DeleteMapping("/delete")
@@ -67,7 +69,7 @@ public class ImagesController {
 	}
 	
 	@GetMapping("/getByUserId")
-	public DataResult<GetByIdImageResponse> getByUserId(@RequestParam() int id){
+	public DataResult<GetByUserIdImageResponse> getByUserId(@RequestParam() int id){
 		return imageService.getByUserId(id);
 	}
 	

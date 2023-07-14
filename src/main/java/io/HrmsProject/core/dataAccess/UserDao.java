@@ -10,7 +10,7 @@ import io.HrmsProject.core.entities.User;
 @Repository
 public interface UserDao extends JpaRepository<User, Integer> {
 
-	User findById(int id);
+	User findById(User user);
 
 	Optional<User> findByEmailAndPassword(String email, String password);
 	Optional<User> findByEmail(String email);

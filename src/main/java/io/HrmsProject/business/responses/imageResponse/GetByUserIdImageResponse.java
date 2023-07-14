@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetByIdImageResponse {
+public class GetByUserIdImageResponse {
 	
-	private int id;
+	private int imageId;
 	private String url;
 	private LocalDate createdDate;
-	private int userId;
 
 }

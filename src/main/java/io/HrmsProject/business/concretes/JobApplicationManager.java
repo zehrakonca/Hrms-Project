@@ -40,7 +40,7 @@ public class JobApplicationManager implements JobApplicationService {
 	public Result add(CreateJobApplicationRequest createEntity) throws Exception {
 		JobApplication jobApplication = this.modelMapperService.forRequest().map(createEntity, JobApplication.class);
 		JobSeeker jobSeeker = this.jobSeekerDao.findById(createEntity.getJobSeekerId());
-		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(createEntity.getJobAdvertisementId());
+		JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(createEntity.getAdvertisementId());
 
 		jobApplication.setJobSeeker(jobSeeker);
 		jobApplication.setJobAdvertisement(jobAdvertisement);
@@ -67,10 +67,7 @@ public class JobApplicationManager implements JobApplicationService {
 	@Override
 	public DataResult<List<GetAllJobApplicationResponse>> getAll() {
 		List<JobApplication> jobApplications = this.jobApplicationDao.findAll();
-		List<GetAllJobApplicationResponse> jobApplicationResponses = jobApplications.stream()
-				.map(jobApplication -> this.modelMapperService.forResponse().map(jobApplication,
-						GetAllJobApplicationResponse.class))
-				.collect(Collectors.toList());
+		List<GetAllJobApplicationResponse> jobApplicationResponses = jobApplications.stream().map(jobApplication->this.modelMapperService.forResponse().map(jobApplication, GetAllJobApplicationResponse.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllJobApplicationResponse>>(jobApplicationResponses);
 	}
 
@@ -85,7 +82,7 @@ public class JobApplicationManager implements JobApplicationService {
 
 	@Override
 	public DataResult<List<GetByEmployerIdJobApplicationResponse>> getByEmployerId(int employerId) {
-		List<JobApplication> jobApplications = this.jobApplicationDao.findAll();
+		List<JobApplication> jobApplications = this.jobApplicationDao.findByJobAdvertisement_Employer_Id(employerId);
 		List<GetByEmployerIdJobApplicationResponse> jobApplicationResponses = jobApplications.stream()
 				.map(jobApplication -> this.modelMapperService.forResponse().map(jobApplication,
 						GetByEmployerIdJobApplicationResponse.class))
@@ -95,7 +92,7 @@ public class JobApplicationManager implements JobApplicationService {
 
 	@Override
 	public DataResult<List<GetByJobSeekerIdJobApplicationResponse>> getByJobSeekerId(int jobSeeker) {
-		List<JobApplication> jobApplications = this.jobApplicationDao.findAll();
+		List<JobApplication> jobApplications = this.jobApplicationDao.findByJobSeeker_Id(jobSeeker);
 		List<GetByJobSeekerIdJobApplicationResponse> jobApplicationResponses = jobApplications.stream()
 				.map(jobApplication -> this.modelMapperService.forResponse().map(jobApplication,
 						GetByJobSeekerIdJobApplicationResponse.class))

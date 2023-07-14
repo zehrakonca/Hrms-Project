@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 public class GetByJobSeekerIdJobApplicationResponse {
 	
 	private int id;
-	private String firstName;
-	private String lastName;
+	private int advertisementId;
 	private String companyName;
 	private String job;
+	private String jobDescription;
 	private LocalDate applicationDate;
 
 }

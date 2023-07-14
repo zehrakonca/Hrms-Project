@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class GetByEmployerIdJobApplicationResponse {
 	
 	private int id;
+	private int advertisementId;
 	private String firstName;
 	private String lastName;
 	private String job;

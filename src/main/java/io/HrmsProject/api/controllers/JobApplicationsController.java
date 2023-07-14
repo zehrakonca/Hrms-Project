@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,6 +24,7 @@ import io.HrmsProject.business.responses.jobApplicationResponses.GetByEmployerId
 import io.HrmsProject.business.responses.jobApplicationResponses.GetByIdJobApplicationResponse;
 import io.HrmsProject.business.responses.jobApplicationResponses.GetByJobSeekerIdJobApplicationResponse;
 import io.HrmsProject.core.utilities.results.DataResult;
+import io.HrmsProject.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("api/jobApplications")
@@ -46,6 +48,11 @@ public class JobApplicationsController {
 	@PutMapping("/update")
 	public ResponseEntity<?> update(@RequestBody() UpdateJobApplicationRequest updateJobApplicationRequest) throws Exception{
 		return ResponseEntity.ok(this.jobApplicationService.update(updateJobApplicationRequest));
+	}
+	
+	@DeleteMapping("/delete")
+	public Result delete(@RequestParam int id) {
+		return this.jobApplicationService.delete(id);
 	}
 	
 	@GetMapping("/getAll")

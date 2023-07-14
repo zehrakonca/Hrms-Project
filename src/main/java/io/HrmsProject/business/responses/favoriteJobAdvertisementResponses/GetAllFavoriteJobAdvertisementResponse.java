@@ -11,9 +11,5 @@ public class GetAllFavoriteJobAdvertisementResponse {
 	
 	private int id;
 	private int jobSeekerId;
-	private String companyName;
-	private String jobName;
-	private String cityName;
-	private String advertisementName;
-
+	private int advertisementId;
 }

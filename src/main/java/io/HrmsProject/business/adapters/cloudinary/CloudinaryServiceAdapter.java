@@ -3,7 +3,6 @@ package io.HrmsProject.business.adapters.cloudinary;
 import java.io.IOException;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,9 +16,8 @@ import io.HrmsProject.core.utilities.results.SuccessDataResult;
 @Service
 public class CloudinaryServiceAdapter implements CloudStorageService{
 	
-	private Cloudinary cloudinary; 
+private Cloudinary cloudinary; 
 	
-	@Autowired
 	public CloudinaryServiceAdapter() {
 		this.cloudinary = new Cloudinary(ObjectUtils.asMap(
 				"cloud_name", "myhrmsproject",
@@ -30,8 +28,7 @@ public class CloudinaryServiceAdapter implements CloudStorageService{
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Override
-	public DataResult<Map> uploadImage(MultipartFile imageFile) 
-	{
+	public DataResult<Map> uploadImage(MultipartFile imageFile) {
 		try {
             Map<String, String> resultMap =(Map<String, String>) cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.emptyMap());
 
@@ -44,6 +41,7 @@ public class CloudinaryServiceAdapter implements CloudStorageService{
         }
         return new ErrorDataResult<Map>();
 	}
+
 
 
 

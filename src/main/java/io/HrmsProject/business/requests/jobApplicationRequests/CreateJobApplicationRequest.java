@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class CreateJobApplicationRequest {
 
 	private int jobSeekerId;
-	private int jobAdvertisementId;
+	private int advertisementId;
 	private LocalDate applicationDate;
 }
